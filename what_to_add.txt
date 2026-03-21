@@ -37,3 +37,7 @@ frontend:
     dark mode
     tooltip - shadcn
     
+problemy na pozniej:
+w comoboxach gdy jakis filter jest wybrany w show to nie moze sie pokazywac do wyboru w hide
+dodac prawidze genre/tagi/studia do comoboxow
+zwracanie rekomendacji patrzac na filtry

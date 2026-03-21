@@ -7,11 +7,15 @@ import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import {
 	Combobox,
+	ComboboxChip,
+	ComboboxChips,
+	ComboboxChipsInput,
 	ComboboxContent,
 	ComboboxEmpty,
 	ComboboxInput,
 	ComboboxItem,
 	ComboboxList,
+	ComboboxValue,
 } from "@/components/ui/combobox";
 import {
 	Select,
@@ -26,6 +30,9 @@ import { Slider } from "../ui/slider";
 import { useState } from "react";
 
 export default function FilterPage() {
+	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
+	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
+
 	const tags = [
 		"Psychological",
 		"Time Travel",
@@ -68,9 +75,9 @@ export default function FilterPage() {
 		min_year: 1900,
 		max_year: new Date().getFullYear(),
 		min_score: 0,
-		show_selected_studios: [null],
-		tags: [null],
-		genres: [null],
+		show_selected_studios: [],
+		tags: [],
+		genres: [],
 		media_type: ["Anime", "Movie", "OVA"],
 	};
 
@@ -118,9 +125,11 @@ export default function FilterPage() {
 			min_year: null,
 			max_year: null,
 			min_score: null,
-			studios: null,
-			tags: null,
-			genres: null,
+			show_selected_studios: [],
+			show_selected_tags: [],
+			hide_selected_tags: [],
+			show_selected_genres: [],
+			hide_selected_genres: [],
 			media_type: null,
 		});
 	};
@@ -287,11 +296,27 @@ export default function FilterPage() {
 				</div>
 
 				<div>
-					<Combobox items={studios}>
-						<ComboboxInput
-							placeholder="Filter by studio (e.g. MAPPA)"
-							className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-						/>
+					<Combobox
+						items={studios}
+						multiple
+						value={filters.show_selected_studios ?? []}
+						onValueChange={(value) =>
+							updateFilter("show_selected_studios", value)
+						}
+					>
+						<ComboboxChips>
+							<ComboboxValue>
+								{filters.show_selected_studios.map((item) => (
+									<ComboboxChip key={item}>{item}</ComboboxChip>
+								))}
+							</ComboboxValue>
+
+							<ComboboxChipsInput
+								placeholder="Filter by studio"
+								className="bg-slate-900 border-slate-700 text-slate-100"
+							/>
+						</ComboboxChips>
+
 						<ComboboxContent>
 							<ComboboxEmpty>No studio found.</ComboboxEmpty>
 							<ComboboxList>
@@ -306,18 +331,52 @@ export default function FilterPage() {
 				</div>
 
 				<div>
-					<Switch className="w-10 h-5" />
+					<Switch
+						className="w-10 h-5"
+						checked={tagsSwitchStatus}
+						onCheckedChange={() =>
+							tagsSwitchStatus
+								? setTagsSwitchStatus(false)
+								: setTagsSwitchStatus(true)
+						}
+					/>
 					<Label className="ml-2 text-slate-300">
 						Show or hide selected tags
 					</Label>
 
-					<Combobox items={tags}>
-						<ComboboxInput
-							placeholder="Filter by tag (e.g. Psychological)"
-							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-						/>
+					<Combobox
+						items={tags}
+						multiple
+						value={
+							tagsSwitchStatus
+								? (filters.show_selected_tags ?? [])
+								: (filters.hide_selected_tags ?? [])
+						}
+						onValueChange={(value) =>
+							tagsSwitchStatus
+								? updateFilter("show_selected_tags", value)
+								: updateFilter("hide_selected_tags", value)
+						}
+					>
+						<ComboboxChips>
+							<ComboboxValue>
+								{tagsSwitchStatus
+									? filters.show_selected_tags.map((item) => (
+											<ComboboxChip key={item}>{item}</ComboboxChip>
+										))
+									: filters.hide_selected_tags.map((item) => (
+											<ComboboxChip key={item}>{item}</ComboboxChip>
+										))}
+							</ComboboxValue>
+
+							<ComboboxChipsInput
+								placeholder="Filter by studio"
+								className="bg-slate-900 border-slate-700 text-slate-100"
+							/>
+						</ComboboxChips>
+
 						<ComboboxContent>
-							<ComboboxEmpty>No tag found.</ComboboxEmpty>
+							<ComboboxEmpty>No tags found.</ComboboxEmpty>
 							<ComboboxList>
 								{(item) => (
 									<ComboboxItem key={item} value={item}>
@@ -327,25 +386,55 @@ export default function FilterPage() {
 							</ComboboxList>
 						</ComboboxContent>
 					</Combobox>
-
-					<Button className="mt-2 bg-purple-600 hover:bg-purple-500">
-						Add Tag
-					</Button>
 				</div>
 
 				<div>
-					<Combobox items={genres}>
-						<Switch className="w-10 h-5 mb-2" />
-						<Label className="ml-2 text-slate-300">
-							Show or hide selected genres
-						</Label>
+					<Switch
+						className="w-10 h-5"
+						checked={genreSwitchStatus}
+						onCheckedChange={() =>
+							genreSwitchStatus
+								? setGenreSwitchStatus(false)
+								: setGenreSwitchStatus(true)
+						}
+					/>
+					<Label className="ml-2 text-slate-300">
+						Show or hide selected genres
+					</Label>
 
-						<ComboboxInput
-							placeholder="Filter by genre (e.g. Sci-Fi)"
-							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-						/>
+					<Combobox
+						items={genres}
+						multiple
+						value={
+							genreSwitchStatus
+								? (filters.show_selected_genres ?? [])
+								: (filters.hide_selected_genres ?? [])
+						}
+						onValueChange={(value) =>
+							genreSwitchStatus
+								? updateFilter("show_selected_genres", value)
+								: updateFilter("hide_selected_genres", value)
+						}
+					>
+						<ComboboxChips>
+							<ComboboxValue>
+								{genreSwitchStatus
+									? filters.show_selected_genres.map((item) => (
+											<ComboboxChip key={item}>{item}</ComboboxChip>
+										))
+									: filters.hide_selected_genres.map((item) => (
+											<ComboboxChip key={item}>{item}</ComboboxChip>
+										))}
+							</ComboboxValue>
+
+							<ComboboxChipsInput
+								placeholder="Filter by studio"
+								className="bg-slate-900 border-slate-700 text-slate-100"
+							/>
+						</ComboboxChips>
+
 						<ComboboxContent>
-							<ComboboxEmpty>No genre found.</ComboboxEmpty>
+							<ComboboxEmpty>No genres found.</ComboboxEmpty>
 							<ComboboxList>
 								{(item) => (
 									<ComboboxItem key={item} value={item}>
@@ -355,15 +444,10 @@ export default function FilterPage() {
 							</ComboboxList>
 						</ComboboxContent>
 					</Combobox>
-
-					<Button className="mt-2 bg-purple-600 hover:bg-purple-500">
-						Add Genre
-					</Button>
 				</div>
-
 				<div>
 					<Select
-						value={filters.media_type?.[0] ?? ""}
+						value={filters.media_type?.[0]}
 						onValueChange={(value) =>
 							setFilters((prev) => ({
 								...prev,
@@ -382,6 +466,7 @@ export default function FilterPage() {
 							</SelectGroup>
 						</SelectContent>
 					</Select>
+					<Button onClick={() => console.log(filters)}>show</Button>
 				</div>
 			</Card>
 		</div>
