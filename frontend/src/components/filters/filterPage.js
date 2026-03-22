@@ -27,9 +27,9 @@ import {
 } from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { Slider } from "../ui/slider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function FilterPage() {
+export default function FilterPage({ onDataUpdate }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
 
@@ -48,37 +48,37 @@ export default function FilterPage() {
 	const [filters, setFilters] = useState({
 		show_sequels: null,
 		experimental_mode: null,
-		show_adult: null,
+		show_18_rated: null,
 		tag_importance: null,
 		popularity_importance: null,
-		min_episodes: null,
-		max_episodes: null,
-		min_year: null,
-		max_year: null,
-		min_score: null,
+		min_number_episodes: null,
+		max_number_episodes: null,
+		min_release_year: null,
+		max_release_year: null,
+		min_mean_score: null,
 		show_selected_studios: [],
 		show_selected_tags: [],
 		hide_selected_tags: [],
 		show_selected_genres: [],
 		hide_selected_genres: [],
-		media_type: null,
+		media_types: null,
 	});
 
 	const defaultValues = {
 		show_sequels: true,
 		experimental_mode: false,
-		show_adult: true,
+		show_18_rated: true,
 		tag_importance: "medium",
 		popularity_importance: "medium",
-		min_episodes: 1,
-		max_episodes: 9999,
-		min_year: 1900,
-		max_year: new Date().getFullYear(),
-		min_score: 0,
+		min_number_episodes: 1,
+		max_number_episodes: 9999,
+		min_release_year: 1900,
+		max_release_year: new Date().getFullYear(),
+		min_mean_score: 0,
 		show_selected_studios: [],
 		tags: [],
 		genres: [],
-		media_type: ["Anime", "Movie", "OVA"],
+		media_types: ["Anime", "Movie", "OVA"],
 	};
 
 	const updateFilter = (key, value) => {
@@ -97,42 +97,47 @@ export default function FilterPage() {
 		}
 	};
 
-	const handleApply = () => {
+	const handleApply = async () => {
 		const params = Object.fromEntries(
 			Object.entries(filters).filter(([_, value]) => value !== null),
 		);
 
 		const queryString = new URLSearchParams(params).toString();
-
 		console.log("Wysyłam do API:", queryString);
 
-		fetch(`http://127.0.0.1:8000/recommendations_data?${queryString}`)
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-			});
+		const res = await fetch(
+			`http://127.0.0.1:8000/recommendations_data?${queryString}`,
+		);
+
+		const data = await res.json();
+
+		onDataUpdate(Object.values(data));
 	};
 
 	const handleClear = () => {
 		setFilters({
 			show_sequels: null,
 			experimental_mode: null,
-			show_adult: null,
+			show_18_rated: null,
 			tag_importance: null,
 			popularity_importance: null,
-			min_episodes: null,
-			max_episodes: null,
-			min_year: null,
-			max_year: null,
-			min_score: null,
+			min_number_episodes: null,
+			max_number_episodes: null,
+			min_release_year: null,
+			max_release_year: null,
+			min_mean_score: null,
 			show_selected_studios: [],
 			show_selected_tags: [],
 			hide_selected_tags: [],
 			show_selected_genres: [],
 			hide_selected_genres: [],
-			media_type: null,
+			media_types: null,
 		});
 	};
+
+	useEffect(() => {
+		handleApply();
+	}, []);
 
 	return (
 		<div className="min-h-screen bg-[#0b1120] text-white p-6">
@@ -180,8 +185,10 @@ export default function FilterPage() {
 
 				<div className="flex items-center gap-3">
 					<Checkbox
-						checked={filters.show_adult ?? defaultValues.show_adult}
-						onCheckedChange={(checked) => handleCheckbox("show_adult", checked)}
+						checked={filters.show_18_rated ?? defaultValues.show_18_rated}
+						onCheckedChange={(checked) =>
+							handleCheckbox("show_18_rated", checked)
+						}
 					/>
 					<Label>Show 18+ rated</Label>
 				</div>
@@ -234,7 +241,7 @@ export default function FilterPage() {
 					className="bg-slate-900 border-slate-700 text-slate-100"
 					onChange={(e) =>
 						updateFilter(
-							"min_episodes",
+							"min_number_episodes",
 							e.target.value ? Number(e.target.value) : null,
 						)
 					}
@@ -246,7 +253,7 @@ export default function FilterPage() {
 					className="bg-slate-900 border-slate-700 text-slate-100"
 					onChange={(e) =>
 						updateFilter(
-							"max_episodes",
+							"max_number_episodes",
 							e.target.value ? Number(e.target.value) : null,
 						)
 					}
@@ -261,7 +268,7 @@ export default function FilterPage() {
 						className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
 						onChange={(e) =>
 							updateFilter(
-								"min_year",
+								"min_release_year",
 								e.target.value ? Number(e.target.value) : null,
 							)
 						}
@@ -272,7 +279,7 @@ export default function FilterPage() {
 						className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
 						onChange={(e) =>
 							updateFilter(
-								"max_year",
+								"max_release_year",
 								e.target.value ? Number(e.target.value) : null,
 							)
 						}
@@ -284,14 +291,16 @@ export default function FilterPage() {
 				<div>
 					<Label className="mb-2 text-slate-300">
 						Show items with mean score at least:{" "}
-						{filters.min_score ?? defaultValues.min_score}
+						{filters.min_mean_score ?? defaultValues.min_mean_score}
 					</Label>
 					<Slider
 						defaultValue={[75]}
 						max={100}
 						step={1}
 						className="w-full"
-						onValueChange={(e) => updateFilter("min_score", e[0] ? e[0] : null)}
+						onValueChange={(e) =>
+							updateFilter("min_mean_score", e[0] ? e[0] : null)
+						}
 					/>
 				</div>
 
@@ -447,11 +456,11 @@ export default function FilterPage() {
 				</div>
 				<div>
 					<Select
-						value={filters.media_type?.[0]}
+						value={filters.media_types?.[0]}
 						onValueChange={(value) =>
 							setFilters((prev) => ({
 								...prev,
-								media_type: [value],
+								media_types: [value],
 							}))
 						}
 					>

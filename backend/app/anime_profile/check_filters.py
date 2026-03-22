@@ -1,9 +1,9 @@
-from backend.app.anime_profile.filters import IS_ADULT, FORMAT, SEASON_YEAR_FROM, SEASON_YEAR_TO, SHOW_PLANNING
+from backend.app.anime_profile.filters import FORMAT, SHOW_PLANNING
 
 
-def check_if_adult(anime):
+def check_if_adult(anime,show_18_rated):
     if anime[5] is not None:
-        if IS_ADULT == True:
+        if show_18_rated == True:
             return True
         elif anime[5] == True:
             return False
@@ -21,9 +21,9 @@ def check_format(anime):
     return None
 
 
-def check_season_year(anime):
+def check_season_year(anime,min_release_year,max_release_year):
     if anime[3] is not None:
-        if anime[3] >= SEASON_YEAR_FROM and anime[3] <= SEASON_YEAR_TO:
+        if int(min_release_year) <= int(anime[3]) <= int(max_release_year):
             return True
         else:
             return False

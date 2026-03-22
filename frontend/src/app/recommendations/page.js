@@ -2,15 +2,16 @@
 import FilterPage from "@/components/filters/filterPage";
 import { useApiData } from "@/components/getApiData";
 import Recommendation from "@/components/showRecommendations/recommendation";
+import { useEffect, useState } from "react";
 
 export default function Recommendations() {
-	const apiData = useApiData();
+	const [apiData, setApiData] = useState([]);
 
 	return (
 		<div className="flex min-h-screen bg-[#020617] text-slate-200 selection:bg-purple-500/30">
 			<aside className="hidden lg:block w-80 border-r border-slate-800/50 bg-[#0f172a]/50 p-8">
 				<div className="sticky top-8">
-					<FilterPage />
+					<FilterPage onDataUpdate={setApiData} />
 				</div>
 			</aside>
 
