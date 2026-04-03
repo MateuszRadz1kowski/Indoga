@@ -1,6 +1,6 @@
 import math
 from backend.app.anime_profile.check_filters import check_if_adult, check_season_year, check_show_planning, \
-    check_episode_number
+    check_episode_number, check_media_type
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import ANIME_PROFILE_GENRE_MODIFIER, mean_score_multiplier, \
     anime_favourites_multiplier, ANIME_USER_PLANNING_MULTIPLIER, ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER
@@ -18,11 +18,13 @@ def create_anime_profile(db_response,user_interests_profile,filters):
         anime_score = 0
         if anime_name in anime_completed:
             continue
-
+        print(filters)
         if not (check_if_adult(anime, filters["show_18_rated"]) and
                 check_season_year(anime,filters["min_release_year"],filters["max_release_year"]) and
                 check_episode_number(anime, filters["min_number_episodes"], filters["max_number_episodes"]) and
+                check_media_type(anime, filters["media_types"]) and
                 check_show_planning(anime, anime_planning)): continue
+
         anime_profile[anime_name] = {
             "score": 0,
             "why_recommended": {}

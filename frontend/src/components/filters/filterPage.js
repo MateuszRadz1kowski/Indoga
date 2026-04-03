@@ -78,7 +78,7 @@ export default function FilterPage({ onDataUpdate }) {
 		show_selected_studios: [],
 		tags: [],
 		genres: [],
-		media_types: ["Anime", "Movie", "OVA"],
+		media_types: ["TV", "MOVIE", "OVA", "SPECIAL"],
 	};
 
 	const updateFilter = (key, value) => {
@@ -470,8 +470,8 @@ export default function FilterPage({ onDataUpdate }) {
 
 						<SelectContent>
 							<SelectGroup>
-								<SelectItem value="anime">Anime</SelectItem>
-								<SelectItem value="manga">Manga</SelectItem>
+								<SelectItem value="TV">Anime</SelectItem>
+								<SelectItem value="MANGA">Manga</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>

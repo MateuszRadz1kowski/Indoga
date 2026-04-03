@@ -12,13 +12,13 @@ def check_if_adult(anime,show_18_rated):
     return None
 
 
-# def check_format(anime):
-#     if anime[4] is not None:
-#         if FORMAT[anime[4]] == True:
-#             return True
-#         else:
-#             return False
-#     return None
+def check_media_type(anime,media_types):
+    if anime[4] is not None:
+        if anime[4] == media_types[0]:
+            return True
+        else:
+            return False
+    return None
 
 
 def check_season_year(anime,min_release_year,max_release_year):
