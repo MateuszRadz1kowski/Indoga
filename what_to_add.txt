@@ -3,23 +3,13 @@ Reccomendations alghorithm
         mnozenie wyniku anime przez:
             negatywne punkty gdy nie lubi
         filtry:
-            czy pokazywac nastepne sezony danego anime, np aot s1 aot s2 itp - z api poprzez relations: nie pokazuje od razu wszystkich sequeli, trzeba by wejsc anime->sequel1->sequel2 i az nie bedzie nic z relacją sequel, np aot s1 -> aot s2 -> aot s3 az do konca
             rozne sortowanie
-            jakis tryb z bardzo dziwnymi ciekawymi nietypowymi rekomendacjami
             user moze manualnie dodac ze bardzo lubi/nie lubi danego tagu/genre
             x.user moze podac ze aktualnie szuka daneg typu anime np seinen i dostae to wielkiego boosta
             edytowaie jak bardzo wazne sa genre i tagi przy polecaniu
             opcje jak bardzo jest wazny pozytywny user score w porowananiu z negatywnym scorem, tak samo z meanscore
             opcje jak duzy boost jest planowanych anime przez usera
-            opcje jak bardzo wazna jest popularnosc (moze popularnosc negatywnie wplywac)
-            filtry ilosc odc >, <
-            rok >2000
-            popularnosc opcje
             status np finished
-            mean score >,<
-            tylko wybrane studia
-            pokazywanie tylko anime z wybranymi genre/tagami
-            filtrowanie czy pokazysac anime czy mangi itp
             
 
 
