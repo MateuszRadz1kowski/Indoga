@@ -9,8 +9,8 @@ export default function Recommendations() {
 
 	return (
 		<div className="flex min-h-screen bg-[#020617] text-slate-200 selection:bg-purple-500/30">
-			<aside className="hidden lg:block w-80 border-r border-slate-800/50 bg-[#0f172a]/50 p-8">
-				<div className="sticky top-8">
+			<aside className="hidden lg:block w-96 border-r border-slate-800/50 bg-[#0f172a]/50 h-screen sticky top-0 overflow-y-auto custom-scrollbar">
+				<div className="p-8">
 					<FilterPage onDataUpdate={setApiData} />
 				</div>
 			</aside>
