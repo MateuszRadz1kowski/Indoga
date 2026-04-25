@@ -33,13 +33,7 @@ export default function FilterPage({ onDataUpdate }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
 
-	const tags = [
-		"Psychological",
-		"Time Travel",
-		"Tragedy",
-		"Military",
-		"Romance",
-	];
+	const tags = ["Kaiju", "Revenge", "Tragedy", "Military", "Gore"];
 
 	const genres = ["Action", "Drama", "Fantasy", "Sci-Fi", "Mystery"];
 
