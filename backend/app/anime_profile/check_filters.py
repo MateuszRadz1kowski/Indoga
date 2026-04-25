@@ -1,4 +1,4 @@
-from backend.app.anime_profile.filters import FORMAT, SHOW_PLANNING
+from backend.app.anime_profile.filters import SHOW_PLANNING
 
 
 def check_if_adult(anime,show_18_rated):
@@ -9,7 +9,7 @@ def check_if_adult(anime,show_18_rated):
             return False
         else:
             return True
-    return None
+    return False
 
 
 def check_media_type(anime,media_types):
@@ -18,7 +18,7 @@ def check_media_type(anime,media_types):
             return True
         else:
             return False
-    return None
+    return False
 
 
 def check_season_year(anime,min_release_year,max_release_year):
@@ -27,7 +27,7 @@ def check_season_year(anime,min_release_year,max_release_year):
             return True
         else:
             return False
-    return None
+    return False
 
 def check_episode_number(anime,min_number_episodes,max_number_episodes):
     if anime[13] is not None:
@@ -35,7 +35,7 @@ def check_episode_number(anime,min_number_episodes,max_number_episodes):
             return True
         else:
             return False
-    return None
+    return False
 
 
 def check_show_planning(anime,anime_planning):
@@ -46,7 +46,7 @@ def check_show_planning(anime,anime_planning):
             return False
         else:
             return True
-    return None
+    return False
 
 def check_mean_score(anime,min_mean_score):
     if anime[11] is not None:
@@ -54,4 +54,24 @@ def check_mean_score(anime,min_mean_score):
             return True
         else:
             return False
-    return None
+    return False
+
+
+def check_show_selected_tags(anime, show_selected_tags):
+    # if not show_selected_tags or show_selected_tags == [""] or show_selected_tags is None:
+    #     return True
+    #
+    # if anime[7] is None or len(anime[7]) == 0:
+    #     return False
+
+    try:
+        anime_tag_names = {tag["name"] for tag in anime[7]}
+        print(f"show selected tags: ${show_selected_tags}")
+        print(f"anime tag names ${anime_tag_names}")
+        for selected_tag in show_selected_tags.split(','):
+            print(f"selected tag ${selected_tag}")
+            if selected_tag in anime_tag_names:
+                return True
+        return False
+    except (TypeError, KeyError, IndexError):
+        return False
