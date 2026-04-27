@@ -92,11 +92,21 @@ export default function FilterPage({ onDataUpdate }) {
 	};
 
 	const handleApply = async () => {
-		const params = Object.fromEntries(
-			Object.entries(filters).filter(([_, value]) => value !== null),
-		);
+		const searchParams = new URLSearchParams();
 
-		const queryString = new URLSearchParams(params).toString();
+		Object.entries(filters).forEach(([key, value]) => {
+			if (value === null || value === undefined) return;
+
+			if (Array.isArray(value)) {
+				value.forEach((item) => {
+					if (item) searchParams.append(key, item);
+				});
+			} else {
+				searchParams.append(key, value);
+			}
+		});
+
+		const queryString = searchParams.toString();
 		console.log("Wysyłam do API:", queryString);
 
 		const res = await fetch(
@@ -104,10 +114,8 @@ export default function FilterPage({ onDataUpdate }) {
 		);
 
 		const data = await res.json();
-
 		onDataUpdate(Object.values(data));
 	};
-
 	const handleClear = () => {
 		setFilters({
 			show_sequels: null,
@@ -373,7 +381,7 @@ export default function FilterPage({ onDataUpdate }) {
 								</ComboboxValue>
 
 								<ComboboxChipsInput
-									placeholder="Filter by studio"
+									placeholder="Filter by tags"
 									className="bg-slate-900 border-slate-700 text-slate-100"
 								/>
 							</ComboboxChips>

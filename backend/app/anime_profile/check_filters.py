@@ -58,20 +58,16 @@ def check_mean_score(anime,min_mean_score):
 
 
 def check_show_selected_tags(anime, show_selected_tags):
-    # if not show_selected_tags or show_selected_tags == [""] or show_selected_tags is None:
-    #     return True
-    #
-    # if anime[7] is None or len(anime[7]) == 0:
-    #     return False
+    if not show_selected_tags:
+        return True
+
+    if anime[7] is None:
+        return False
 
     try:
-        anime_tag_names = {tag["name"] for tag in anime[7]}
-        print(f"show selected tags: ${show_selected_tags}")
-        print(f"anime tag names ${anime_tag_names}")
-        for selected_tag in show_selected_tags.split(','):
-            print(f"selected tag ${selected_tag}")
-            if selected_tag in anime_tag_names:
-                return True
-        return False
+        anime_tag_names = {tag["name"] for tag in anime[7] if "name" in tag}
+
+        return all(selected_tag in anime_tag_names for selected_tag in show_selected_tags)
+
     except (TypeError, KeyError, IndexError):
         return False
