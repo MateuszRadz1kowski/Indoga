@@ -71,3 +71,18 @@ def check_show_selected_tags(anime, show_selected_tags):
 
     except (TypeError, KeyError, IndexError):
         return False
+
+def check_hide_selected_tags(anime, hide_selected_tags):
+    if not hide_selected_tags:
+        return True
+
+    if anime[7] is None:
+        return False
+
+    try:
+        anime_tag_names = {tag["name"] for tag in anime[7] if "name" in tag}
+
+        return all(selected_tag not in anime_tag_names for selected_tag in hide_selected_tags)
+
+    except (TypeError, KeyError, IndexError):
+        return False
