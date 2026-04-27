@@ -86,3 +86,31 @@ def check_hide_selected_tags(anime, hide_selected_tags):
 
     except (TypeError, KeyError, IndexError):
         return False
+
+
+def check_show_selected_genres(anime, show_selected_genres):
+    if not show_selected_genres:
+        return True
+
+    anime_genres = anime[6]
+    if anime_genres is None:
+        return False
+
+    try:
+        return all(genre in anime_genres for genre in show_selected_genres)
+    except (TypeError, KeyError, IndexError):
+        return False
+
+
+def check_hide_selected_genres(anime, hide_selected_genres):
+    if not hide_selected_genres:
+        return True
+
+    anime_genres = anime[6]
+    if anime_genres is None:
+        return True
+
+    try:
+        return not any(genre in hide_selected_genres for genre in anime_genres)
+    except (TypeError, KeyError, IndexError):
+        return False

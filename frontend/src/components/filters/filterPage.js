@@ -214,7 +214,26 @@ const tags = [
 	"Stop Motion",
 ];
 
-const genres = ["Action", "Drama", "Fantasy", "Sci-Fi", "Mystery"];
+const genres = [
+	"Action",
+	"Adventure",
+	"Comedy",
+	"Drama",
+	"Ecchi",
+	"Fantasy",
+	"Horror",
+	"Mahou Shoujo",
+	"Mecha",
+	"Music",
+	"Mystery",
+	"Psychological",
+	"Romance",
+	"Sci-Fi",
+	"Slice of Life",
+	"Sports",
+	"Supernatural",
+	"Thriller",
+];
 
 const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
 
@@ -246,6 +265,13 @@ export default function FilterPage({ onDataUpdate }) {
 	);
 	const availableTagsToHide = tags.filter(
 		(tag) => !filters.show_selected_tags.includes(tag),
+	);
+
+	const availableGenresToShow = genres.filter(
+		(g) => !filters.hide_selected_genres.includes(g),
+	);
+	const availableGenresToHide = genres.filter(
+		(g) => !filters.show_selected_genres.includes(g),
 	);
 
 	const defaultValues = {
@@ -606,7 +632,11 @@ export default function FilterPage({ onDataUpdate }) {
 						</Label>
 
 						<Combobox
-							items={genres}
+							items={
+								genreSwitchStatus
+									? availableGenresToShow
+									: availableGenresToHide
+							}
 							multiple
 							value={
 								genreSwitchStatus
@@ -631,7 +661,7 @@ export default function FilterPage({ onDataUpdate }) {
 								</ComboboxValue>
 
 								<ComboboxChipsInput
-									placeholder="Filter by studio"
+									placeholder="Filter by genre"
 									className="bg-slate-900 border-slate-700 text-slate-100"
 								/>
 							</ComboboxChips>
