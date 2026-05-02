@@ -117,4 +117,11 @@ def check_hide_selected_genres(anime, hide_selected_genres):
 
 def check_show_sequels(anime, show_sequels):
     # media/relations/edges - array w ktorym sa wszystkie mozliwosci, jesli posiada prequel ktory ma format TV to znaczy ze jest to sequel, anime[18]
-    return
+    print(show_sequels)
+    if show_sequels==False:
+        for relation in anime[18]:
+            if relation["type"] == "PREQUEL" and relation["format"] == "TV":
+                return False
+        return True
+    else:
+        return True
