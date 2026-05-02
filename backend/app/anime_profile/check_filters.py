@@ -114,3 +114,7 @@ def check_hide_selected_genres(anime, hide_selected_genres):
         return not any(genre in hide_selected_genres for genre in anime_genres)
     except (TypeError, KeyError, IndexError):
         return False
+
+def check_show_sequels(anime, show_sequels):
+    # media/relations/edges - array w ktorym sa wszystkie mozliwosci, jesli posiada prequel ktory ma format TV to znaczy ze jest to sequel, anime[18]
+    return

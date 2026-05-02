@@ -235,7 +235,7 @@ const genres = [
 	"Thriller",
 ];
 
-const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
+// const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
 
 export default function FilterPage({ onDataUpdate }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
@@ -386,7 +386,7 @@ export default function FilterPage({ onDataUpdate }) {
 								handleCheckbox("show_sequels", checked)
 							}
 						/>
-						<Label>Show sequels</Label>
+						<Label className={"text-gray-300"}>Show sequels</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -398,7 +398,7 @@ export default function FilterPage({ onDataUpdate }) {
 								handleCheckbox("experimental_mode", checked)
 							}
 						/>
-						<Label>Experimental mode</Label>
+						<Label className={"text-gray-300"}>Experimental mode</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -408,7 +408,7 @@ export default function FilterPage({ onDataUpdate }) {
 								handleCheckbox("show_18_rated", checked)
 							}
 						/>
-						<Label>Show 18+ rated</Label>
+						<Label className={"text-gray-300"}>Show 18+ rated</Label>
 					</div>
 				</Card>
 
@@ -522,7 +522,7 @@ export default function FilterPage({ onDataUpdate }) {
 						/>
 					</div>
 
-					<div>
+					{/* <div>
 						<Combobox
 							items={studios}
 							multiple
@@ -555,7 +555,7 @@ export default function FilterPage({ onDataUpdate }) {
 								</ComboboxList>
 							</ComboboxContent>
 						</Combobox>
-					</div>
+					</div> */}
 
 					<div>
 						<Switch
@@ -699,7 +699,7 @@ export default function FilterPage({ onDataUpdate }) {
 								</SelectGroup>
 							</SelectContent>
 						</Select>
-						<Button onClick={() => console.log(filters)}>show</Button>
+						{/* <Button onClick={() => console.log(filters)}>show</Button> */}
 					</div>
 				</Card>
 			</div>

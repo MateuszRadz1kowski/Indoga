@@ -23,11 +23,11 @@ INSERT INTO anime_data (
     cover_image,
     trailer_id,
     trailer_site,
-    season
-    
+    season,
+    relations
     
 )
-VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
 ON CONFLICT (id) DO NOTHING
 """
 
@@ -46,18 +46,22 @@ def insert_anime_data(data):
 
 page = 1
 
-while True:
-    print(f"Fetching page {page}...")
-    anime_data = anilist_export_data(page)
-    anime_data_packed = anilist_pack_data_to_db(anime_data)
+for m_type in ["ANIME", "MANGA"]:
+    page = 1
+    while True:
+        print(f"Fetching {m_type} page {page}...")
+        raw_data = anilist_export_data(page, m_type)
 
-    count_tags(anime_data_packed)
-    insert_anime_data(anime_data_packed)
+        if raw_data is None:
+            break
 
-    has_next = anime_data.get("data", {}).get("Page", {}).get("pageInfo", {}).get("hasNextPage", False)
-    if not has_next:
-        print("All pages fetched.")
-        break
+        packed_data = anilist_pack_data_to_db(raw_data)
 
-    page += 1
+        if packed_data:
+            insert_anime_data(packed_data)
+
+        has_next = raw_data.get("data", {}).get("Page", {}).get("pageInfo", {}).get("hasNextPage", False)
+        if not has_next:
+            break
+        page += 1
 insert_anime_data(anilist_pack_data_to_db(anilist_export_data(1)))

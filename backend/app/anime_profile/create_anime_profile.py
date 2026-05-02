@@ -1,7 +1,7 @@
 import math
 from backend.app.anime_profile.check_filters import check_if_adult, check_season_year, check_show_planning, \
     check_episode_number, check_media_type, check_mean_score, check_show_selected_tags, check_hide_selected_tags, \
-    check_show_selected_genres, check_hide_selected_genres
+    check_show_selected_genres, check_hide_selected_genres, check_show_sequels
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import ANIME_PROFILE_GENRE_MODIFIER, mean_score_multiplier, \
     anime_favourites_multiplier, ANIME_USER_PLANNING_MULTIPLIER, ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER
@@ -28,6 +28,7 @@ def create_anime_profile(db_response,user_interests_profile,filters):
                 check_hide_selected_tags(anime, filters["hide_selected_tags"]) and
                 check_show_selected_genres(anime, filters["show_selected_genres"]) and
                 check_hide_selected_genres(anime, filters["hide_selected_genres"]) and
+                check_show_sequels(anime,filters["show_sequels"]) and
                 check_show_planning(anime, anime_planning)): continue
 
         anime_profile[anime_name] = {
