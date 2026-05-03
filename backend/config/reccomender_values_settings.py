@@ -42,3 +42,17 @@ def mean_score_multiplier(score_100):
 
 def anime_favourites_multiplier(favourites):
     return math.log1p(favourites)
+
+
+def anime_popularity_multiplier(popularity_importance, popularity):
+    pop = max(popularity, 1)
+
+    if popularity_importance == "low":
+        return 1 / math.pow(pop, 1.2)
+
+    elif popularity_importance == "high":
+
+        return math.pow(pop, 2.5)
+
+    else:
+        return pop
