@@ -4,7 +4,8 @@ from backend.app.anime_profile.check_filters import check_if_adult, check_season
     check_show_selected_genres, check_hide_selected_genres, check_show_sequels
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import ANIME_PROFILE_GENRE_MODIFIER, mean_score_multiplier, \
-    anime_favourites_multiplier, ANIME_USER_PLANNING_MULTIPLIER, ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER
+    anime_favourites_multiplier, ANIME_USER_PLANNING_MULTIPLIER, ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER, \
+    anime_popularity_multiplier
 
 
 def create_anime_profile(db_response,user_interests_profile,filters):
@@ -40,7 +41,6 @@ def create_anime_profile(db_response,user_interests_profile,filters):
             tag_rank = tag["rank"]
             if tag_name in user_interests_profile[0]:
                 value = tag_rank * user_interests_profile[0][tag_name]
-
                 anime_score += value
 
                 anime_profile[anime_name]["why_recommended"].setdefault(tag_name, 0)
@@ -59,7 +59,7 @@ def create_anime_profile(db_response,user_interests_profile,filters):
         if anime[11] is not None:
             anime_score *= mean_score_multiplier(anime[11])
         anime_score *= anime_favourites_multiplier(anime[10])
-
+        anime_score *= anime_popularity_multiplier(filters["popularity_importance"],anime[9])
         anime_profile[anime_name]["score"] = anime_score
     normalise_score(anime_profile)
     sorted_anime_profile = dict(
