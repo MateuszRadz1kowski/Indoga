@@ -28,4 +28,4 @@ frontend:
     tooltip - shadcn
     
 problemy na pozniej:
-w comoboxach gdy jakis filter jest wybrany w show to nie moze sie pokazywac do wyboru w hide
+w sequelach nie zawsze jest wykrywane np w sports genre u mnie pokazuje sie haiku s1 i s4
