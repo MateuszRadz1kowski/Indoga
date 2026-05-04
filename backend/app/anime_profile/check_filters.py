@@ -11,32 +11,20 @@ def check_if_adult(anime,show_18_rated):
             return True
     return False
 
-
-def check_media_type(anime,media_types):
-    if anime[4] is not None:
-        if anime[4] == media_types[0]:
-            return True
-        else:
-            return False
+def check_episode_number(anime, min_number_episodes, max_number_episodes):
+    if anime[13] is None:
+        return True
+    if int(min_number_episodes) <= int(anime[13]) <= int(max_number_episodes):
+        return True
     return False
 
 
-def check_season_year(anime,min_release_year,max_release_year):
-    if anime[3] is not None:
-        if int(min_release_year) <= int(anime[3]) <= int(max_release_year):
-            return True
-        else:
-            return False
+def check_season_year(anime, min_release_year, max_release_year):
+    if anime[3] is None:
+        return True
+    if int(min_release_year) <= int(anime[3]) <= int(max_release_year):
+        return True
     return False
-
-def check_episode_number(anime,min_number_episodes,max_number_episodes):
-    if anime[13] is not None:
-        if int(min_number_episodes) <= int(anime[13]) <= int(max_number_episodes):
-            return True
-        else:
-            return False
-    return False
-
 
 def check_show_planning(anime,anime_planning):
     if anime[2] is not None:
@@ -117,9 +105,25 @@ def check_hide_selected_genres(anime, hide_selected_genres):
 
 def check_show_sequels(anime, show_sequels):
     if show_sequels==False:
-        for relation in anime[18]:
+        for relation in anime[18 or []]:
             if relation["type"] == "PREQUEL" and relation["format"] == "TV":
                 return False
         return True
     else:
         return True
+
+
+def check_show_media_type(anime, media_types):
+    ANIME_FORMATS = {"TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC"}
+    MANGA_FORMATS = {"MANGA", "NOVEL", "ONE_SHOT"}
+
+    anime_format = anime[4]
+    if anime_format is None:
+        return False
+
+    if media_types == "TV":
+        return anime_format in ANIME_FORMATS
+    elif media_types == "MANGA":
+        return anime_format in MANGA_FORMATS
+
+    return False

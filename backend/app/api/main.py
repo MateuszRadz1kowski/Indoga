@@ -37,8 +37,7 @@ async def get_recommendations(
     hide_selected_tags: Optional[List[str]] = Query(None),
     show_selected_genres: Optional[List[str]] = Query(None),
     hide_selected_genres: Optional[List[str]] = Query(None),
-
-    media_types: Optional[List[str]] = Query(["TV", "MOVIE", "OVA", "SPECIAL"])
+    media_types: str = Query("TV")
 ):
     filters = {
         "show_sequels" : show_sequels,

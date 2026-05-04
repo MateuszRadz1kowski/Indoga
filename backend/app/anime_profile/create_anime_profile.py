@@ -1,7 +1,7 @@
 import math
 from backend.app.anime_profile.check_filters import (
     check_if_adult, check_season_year, check_show_planning,
-    check_episode_number, check_media_type, check_mean_score,
+    check_episode_number, check_show_media_type, check_mean_score,
     check_show_selected_tags, check_hide_selected_tags,
     check_show_selected_genres, check_hide_selected_genres,
     check_show_sequels
@@ -35,13 +35,13 @@ def create_anime_profile(db_response, user_interests_profile, filters):
             check_if_adult(anime, filters["show_18_rated"]) and
             check_season_year(anime, filters["min_release_year"], filters["max_release_year"]) and
             check_episode_number(anime, filters["min_number_episodes"], filters["max_number_episodes"]) and
-            check_media_type(anime, filters["media_types"]) and
             check_mean_score(anime, filters["min_mean_score"]) and
             check_show_selected_tags(anime, filters["show_selected_tags"]) and
             check_hide_selected_tags(anime, filters["hide_selected_tags"]) and
             check_show_selected_genres(anime, filters["show_selected_genres"]) and
             check_hide_selected_genres(anime, filters["hide_selected_genres"]) and
             check_show_sequels(anime, filters["show_sequels"]) and
+            check_show_media_type(anime, filters["media_types"]) and
             check_show_planning(anime, anime_planning)
         ):
             continue

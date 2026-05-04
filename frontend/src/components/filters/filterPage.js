@@ -288,7 +288,7 @@ export default function FilterPage({ onDataUpdate }) {
 		show_selected_studios: [],
 		tags: [],
 		genres: [],
-		media_types: ["TV", "MOVIE", "OVA", "SPECIAL"],
+		media_types: "TV",
 	};
 
 	const updateFilter = (key, value) => {
@@ -680,11 +680,11 @@ export default function FilterPage({ onDataUpdate }) {
 					</div>
 					<div>
 						<Select
-							value={filters.media_types?.[0]}
+							value={filters.media_types ?? ""}
 							onValueChange={(value) =>
 								setFilters((prev) => ({
 									...prev,
-									media_types: [value],
+									media_types: value,
 								}))
 							}
 						>
