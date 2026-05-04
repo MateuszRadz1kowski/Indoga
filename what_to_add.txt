@@ -29,3 +29,4 @@ frontend:
     
 problemy na pozniej:
 w sequelach nie zawsze jest wykrywane np w sports genre u mnie pokazuje sie haiku s1 i s4
+lekko do zmiany wyglad bazy danych bo manga i anime maja rozne atrybuty np episode_number, season_year, i psuje to sporo zeczy
