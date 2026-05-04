@@ -75,9 +75,9 @@ def anilist_pack_data_to_db(res):
     for media in media_list:
         media_id = media.get('id')
         title_obj = media.get('title') or {}
-        title_english = title_obj.get('english')
+        title = title_obj.get('english') or title_obj.get('romaji') or title_obj.get('native')
 
-        if media_id is None or title_english is None:
+        if media_id is None or title is None:
             continue
 
         try:
@@ -97,7 +97,7 @@ def anilist_pack_data_to_db(res):
             result.append((
                 media_id,
                 media.get('idMal'),
-                title_english,
+                title,
                 media.get('seasonYear'),
                 media.get('format'),
                 media.get('isAdult'),

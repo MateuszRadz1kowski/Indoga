@@ -60,8 +60,14 @@ for m_type in ["ANIME", "MANGA"]:
         if packed_data:
             insert_anime_data(packed_data)
 
-        has_next = raw_data.get("data", {}).get("Page", {}).get("pageInfo", {}).get("hasNextPage", False)
+        try:
+            page_info = raw_data.get("data", {}).get("Page", {}).get("pageInfo", {})
+            has_next = page_info.get("hasNextPage", False)
+        except Exception:
+            has_next = False
+
         if not has_next:
+            print(f"Finished {m_type}. No more pages.")
             break
         page += 1
 insert_anime_data(anilist_pack_data_to_db(anilist_export_data(1)))
