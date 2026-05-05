@@ -20,7 +20,7 @@ export default function LoginPage() {
 	return (
 		<div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
 			<Card className="w-full max-w-2xl shadow-xl border-zinc-800 bg-zinc-900">
-				<CardHeader className="text-center space-y-2">
+				<CardHeader className="text-center space-y-2 text-left">
 					<CardTitle className="text-3xl font-bold tracking-tight text-white">
 						Anime Recommender
 					</CardTitle>

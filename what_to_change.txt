@@ -9,8 +9,9 @@ Filtry:
     slidery z czarno/białe na fioletowo/białe   <- switche też
     inputy number type ustawić najmniejsze możliwe wyniki(nie ujemne)
     uładnić resetowanie żeby nie było białe na białym / czarnee na czarnym
-    reset nie resetuje input(number), switch, ostatniego selecta i slidera(wygląd - wartość resetuje)
+    reset nie resetuje input(number) ostatniego selecta
     sposób na powrót na strone logowania
+    TRZEBA lepiej komunikować co robią switche i jak działają
 
 
 Logowanie:

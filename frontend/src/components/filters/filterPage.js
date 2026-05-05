@@ -292,6 +292,7 @@ export default function FilterPage({ onDataUpdate }) {
 	};
 
 	const updateFilter = (key, value) => {
+		console.log(filters.min_release_year)
 		setFilters((prev) => ({
 			...prev,
 			[key]: value,
@@ -332,6 +333,7 @@ export default function FilterPage({ onDataUpdate }) {
 		const data = await res.json();
 		onDataUpdate(Object.values(data));
 	};
+
 	const handleClear = () => {
 		setFilters({
 			show_sequels: null,
@@ -343,7 +345,7 @@ export default function FilterPage({ onDataUpdate }) {
 			max_number_episodes: null,
 			min_release_year: null,
 			max_release_year: null,
-			min_mean_score: null,
+			min_mean_score: 0,
 			show_selected_studios: [],
 			show_selected_tags: [],
 			hide_selected_tags: [],
@@ -351,6 +353,10 @@ export default function FilterPage({ onDataUpdate }) {
 			hide_selected_genres: [],
 			media_types: null,
 		});
+		setTagsSwitchStatus(true)
+		setGenreSwitchStatus(true)
+		updateFilter(0)
+		
 	};
 
 	useEffect(() => {
@@ -360,7 +366,10 @@ export default function FilterPage({ onDataUpdate }) {
 	return (
 		<div className="text-white space-y-4">
 			{" "}
-			<h1 className="text-2xl font-semibold mb-4">Filters</h1>
+			<div className="bg-linear-to-br from-purple-600 via-40% via-transparent to-transparent">
+
+				<h1 className="text-2xl font-semibold mb-4 bg-linear-to-tr from-purple-600 via-50% via-transparent to-transparent">Filters</h1>
+			</div>
 			<div className="flex gap-3 mb-6 sticky top-0 bg-[#0b1120] py-2 z-10">
 				<Button
 					onClick={handleApply}
@@ -377,7 +386,7 @@ export default function FilterPage({ onDataUpdate }) {
 					Clear Filters
 				</Button>
 			</div>
-			<div className="space-y-6 pb-10">
+			<div className="space-y-6">
 				<Card className="bg-[#0f172a] border border-slate-800 p-6 space-y-4">
 					<div className="flex items-center gap-3">
 						<Checkbox
@@ -515,6 +524,7 @@ export default function FilterPage({ onDataUpdate }) {
 							defaultValue={[75]}
 							max={100}
 							step={1}
+							value={[filters.min_mean_score]}
 							className="w-full"
 							onValueChange={(e) =>
 								updateFilter("min_mean_score", e[0] ? e[0] : null)
