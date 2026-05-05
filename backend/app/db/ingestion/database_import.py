@@ -6,29 +6,17 @@ from anilist_export_data import anilist_export_data, anilist_pack_data_to_db
 
 INSERT_SQL = """
 INSERT INTO anime_data (
-    id,
-    id_mal,
-    title_english,
-    season_year,
-    format,
-    is_adult,
-    genres,
-    tags,
-    recommendations,
-    popularity,
-    favourites,
-    mean_score,
-    description,
-    episode_number,
-    cover_image,
-    trailer_id,
-    trailer_site,
-    season,
-    relations
-    
+    id, id_mal, title_english, season_year, format, is_adult,
+    genres, tags, recommendations, popularity, favourites,
+    mean_score, description, episode_number, cover_image,
+    trailer_id, trailer_site, season, relations, chapters, volumes
 )
-VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-ON CONFLICT (id) DO NOTHING
+VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+ON CONFLICT (id) DO UPDATE SET
+    chapters = EXCLUDED.chapters,
+    volumes = EXCLUDED.volumes,
+    season_year = EXCLUDED.season_year,
+    episode_number = EXCLUDED.episode_number
 """
 
 def insert_anime_data(data):

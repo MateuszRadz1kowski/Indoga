@@ -8,8 +8,8 @@ export default function Recommendation({ recommendationData: data }) {
 	const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
 	const malUrl = `https://myanimelist.net/anime/${data.id_mal}`;
-	const anilistUrl = `https://anilist.co/anime/${data.id}`;
-
+	const animeAnilistUrl = `https://anilist.co/anime/${data.id}`;
+	const mangaAnilistUrl = `https://anilist.co/manga/${data.id}`;
 	return (
 		<>
 			<Card
@@ -110,7 +110,11 @@ export default function Recommendation({ recommendationData: data }) {
 
 						<div className="flex gap-4 mt-auto pt-3 border-t border-slate-700/50">
 							<a
-								href={anilistUrl}
+								href={
+									["MANGA", "NOVEL", "ONE_SHOT"].includes(data.format)
+										? mangaAnilistUrl
+										: animeAnilistUrl
+								}
 								target="_blank"
 								className="flex items-center gap-1.5 text-[10px] font-black text-slate-500 hover:text-blue-400 transition-all uppercase tracking-widest"
 							>
