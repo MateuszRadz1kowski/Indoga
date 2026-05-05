@@ -464,7 +464,7 @@ export default function FilterPage({ onDataUpdate }) {
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
 					<Input
 						type="number"
-						placeholder="Minimum episodes"
+						placeholder={"minimum episodes"}
 						className="bg-slate-900 border-slate-700 text-slate-100"
 						onChange={(e) =>
 							updateFilter(
@@ -476,7 +476,7 @@ export default function FilterPage({ onDataUpdate }) {
 
 					<Input
 						type="number"
-						placeholder="Maximum episodes"
+						placeholder={"maximum episodes"}
 						className="bg-slate-900 border-slate-700 text-slate-100"
 						onChange={(e) =>
 							updateFilter(

@@ -13,35 +13,24 @@ def anilist_export_data(page_number, media_type="ANIME"):
           title { english romaji native }
           tags { name rank }
           seasonYear
+          startDate { year }
           format
           isAdult
           genres
           popularity
           favourites
           meanScore
-          recommendations { 
-            nodes { 
-              mediaRecommendation { title { english } } 
-            } 
-          }
+          recommendations { nodes { mediaRecommendation { title { english } } } }
           coverImage { extraLarge }
           description
           episodes
+          chapters
+          volumes 
           trailer { id site }
           season
-          relations { 
-            edges { 
-              relationType 
-              node { 
-                id
-                format 
-              } 
-            } 
-          }
+          relations { edges { relationType node { id format } } }
         }
-        pageInfo {
-          hasNextPage
-        }
+        pageInfo { hasNextPage }
       }
     }
     '''
@@ -80,6 +69,20 @@ def anilist_pack_data_to_db(res):
         if media_id is None or title is None:
             continue
 
+        is_manga_format = media.get('format') in ('MANGA', 'NOVEL', 'ONE_SHOT')
+
+        season_year = (
+            (media.get('startDate') or {}).get('year')
+            if is_manga_format
+            else media.get('seasonYear')
+        )
+
+        episode_number = (
+            media.get('chapters')
+            if is_manga_format
+            else media.get('episodes')
+        )
+
         try:
             relations_list = []
             rel_edges = media.get('relations', {}).get('edges', [])
@@ -98,7 +101,7 @@ def anilist_pack_data_to_db(res):
                 media_id,
                 media.get('idMal'),
                 title,
-                media.get('seasonYear'),
+                season_year,
                 media.get('format'),
                 media.get('isAdult'),
                 json.dumps(media.get('genres', [])),
@@ -108,12 +111,14 @@ def anilist_pack_data_to_db(res):
                 media.get('favourites'),
                 media.get('meanScore'),
                 media.get('description'),
-                media.get('episodes'),
+                episode_number,
                 media.get('coverImage', {}).get("extraLarge"),
                 (media.get("trailer") or {}).get("id"),
                 (media.get("trailer") or {}).get("site"),
                 media.get('season'),
                 json.dumps(relations_list),
+                media.get('chapters'),
+                media.get('volumes'),
             ))
         except Exception as e:
             print(f"Skipping media {media_id} due to packing error: {e}")

@@ -12,18 +12,20 @@ def check_if_adult(anime,show_18_rated):
     return False
 
 def check_episode_number(anime, min_number_episodes, max_number_episodes):
-    if anime[13] is None:
-        return True
-    if int(min_number_episodes) <= int(anime[13]) <= int(max_number_episodes):
-        return True
+    if anime[13] is not None:
+        if int(min_number_episodes) <= int(anime[13]) <= int(max_number_episodes):
+            return True
+        else:
+            return False
     return False
 
 
 def check_season_year(anime, min_release_year, max_release_year):
-    if anime[3] is None:
-        return True
-    if int(min_release_year) <= int(anime[3]) <= int(max_release_year):
-        return True
+    if anime[3] is not None:
+        if int(min_release_year) <= int(anime[3]) <= int(max_release_year):
+            return True
+        else:
+            return False
     return False
 
 def check_show_planning(anime,anime_planning):
