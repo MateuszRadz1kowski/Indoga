@@ -1,0 +1,23 @@
+Ogółem:
+    dark mode
+    dostosować do kolorów
+    animacje?
+    co można dodać/zmienić?
+
+Filtry:
+    combobox zmienia wielkośc w zależności od ilości wybranych tagów/genre
+    slidery z czarno/białe na fioletowo/białe   <- switche też
+    inputy number type ustawić najmniejsze możliwe wyniki(nie ujemne)
+    uładnić resetowanie żeby nie było białe na białym / czarnee na czarnym
+    reset nie resetuje input(number), switch, ostatniego selecta i slidera(wygląd - wartość resetuje)
+    sposób na powrót na strone logowania
+
+
+Logowanie:
+    nie wiem bo nie mogę wrócić
+
+
+Kafelki:
+    uruchomić bazę danych
+    zobaczyć jak kafelki wyglądają
+    porobić by dobrze wyglądało
