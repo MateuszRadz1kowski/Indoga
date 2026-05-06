@@ -20,8 +20,8 @@ FINAL_RESULTS_SIZE = 100
 
 def create_anime_profile(db_response, user_interests_profile, filters):
     anime_profile = {}
-    anime_completed = user_anime_status(0)
-    anime_planning = user_anime_status(2)
+    anime_completed = user_anime_status(0,filters)
+    anime_planning = user_anime_status(2,filters)
     for anime in db_response:
         if len(anime_profile) >= CANDIDATE_POOL_SIZE:
             break

@@ -7,7 +7,7 @@ from backend.app.user_profile.create_user_interests_profile import create_user_i
 def prepare_dictionary(filters):
     recommendations_dictionary = {}
     anime_data = get_anime_data()
-    user_interests_profile = create_user_interests_profile()
+    user_interests_profile = create_user_interests_profile(filters)
     anime_recommendations = create_anime_profile(anime_data, user_interests_profile,filters)
     prepare_recommendation_reasons(anime_recommendations)
     # print(f"tag scores: {user_interests_profile[0]}")
