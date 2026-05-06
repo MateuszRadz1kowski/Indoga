@@ -6,18 +6,6 @@ import { Card } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import {
-	Combobox,
-	ComboboxChip,
-	ComboboxChips,
-	ComboboxChipsInput,
-	ComboboxContent,
-	ComboboxEmpty,
-	ComboboxInput,
-	ComboboxItem,
-	ComboboxList,
-	ComboboxValue,
-} from "@/components/ui/combobox";
-import {
 	Select,
 	SelectContent,
 	SelectGroup,
@@ -91,9 +79,10 @@ export default function FilterPage({ onDataUpdate }) {
 
 	const handleApply = async () => {
 		const searchParams = new URLSearchParams();
-
+		searchParams.append("username", localStorage.getItem("username"));
+		searchParams.append("platform", localStorage.getItem("platform"));
 		Object.entries(filters).forEach(([key, value]) => {
-			if (value === null || value === undefined) return;
+			if (value == null || value == undefined) return;
 
 			if (Array.isArray(value)) {
 				value.forEach((item) => {
@@ -221,7 +210,6 @@ export default function FilterPage({ onDataUpdate }) {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								<SelectItem>Reset</SelectItem>
 								<SelectItem value="low">Low</SelectItem>
 								<SelectItem value="medium">Medium</SelectItem>
 								<SelectItem value="high">High</SelectItem>
@@ -240,7 +228,6 @@ export default function FilterPage({ onDataUpdate }) {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectGroup>
-								<SelectItem>Reset</SelectItem>
 								<SelectItem value="low">Low</SelectItem>
 								<SelectItem value="medium">Medium</SelectItem>
 								<SelectItem value="high">High</SelectItem>

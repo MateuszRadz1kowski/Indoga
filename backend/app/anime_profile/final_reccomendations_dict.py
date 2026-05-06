@@ -4,11 +4,11 @@ from backend.app.db.get_data.get_recommended_animes_data import get_recommended_
 from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
 
 
-def prepare_dictionary(filters):
+def prepare_dictionary(filters,user_data):
     recommendations_dictionary = {}
     anime_data = get_anime_data()
-    user_interests_profile = create_user_interests_profile(filters)
-    anime_recommendations = create_anime_profile(anime_data, user_interests_profile,filters)
+    user_interests_profile = create_user_interests_profile(filters,user_data)
+    anime_recommendations = create_anime_profile(anime_data, user_interests_profile, filters, user_data)
     prepare_recommendation_reasons(anime_recommendations)
     # print(f"tag scores: {user_interests_profile[0]}")
     # print(f"genre scores: {user_interests_profile[1]}")

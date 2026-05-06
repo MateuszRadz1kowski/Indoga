@@ -11,14 +11,15 @@ import { useState } from "react";
 export default function LoginPage() {
 	const router = useRouter();
 
-	const localStorageSetUsername = (e) => {
+	const localStorageSetUsername = (e, platform) => {
 		const username = e.target.previousElementSibling.value;
 		console.log(username);
 		localStorage.setItem("username", username);
+		localStorage.setItem("platform", platform);
 		router.push("/recommendations");
 	};
 
-	const [inputUser, setInputUser] = useState("")
+	const [inputUser, setInputUser] = useState("");
 
 	return (
 		<div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
@@ -56,12 +57,12 @@ export default function LoginPage() {
 									placeholder="Enter your MyAnimeList username"
 									className="bg-zinc-800 border-zinc-700 text-white"
 									value={inputUser}
-									onChange={(e)=>setInputUser(e.target.value)}
+									onChange={(e) => setInputUser(e.target.value)}
 								/>
 								<Button
 									className="bg-white text-black hover:bg-zinc-200"
-									onClick={(e) => localStorageSetUsername(e)}
-									disabled={inputUser && inputUser!="" ? false : true}
+									onClick={(e) => localStorageSetUsername(e, "MyAnimeList")}
+									disabled={inputUser && inputUser != "" ? false : true}
 								>
 									<Search size={18} />
 								</Button>
@@ -74,12 +75,12 @@ export default function LoginPage() {
 									placeholder="Enter your AniList username"
 									className="bg-zinc-800 border-zinc-700 text-white"
 									value={inputUser}
-									onChange={(e)=>setInputUser(e.target.value)}
+									onChange={(e) => setInputUser(e.target.value)}
 								/>
 								<Button
 									className="bg-white text-black hover:bg-zinc-200"
-									onClick={(e) => localStorageSetUsername(e)}
-									disabled={inputUser && inputUser!="" ? false : true}
+									onClick={(e) => localStorageSetUsername(e, "AniList")}
+									disabled={inputUser && inputUser != "" ? false : true}
 								>
 									<Search size={18} />
 								</Button>

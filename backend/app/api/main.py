@@ -17,6 +17,9 @@ app.add_middleware(
 
 @app.get("/recommendations_data/")
 async def get_recommendations(
+    username: str = Query(None),
+    platform: str = Query(None),
+
     show_sequels: bool = Query(True),
     experimental_mode: bool = Query(False),
     show_18_rated: bool = Query(True),
@@ -57,7 +60,13 @@ async def get_recommendations(
         "hide_selected_genres": hide_selected_genres,
         "media_types": media_types,
     }
-    data = prepare_dictionary(filters)
+
+    user_data = {
+        "username" : username,
+        "platform" : platform
+    }
+
+    data = prepare_dictionary(filters,user_data)
 
     return data
 # by uruchomic w folderze anime-recommender: python -m uvicorn backend.app.api.main:app --reload
