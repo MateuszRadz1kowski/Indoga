@@ -28,191 +28,7 @@ import {
 import { Input } from "../ui/input";
 import { Slider } from "../ui/slider";
 import { useEffect, useState } from "react";
-const tags = [
-	"Supernatural",
-	"Gore",
-	"Shounen",
-	"Military",
-	"Psychological",
-	"Seinen",
-	"Mystery",
-	"School",
-	"Fantasy",
-	"Male Protagonist",
-	"Shoujo",
-	"Romance",
-	"Super Power",
-	"Magic",
-	"Slice of Life",
-	"Tragedy",
-	"Police",
-	"Adventure",
-	"Demons",
-	"Cyberpunk",
-	"Horror",
-	"Historical",
-	"Educational",
-	"CGI",
-	"Parody",
-	"Kids",
-	"Post-Apocalyptic",
-	"Dystopian",
-	"Ecchi",
-	"Coming of Age",
-	"Artificial Intelligence",
-	"Space",
-	"Violence",
-	"Female Protagonist",
-	"Detective",
-	"Martial Arts",
-	"Full CGI",
-	"Harem",
-	"Music",
-	"Sadism",
-	"Urban Fantasy",
-	"Aliens",
-	"Gender Bending",
-	"Revenge",
-	"Samurai",
-	"Sports",
-	"Love Triangle",
-	"War",
-	"Monsters",
-	"Virtual World",
-	"Mecha",
-	"Survival",
-	"Satire",
-	"Crime",
-	"Steampunk",
-	"Episodic",
-	"Philosophical",
-	"Boys' Love",
-	"Vampire",
-	"Classic Literature",
-	"Delinquents",
-	"Thriller",
-	"Mythology",
-	"Achronological Order",
-	"Robots",
-	"Shoujo Ai",
-	"Gods",
-	"Body Horror",
-	"Death Game",
-	"Bisexual",
-	"Yuri",
-	"Work",
-	"Terrorism",
-	"Mafia",
-	"Super Robot",
-	"Guns",
-	"Crossdressing",
-	"Henshin",
-	"Time Manipulation",
-	"Family Life",
-	"Memory Manipulation",
-	"Assassins",
-	"Animals",
-	"Food",
-	"Isekai",
-	"Dark Fantasy",
-	"Time Skip",
-	"Politics",
-	"School Club",
-	"Surreal Comedy",
-	"Tsundere",
-	"Medicine",
-	"Shounen Ai",
-	"Amnesia",
-	"Otaku Culture",
-	"Video Games",
-	"Philosophy",
-	"Yandere",
-	"Witch",
-	"Incest",
-	"Anti-Hero",
-	"Ninja",
-	"Reincarnation",
-	"Office Lady",
-	"Achromatic",
-	"Real Robot",
-	"Manga",
-	"Youkai",
-	"Dullahan",
-	"Anthropomorphism",
-	"BDSM",
-	"Cyborg",
-	"Trapped in a Video Game",
-	"Board Game",
-	"Zombie",
-	"Fairy Tale",
-	"Foreign",
-	"Ghost",
-	"Butler",
-	"Josei",
-	"Tanks",
-	"Card Battle",
-	"Elf",
-	"Maid",
-	"Kuudere",
-	"Dragons",
-	"College",
-	"Chibi",
-	"Primarily Adult Cast",
-	"Cosplay",
-	"Aviation",
-	"Cars",
-	"Idol",
-	"Nun",
-	"Werewolf",
-	"Gynoid",
-	"Twins",
-	"Nudity",
-	"Succubus",
-	"Software Development",
-	"Nekomusume",
-	"Drawing",
-	"Pirates",
-	"Anachronism",
-	"Photography",
-	"Monster Girl",
-	"Tokusatsu",
-	"Space Opera",
-	"Writing",
-	"Travel",
-	"Underworld",
-	"Body Swapping",
-	"Cult",
-	"Fishing",
-	"Crossover",
-	"Religion",
-	"Gambling",
-	"Skeleton",
-	"Air Force",
-	"Fashion",
-	"Agriculture",
-	"Musical",
-	"Ships",
-	"Environmental",
-	"Tereshchenko",
-	"Age Gap",
-	"Baseball",
-	"Language Barrier",
-	"Acting",
-	"Calligraphy",
-	"Surgery",
-	"Swimming",
-	"Dissociative Identities",
-	"Exorcism",
-	"Boxing",
-	"Basketball",
-	"Age Regression",
-	"Bands",
-	"Cycling",
-	"Fairy",
-	"Rugby",
-	"Handball",
-	"Stop Motion",
-];
+import TagsChoser from "./tagSelector";
 
 const genres = [
 	"Action",
@@ -260,12 +76,6 @@ export default function FilterPage({ onDataUpdate }) {
 		media_types: null,
 	});
 
-	const availableTagsToShow = tags.filter(
-		(tag) => !filters.hide_selected_tags.includes(tag),
-	);
-	const availableTagsToHide = tags.filter(
-		(tag) => !filters.show_selected_tags.includes(tag),
-	);
 
 	const availableGenresToShow = genres.filter(
 		(g) => !filters.hide_selected_genres.includes(g),
@@ -394,8 +204,9 @@ export default function FilterPage({ onDataUpdate }) {
 							onCheckedChange={(checked) =>
 								handleCheckbox("show_sequels", checked)
 							}
+							id="sequels"
 						/>
-						<Label className={"text-gray-300"}>Show sequels</Label>
+						<Label htmlFor="sequels" className={"text-gray-300"}>Show sequels</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -406,8 +217,9 @@ export default function FilterPage({ onDataUpdate }) {
 							onCheckedChange={(checked) =>
 								handleCheckbox("experimental_mode", checked)
 							}
+							id="experimental"
 						/>
-						<Label className={"text-gray-300"}>Experimental mode</Label>
+						<Label htmlFor="experimental" className={"text-gray-300"}>Experimental mode</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -416,49 +228,50 @@ export default function FilterPage({ onDataUpdate }) {
 							onCheckedChange={(checked) =>
 								handleCheckbox("show_18_rated", checked)
 							}
+							id="adult+"
 						/>
-						<Label className={"text-gray-300"}>Show 18+ rated</Label>
+						<Label htmlFor="adult+" className={"text-gray-300"}>Show 18+ rated</Label>
 					</div>
 				</Card>
 
-				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
-					<div>
-						<Select
-							value={filters.tag_importance ?? ""}
-							onValueChange={(value) => updateFilter("tag_importance", value)}
-						>
-							<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100">
-								<SelectValue placeholder="Tag Importance" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem value="low">Low</SelectItem>
-									<SelectItem value="medium">Medium</SelectItem>
-									<SelectItem value="high">High</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</div>
-
-					<div>
-						<Select
-							value={filters.popularity_importance ?? ""}
-							onValueChange={(value) =>
-								updateFilter("popularity_importance", value)
-							}
-						>
-							<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100">
-								<SelectValue placeholder="Popularity Influence" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem value="low">Low</SelectItem>
-									<SelectItem value="medium">Medium</SelectItem>
-									<SelectItem value="high">High</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-					</div>
+				<Card className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-4">
+					
+					<Select
+						value={filters.tag_importance ?? ""}
+						onValueChange={(value) => updateFilter("tag_importance", value)}
+					>
+						<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100 w-[80%]">
+							<SelectValue placeholder="Tag Importance" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectItem>Reset</SelectItem>
+								<SelectItem value="low">Low</SelectItem>
+								<SelectItem value="medium">Medium</SelectItem>
+								<SelectItem value="high">High</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+						
+					<Select
+						value={filters.popularity_importance ?? ""}
+						onValueChange={(value) =>
+							updateFilter("popularity_importance", value)
+						}
+					>
+						<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100 w-[80%]">
+							<SelectValue placeholder="Popularity Influence" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectItem>Reset</SelectItem>
+								<SelectItem value="low">Low</SelectItem>
+								<SelectItem value="medium">Medium</SelectItem>
+								<SelectItem value="high">High</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+					
 				</Card>
 
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
@@ -466,6 +279,7 @@ export default function FilterPage({ onDataUpdate }) {
 						type="number"
 						placeholder={"minimum episodes"}
 						className="bg-slate-900 border-slate-700 text-slate-100"
+						min="0"
 						onChange={(e) =>
 							updateFilter(
 								"min_number_episodes",
@@ -478,6 +292,7 @@ export default function FilterPage({ onDataUpdate }) {
 						type="number"
 						placeholder={"maximum episodes"}
 						className="bg-slate-900 border-slate-700 text-slate-100"
+						min="0"
 						onChange={(e) =>
 							updateFilter(
 								"max_number_episodes",
@@ -493,6 +308,8 @@ export default function FilterPage({ onDataUpdate }) {
 							type="number"
 							placeholder="Minimum release year (e.g. 2005)"
 							className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
+							min="1970"
+							max='2026'
 							onChange={(e) =>
 								updateFilter(
 									"min_release_year",
@@ -504,6 +321,7 @@ export default function FilterPage({ onDataUpdate }) {
 							type="number"
 							placeholder="Maximum release year (e.g. 2023)"
 							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
+							min='1970'
 							onChange={(e) =>
 								updateFilter(
 									"max_release_year",
@@ -567,66 +385,11 @@ export default function FilterPage({ onDataUpdate }) {
 						</Combobox>
 					</div> */}
 
-					<div>
-						<Switch
-							className="w-10 h-5"
-							checked={tagsSwitchStatus}
-							onCheckedChange={() =>
-								tagsSwitchStatus
-									? setTagsSwitchStatus(false)
-									: setTagsSwitchStatus(true)
-							}
-						/>
-						<Label className="ml-2 text-slate-300">
-							Show or hide selected tags
-						</Label>
-
-						<Combobox
-							items={
-								tagsSwitchStatus ? availableTagsToShow : availableTagsToHide
-							}
-							multiple
-							value={
-								tagsSwitchStatus
-									? (filters.show_selected_tags ?? [])
-									: (filters.hide_selected_tags ?? [])
-							}
-							onValueChange={(value) =>
-								tagsSwitchStatus
-									? updateFilter("show_selected_tags", value)
-									: updateFilter("hide_selected_tags", value)
-							}
-						>
-							<ComboboxChips>
-								<ComboboxValue>
-									{tagsSwitchStatus
-										? filters.show_selected_tags.map((item) => (
-												<ComboboxChip key={item}>{item}</ComboboxChip>
-											))
-										: filters.hide_selected_tags.map((item) => (
-												<ComboboxChip key={item}>{item}</ComboboxChip>
-											))}
-								</ComboboxValue>
-
-								<ComboboxChipsInput
-									placeholder="Filter by tags"
-									className="bg-slate-900 border-slate-700 text-slate-100"
-								/>
-							</ComboboxChips>
-
-							<ComboboxContent>
-								<ComboboxEmpty>No tags found.</ComboboxEmpty>
-								<ComboboxList>
-									{(item) => (
-										<ComboboxItem key={item} value={item}>
-											{item}
-										</ComboboxItem>
-									)}
-								</ComboboxList>
-							</ComboboxContent>
-						</Combobox>
-					</div>
-
+					<TagsChoser setTagsSwitchStatus={setTagsSwitchStatus} 
+					tagsSwitchStatus={tagsSwitchStatus}
+					updateFilter={updateFilter} 
+					filters={filters}/>
+					
 					<div>
 						<Switch
 							className="w-10 h-5"
@@ -636,8 +399,9 @@ export default function FilterPage({ onDataUpdate }) {
 									? setGenreSwitchStatus(false)
 									: setGenreSwitchStatus(true)
 							}
+							id="showHideGenre"
 						/>
-						<Label className="ml-2 text-slate-300">
+						<Label htmlFor="showHideGenre" className="ml-2 text-slate-300">
 							Show or hide selected genres
 						</Label>
 
@@ -688,29 +452,29 @@ export default function FilterPage({ onDataUpdate }) {
 							</ComboboxContent>
 						</Combobox>
 					</div>
-					<div>
-						<Select
-							value={filters.media_types ?? ""}
-							onValueChange={(value) =>
-								setFilters((prev) => ({
-									...prev,
-									media_types: value,
-								}))
-							}
-						>
-							<SelectTrigger className="w-full bg-slate-900 border-slate-700 text-slate-100">
-								<SelectValue placeholder="Select media type" />
-							</SelectTrigger>
+					
+					<Select
+						value={filters.media_types ?? ""}
+						onValueChange={(value) =>
+							setFilters((prev) => ({
+								...prev,
+								media_types: value,
+							}))
+						}
+					>
 
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem value="TV">Anime</SelectItem>
-									<SelectItem value="MANGA">Manga</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
-						{/* <Button onClick={() => console.log(filters)}>show</Button> */}
-					</div>
+						<SelectTrigger className="w-full bg-slate-900 border-slate-700 text-slate-100">
+							<SelectValue placeholder="Select media type" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectItem value="TV">Anime</SelectItem>
+								<SelectItem value="MANGA">Manga</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
+					{/* <Button onClick={() => console.log(filters)}>show</Button> */}
+					
 				</Card>
 			</div>
 		</div>
