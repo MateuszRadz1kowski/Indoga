@@ -31,3 +31,4 @@ gdy user ma swoj profil prywatny ustawiony, to zeby pisalo
 dodac loadery
 dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 defaultowo zaznaczony filter "ANIME", bo deafultowo pokazuja sie tylko anime
+defaultowo zaznaczony filter tag_importance i popularity_importance w trybie medium, bo to jest defaultowy tryb

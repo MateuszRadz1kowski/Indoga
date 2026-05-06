@@ -6,29 +6,32 @@ from backend.app.user_profile.create_user_tag_profile import user_tag_profile
 from backend.app.user_profile.user_genre_profile import user_genre_profile
 from backend.app.db.get_data.get_user_anilist_data import get_user_anilist_data
 
-def create_user_interests_profile(filters):
-    data = get_user_anilist_data("Radzik123")
-    # data = get_user_MAL_data("Radz1k_")
-    entries = data['data']['MediaListCollection']['lists'][0]['entries']
-    user_data = data['data']['User']
+def create_user_interests_profile(filters,user_data):
+    data = None
+    if user_data["platform"] == "AniList":  data = get_user_anilist_data(user_data["username"])
+    if user_data["platform"] == "MyAnimeList": data = get_user_MAL_data(user_data["username"])
 
-    user_tags = {}
-    user_genres = {}
-    completed_anime_recommendations = {}
+    if data is not None:
+        entries = data['data']['MediaListCollection']['lists'][0]['entries']
+        user_data = data['data']['User']
 
-    for entry in entries:
-        user_tag_profile(entry, user_data, user_tags)
-        user_genre_profile(entry, user_data, user_genres)
-        create_completed_anime_recommendations(entry, user_data, completed_anime_recommendations)
+        user_tags = {}
+        user_genres = {}
+        completed_anime_recommendations = {}
 
-    user_tags = normalise_score(user_tags)
-    user_genres = normalise_score(user_genres)
-    completed_anime_recommendations = normalise_score(completed_anime_recommendations)
+        for entry in entries:
+            user_tag_profile(entry, user_data, user_tags)
+            user_genre_profile(entry, user_data, user_genres)
+            create_completed_anime_recommendations(entry, user_data, completed_anime_recommendations)
 
-    user_tags = sort_interests(user_tags)
-    user_genres = sort_interests(user_genres)
-    completed_anime_recommendations = sort_interests(completed_anime_recommendations)
-    return user_tags,user_genres,completed_anime_recommendations
+        user_tags = normalise_score(user_tags)
+        user_genres = normalise_score(user_genres)
+        completed_anime_recommendations = normalise_score(completed_anime_recommendations)
+
+        user_tags = sort_interests(user_tags)
+        user_genres = sort_interests(user_genres)
+        completed_anime_recommendations = sort_interests(completed_anime_recommendations)
+        return user_tags,user_genres,completed_anime_recommendations
 
 def normalise_score(user_interests):
     sum_sq = 0.0
