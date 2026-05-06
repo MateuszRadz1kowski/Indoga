@@ -1,0 +1,1 @@
+MAL_KEY = "1db12a2d85305d8c69be88bdea225f22"

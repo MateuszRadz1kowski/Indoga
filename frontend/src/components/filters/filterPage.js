@@ -56,7 +56,6 @@ export default function FilterPage({ onDataUpdate }) {
 		media_types: null,
 	});
 
-
 	const defaultValues = {
 		show_sequels: true,
 		experimental_mode: false,
@@ -75,7 +74,6 @@ export default function FilterPage({ onDataUpdate }) {
 	};
 
 	const updateFilter = (key, value) => {
-		console.log(filters.min_release_year)
 		setFilters((prev) => ({
 			...prev,
 			[key]: value,
@@ -136,10 +134,9 @@ export default function FilterPage({ onDataUpdate }) {
 			hide_selected_genres: [],
 			media_types: null,
 		});
-		setTagsSwitchStatus(true)
-		setGenreSwitchStatus(true)
-		updateFilter(0)
-		
+		setTagsSwitchStatus(true);
+		setGenreSwitchStatus(true);
+		updateFilter(0);
 	};
 
 	useEffect(() => {
@@ -150,8 +147,9 @@ export default function FilterPage({ onDataUpdate }) {
 		<div className="text-white space-y-4">
 			{" "}
 			<div className="bg-linear-to-br from-purple-600 via-40% via-transparent to-transparent">
-
-				<h1 className="text-2xl font-semibold mb-4 bg-linear-to-tr from-purple-600 via-50% via-transparent to-transparent">Filters</h1>
+				<h1 className="text-2xl font-semibold mb-4 bg-linear-to-tr from-purple-600 via-50% via-transparent to-transparent">
+					Filters
+				</h1>
 			</div>
 			<div className="flex gap-3 mb-6 sticky top-0 bg-[#0b1120] py-2 z-10">
 				<Button
@@ -179,7 +177,9 @@ export default function FilterPage({ onDataUpdate }) {
 							}
 							id="sequels"
 						/>
-						<Label htmlFor="sequels" className={"text-gray-300"}>Show sequels</Label>
+						<Label htmlFor="sequels" className={"text-gray-300"}>
+							Show sequels
+						</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -192,7 +192,9 @@ export default function FilterPage({ onDataUpdate }) {
 							}
 							id="experimental"
 						/>
-						<Label htmlFor="experimental" className={"text-gray-300"}>Experimental mode</Label>
+						<Label htmlFor="experimental" className={"text-gray-300"}>
+							Experimental mode
+						</Label>
 					</div>
 
 					<div className="flex items-center gap-3">
@@ -203,12 +205,13 @@ export default function FilterPage({ onDataUpdate }) {
 							}
 							id="adult+"
 						/>
-						<Label htmlFor="adult+" className={"text-gray-300"}>Show 18+ rated</Label>
+						<Label htmlFor="adult+" className={"text-gray-300"}>
+							Show 18+ rated
+						</Label>
 					</div>
 				</Card>
 
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-4">
-					
 					<Select
 						value={filters.tag_importance ?? ""}
 						onValueChange={(value) => updateFilter("tag_importance", value)}
@@ -225,7 +228,7 @@ export default function FilterPage({ onDataUpdate }) {
 							</SelectGroup>
 						</SelectContent>
 					</Select>
-						
+
 					<Select
 						value={filters.popularity_importance ?? ""}
 						onValueChange={(value) =>
@@ -244,7 +247,6 @@ export default function FilterPage({ onDataUpdate }) {
 							</SelectGroup>
 						</SelectContent>
 					</Select>
-					
 				</Card>
 
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
@@ -282,7 +284,7 @@ export default function FilterPage({ onDataUpdate }) {
 							placeholder="Minimum release year (e.g. 2005)"
 							className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
 							min="1970"
-							max='2026'
+							max="2026"
 							onChange={(e) =>
 								updateFilter(
 									"min_release_year",
@@ -294,7 +296,7 @@ export default function FilterPage({ onDataUpdate }) {
 							type="number"
 							placeholder="Maximum release year (e.g. 2023)"
 							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-							min='1970'
+							min="1970"
 							onChange={(e) =>
 								updateFilter(
 									"max_release_year",
@@ -358,16 +360,20 @@ export default function FilterPage({ onDataUpdate }) {
 						</Combobox>
 					</div> */}
 
-					<TagsChoser setTagsSwitchStatus={setTagsSwitchStatus} 
-					tagsSwitchStatus={tagsSwitchStatus}
-					updateFilter={updateFilter} 
-					filters={filters}/>
-					
-					<GenreChoser setGenreSwitchStatus={setGenreSwitchStatus} 
-					genreSwitchStatus={genreSwitchStatus}
-					updateFilter={updateFilter} 
-					filters={filters}/>
-					
+					<TagsChoser
+						setTagsSwitchStatus={setTagsSwitchStatus}
+						tagsSwitchStatus={tagsSwitchStatus}
+						updateFilter={updateFilter}
+						filters={filters}
+					/>
+
+					<GenreChoser
+						setGenreSwitchStatus={setGenreSwitchStatus}
+						genreSwitchStatus={genreSwitchStatus}
+						updateFilter={updateFilter}
+						filters={filters}
+					/>
+
 					<Select
 						value={filters.media_types ?? ""}
 						onValueChange={(value) =>
@@ -377,7 +383,6 @@ export default function FilterPage({ onDataUpdate }) {
 							}))
 						}
 					>
-
 						<SelectTrigger className="w-full bg-slate-900 border-slate-700 text-slate-100">
 							<SelectValue placeholder="Select media type" />
 						</SelectTrigger>
@@ -389,7 +394,6 @@ export default function FilterPage({ onDataUpdate }) {
 						</SelectContent>
 					</Select>
 					{/* <Button onClick={() => console.log(filters)}>show</Button> */}
-					
 				</Card>
 			</div>
 		</div>
