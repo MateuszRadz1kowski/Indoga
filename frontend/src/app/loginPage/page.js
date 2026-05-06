@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -16,6 +17,8 @@ export default function LoginPage() {
 		localStorage.setItem("username", username);
 		router.push("/recommendations");
 	};
+
+	const [inputUser, setInputUser] = useState("")
 
 	return (
 		<div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
