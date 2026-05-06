@@ -55,10 +55,13 @@ export default function LoginPage() {
 								<Input
 									placeholder="Enter your MyAnimeList username"
 									className="bg-zinc-800 border-zinc-700 text-white"
+									value={inputUser}
+									onChange={(e)=>setInputUser(e.target.value)}
 								/>
 								<Button
 									className="bg-white text-black hover:bg-zinc-200"
 									onClick={(e) => localStorageSetUsername(e)}
+									disabled={inputUser && inputUser!="" ? false : true}
 								>
 									<Search size={18} />
 								</Button>
@@ -70,10 +73,13 @@ export default function LoginPage() {
 								<Input
 									placeholder="Enter your AniList username"
 									className="bg-zinc-800 border-zinc-700 text-white"
+									value={inputUser}
+									onChange={(e)=>setInputUser(e.target.value)}
 								/>
 								<Button
 									className="bg-white text-black hover:bg-zinc-200"
 									onClick={(e) => localStorageSetUsername(e)}
+									disabled={inputUser && inputUser!="" ? false : true}
 								>
 									<Search size={18} />
 								</Button>
