@@ -1,4 +1,5 @@
-import { Combobox,
+import {
+	Combobox,
     ComboboxChip,
     ComboboxChips,
     ComboboxChipsInput,
