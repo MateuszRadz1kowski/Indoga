@@ -14,14 +14,16 @@ from backend.config.reccomender_values_settings import (
 )
 
 CANDIDATE_POOL_SIZE = 10000
-
 FINAL_RESULTS_SIZE = 100
 
 
-def create_anime_profile(db_response, user_interests_profile, filters, user_data):
+def create_anime_profile(db_response, user_interests_profile, filters, user_data, raw_data):
+    all_statuses = user_anime_status(user_data, raw_data)
+    anime_completed = all_statuses.get(0, {})
+    anime_planning  = all_statuses.get(2, {})
+
     anime_profile = {}
-    anime_completed = user_anime_status(0,user_data)
-    anime_planning = user_anime_status(2,user_data)
+
     for anime in db_response:
         if len(anime_profile) >= CANDIDATE_POOL_SIZE:
             break
@@ -93,8 +95,7 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
         )
     )
 
-    final = dict(list(sorted_profile.items())[:FINAL_RESULTS_SIZE])
-    return final
+    return dict(list(sorted_profile.items())[:FINAL_RESULTS_SIZE])
 
 
 def normalise_score(anime: dict) -> dict:
@@ -102,12 +103,10 @@ def normalise_score(anime: dict) -> dict:
         return anime
 
     sum_sq = sum(v["score"] ** 2 for v in anime.values())
-
     if sum_sq == 0.0:
         return anime
 
     norm = math.sqrt(sum_sq)
-
     for key in anime:
         anime[key]["score"] = anime[key]["score"] / norm
 
