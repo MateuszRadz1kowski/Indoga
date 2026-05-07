@@ -3,8 +3,6 @@ from backend.config.reccomender_values_settings import REPEAT_MULTIPLIER, USER_F
 
 def create_completed_anime_recommendations(entry, user_data, completed_anime_recommendations):
     anime_score = entry["score"]
-    if anime_score == 0:
-        return
 
     recommendations = entry["media"]["recommendations"]["nodes"]
     repeat_multiplier = entry["repeat"] + REPEAT_MULTIPLIER

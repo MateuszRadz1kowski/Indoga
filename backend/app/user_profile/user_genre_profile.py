@@ -6,8 +6,6 @@ from backend.config.reccomender_values_settings import (
 
 def user_genre_profile(entry, user_data, user_genres):
     anime_score = entry["score"]
-    if anime_score == 0:
-        return
 
     genres = entry["media"]["genres"]
     repeat_multiplier = entry["repeat"] + REPEAT_MULTIPLIER

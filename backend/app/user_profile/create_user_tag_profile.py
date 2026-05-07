@@ -8,8 +8,6 @@ from backend.scripts.tag_count import get_tag_popularity_weight
 
 def user_tag_profile(entry, user_data, user_tags):
     anime_score = entry["score"]
-    if anime_score == 0:
-        return
 
     tags = entry["media"]["tags"]
     repeat_multiplier = entry["repeat"] + REPEAT_MULTIPLIER
