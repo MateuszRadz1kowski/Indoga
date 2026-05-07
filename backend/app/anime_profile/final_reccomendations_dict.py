@@ -36,6 +36,7 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["season"] = recommendation_data[12]
         recommendations_dictionary[recommendation_data[2]]["score"] = anime_recommendations[recommendation_data[2]]["score"]
         recommendations_dictionary[recommendation_data[2]]["why_recommended"] = anime_recommendations[recommendation_data[2]]["why_recommended"]
+        recommendations_dictionary[recommendation_data[2]]["external_links"] = recommendation_data[13]
     return recommendations_dictionary
 
 def prepare_recommendation_reasons(anime_recommendations):

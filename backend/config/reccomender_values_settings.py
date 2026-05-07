@@ -11,6 +11,7 @@ ANIME_USER_PLANNING_MULTIPLIER = 1.5
 MAX_POPULARITY_REFERENCE = 500_000
 
 def score_multiplier(score_100):
+    if score_100 == 0: return 1.3 #user didnt post a score for anime he watched
     if score_100 < 15: return 0.3
     if score_100 < 30: return 0.45
     if score_100 < 40: return 0.6

@@ -25,10 +25,15 @@ def anilist_export_data(page_number, media_type="ANIME"):
           description
           episodes
           chapters
-          volumes 
           trailer { id site }
           season
           relations { edges { relationType node { id format } } }
+          externalLinks {
+            site
+            icon
+            url
+            type
+          }
         }
         pageInfo { hasNextPage }
       }
@@ -109,7 +114,7 @@ def anilist_pack_data_to_db(res):
                 json.dumps([r for r in recommendations if r]),
                 media.get('popularity'),
                 media.get('favourites'),
-                media.get('meanScore'),
+                media.get('mean_score'),
                 media.get('description'),
                 episode_number,
                 media.get('coverImage', {}).get("extraLarge"),
@@ -117,8 +122,7 @@ def anilist_pack_data_to_db(res):
                 (media.get("trailer") or {}).get("site"),
                 media.get('season'),
                 json.dumps(relations_list),
-                media.get('chapters'),
-                media.get('volumes'),
+                json.dumps( media.get('externalLinks', []))
             ))
         except Exception as e:
             print(f"Skipping media {media_id} due to packing error: {e}")

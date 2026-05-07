@@ -10,6 +10,7 @@ export default function Recommendation({ recommendationData: data }) {
 	const malUrl = `https://myanimelist.net/anime/${data.id_mal}`;
 	const animeAnilistUrl = `https://anilist.co/anime/${data.id}`;
 	const mangaAnilistUrl = `https://anilist.co/manga/${data.id}`;
+	console.log(data);
 	return (
 		<>
 			<Card
@@ -108,7 +109,7 @@ export default function Recommendation({ recommendationData: data }) {
 							<div dangerouslySetInnerHTML={{ __html: data.description }} />
 						</div>
 
-						<div className="flex gap-4 mt-auto pt-3 border-t border-slate-700/50">
+						<div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-auto pt-3 border-t border-slate-700/50">
 							<a
 								href={
 									["MANGA", "NOVEL", "ONE_SHOT"].includes(data.format)
@@ -116,17 +117,57 @@ export default function Recommendation({ recommendationData: data }) {
 										: animeAnilistUrl
 								}
 								target="_blank"
-								className="flex items-center gap-1.5 text-[10px] font-black text-slate-500 hover:text-blue-400 transition-all uppercase tracking-widest"
+								rel="noopener noreferrer"
+								className="flex items-center gap-1.5 text-[10px] font-black text-slate-500 hover:text-blue-400 transition-all uppercase tracking-widest group/link"
 							>
-								<ExternalLink className="w-3 h-3" /> Anilist
+								<img
+									src="/anilist_logo.png"
+									alt="Anilist"
+									className="w-3 h-3 grayscale group-hover/link:grayscale-0 transition-all"
+								/>
+								Anilist
 							</a>
 							<a
 								href={malUrl}
 								target="_blank"
-								className="flex items-center gap-1.5 text-[10px] font-black text-slate-500 hover:text-blue-500 transition-all uppercase tracking-widest"
+								rel="noopener noreferrer"
+								className="flex items-center gap-1.5 text-[10px] font-black text-slate-500 hover:text-blue-500 transition-all uppercase tracking-widest group/link"
 							>
-								<ExternalLink className="w-3 h-3" /> MAL
+								<img
+									src="/mal_logo.png"
+									alt="MAL"
+									className="w-3 h-3 grayscale group-hover/link:grayscale-0 transition-all"
+								/>
+								MAL
 							</a>
+
+							{data.external_links &&
+								data.external_links
+									.filter(
+										(link) =>
+											link.site.toLowerCase().includes("crunchyroll") ||
+											link.site.toLowerCase().includes("netflix"),
+									)
+									.map((link, index) => (
+										<a
+											key={index}
+											href={link.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											className={` flex items-center gap-1.5 text-[10px] font-black text-slate-500 ${link.site == "Crunchyroll" ? "hover:text-orange-500" : "hover:text-red-500"} transition-all uppercase tracking-widest group/link`}
+										>
+											{link.icon ? (
+												<img
+													src={link.icon}
+													alt={link.site}
+													className="w-3 h-3 grayscale group-hover/link:grayscale-0 transition-all object-contain"
+												/>
+											) : (
+												<ExternalLink className="w-3 h-3" />
+											)}
+											{link.site}
+										</a>
+									))}
 						</div>
 					</div>
 				</div>
