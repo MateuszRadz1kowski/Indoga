@@ -1,14 +1,18 @@
 from backend.app.anime_profile.create_anime_profile import create_anime_profile
 from backend.app.db.get_data.get_anime_data_db import get_anime_data
 from backend.app.db.get_data.get_recommended_animes_data import get_recommended_animes_data
+from backend.app.db.get_data.get_user_MAL_data import get_user_MAL_data
+from backend.app.db.get_data.get_user_anilist_data import get_user_anilist_data
 from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
-
-
+import time
 def prepare_dictionary(filters,user_data):
+    start_time = time.time()
+    raw_data = fetch_raw_user_data(user_data)
+
     recommendations_dictionary = {}
     anime_data = get_anime_data()
-    user_interests_profile = create_user_interests_profile(filters,user_data)
-    anime_recommendations = create_anime_profile(anime_data, user_interests_profile, filters, user_data)
+    user_interests_profile = create_user_interests_profile(raw_data) #3s
+    anime_recommendations = create_anime_profile(anime_data, user_interests_profile, filters, user_data,raw_data) #5s
     prepare_recommendation_reasons(anime_recommendations)
     # print(f"tag scores: {user_interests_profile[0]}")
     # print(f"genre scores: {user_interests_profile[1]}")
@@ -37,6 +41,8 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["score"] = anime_recommendations[recommendation_data[2]]["score"]
         recommendations_dictionary[recommendation_data[2]]["why_recommended"] = anime_recommendations[recommendation_data[2]]["why_recommended"]
         recommendations_dictionary[recommendation_data[2]]["external_links"] = recommendation_data[13]
+    print("FINAL_RECOMMENDATIONS_DICT--- %s seconds ---" % (time.time() - start_time))
+
     return recommendations_dictionary
 
 def prepare_recommendation_reasons(anime_recommendations):
@@ -50,3 +56,13 @@ def prepare_recommendation_reasons(anime_recommendations):
                 reverse=True
             )[:4]
         )
+
+def fetch_raw_user_data(user_data):
+    platform = user_data.get("platform")
+    username = user_data.get("username")
+
+    if platform == "AniList":
+        return get_user_anilist_data(username)
+    if platform == "MyAnimeList":
+        return get_user_MAL_data(username)
+    return None

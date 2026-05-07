@@ -6,10 +6,10 @@ from backend.app.user_profile.create_user_tag_profile import user_tag_profile
 from backend.app.user_profile.user_genre_profile import user_genre_profile
 from backend.app.db.get_data.get_user_anilist_data import get_user_anilist_data
 
-def create_user_interests_profile(filters,user_data):
-    data = None
-    if user_data["platform"] == "AniList":  data = get_user_anilist_data(user_data["username"])
-    if user_data["platform"] == "MyAnimeList": data = get_user_MAL_data(user_data["username"])
+def create_user_interests_profile(raw_data):
+    data = raw_data
+    if data is None:
+        return None
 
     if data is not None:
         entries = data['data']['MediaListCollection']['lists'][0]['entries']

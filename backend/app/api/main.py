@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List, Optional
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-
 from backend.app.anime_profile.final_reccomendations_dict import prepare_dictionary
 
 app = FastAPI()
@@ -65,7 +64,6 @@ async def get_recommendations(
         "username" : username,
         "platform" : platform
     }
-
     data = prepare_dictionary(filters,user_data)
 
     return data
