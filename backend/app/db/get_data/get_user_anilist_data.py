@@ -60,4 +60,4 @@ def get_user_anilist_data(username):
     res = response.json()
     return res
 
-print(get_user_anilist_data("Radzik123"))
+print(get_user_anilist_data("RadzikTestAccount"))
