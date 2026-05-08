@@ -3,7 +3,7 @@ Reccomendations alghorithm
         mnozenie wyniku anime przez:
             negatywne punkty gdy nie lubi
         filtry:
-             Sortowanie wyników — opcje: wg score, wg mean_score, wg roku, wg popularnośc
+            Sortowanie wyników — opcje: wg score, wg mean_score, wg roku, wg popularnośc
             user moze manualnie dodac ze bardzo lubi/nie lubi danego tagu/genre
             x.user moze podac ze aktualnie szuka daneg typu anime np seinen i dostae to wielkiego boosta
             edytowaie jak bardzo wazne sa genre i tagi przy polecaniu
@@ -20,7 +20,6 @@ filtrowanie przez profil MAL
 manualnie pokazane jakie tagi i genre user lubi
 statystyki dla mojego wglądu
 
-po pobraniu danych z bazy danych zapisac w cache/Redis dla optymalizacji
 ???dodac lazy loading???
 frontend:
     dark mode
@@ -37,3 +36,4 @@ defaultowo zaznaczony filter tag_importance i popularity_importance w trybie med
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
 na kafelku rekomendacji obok linku do anilist/MAL jest tez link gdzie ogladac na stremingu Crunchyroll lub Netflix, dodatkowo mozna po tym filtrowac 
+w top tagach pierwsze jest u mnie Vore, nie powinno tak byc, jest to malo popularny tag z attack on titan, jest w wszystkich instancjach aot i jest malo popularny, nie powinien byc tak wysoko

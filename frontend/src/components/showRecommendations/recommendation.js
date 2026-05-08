@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Play, ExternalLink, X, Info } from "lucide-react";
+import { RecommendationSkeleton } from "./recommendationSkeleton";
 
 export default function Recommendation({ recommendationData: data }) {
 	const [isMobileExpanded, setIsMobileExpanded] = useState(false);
@@ -10,7 +11,6 @@ export default function Recommendation({ recommendationData: data }) {
 	const malUrl = `https://myanimelist.net/anime/${data.id_mal}`;
 	const animeAnilistUrl = `https://anilist.co/anime/${data.id}`;
 	const mangaAnilistUrl = `https://anilist.co/manga/${data.id}`;
-	console.log(data);
 	return (
 		<>
 			<Card

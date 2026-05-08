@@ -15,5 +15,9 @@ export default function Home() {
 
 	if (!isLoaded) return null;
 
-	return <div>{username && username != null ? <Recommendations /> : <LoginPage />}</div>;
+	return (
+		<div>
+			{username && username != null ? <Recommendations /> : <LoginPage />}
+		</div>
+	);
 }

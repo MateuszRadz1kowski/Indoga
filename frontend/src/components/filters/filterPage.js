@@ -21,7 +21,7 @@ import GenreChoser from "./genreSelector";
 
 // const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
 
-export default function FilterPage({ onDataUpdate }) {
+export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
 
@@ -78,30 +78,37 @@ export default function FilterPage({ onDataUpdate }) {
 	};
 
 	const handleApply = async () => {
-		const searchParams = new URLSearchParams();
-		searchParams.append("username", localStorage.getItem("username"));
-		searchParams.append("platform", localStorage.getItem("platform"));
-		Object.entries(filters).forEach(([key, value]) => {
-			if (value == null || value == undefined) return;
+		onLoadingChange(true);
+		try {
+			const searchParams = new URLSearchParams();
+			searchParams.append("username", localStorage.getItem("username"));
+			searchParams.append("platform", localStorage.getItem("platform"));
+			Object.entries(filters).forEach(([key, value]) => {
+				if (value == null || value == undefined) return;
 
-			if (Array.isArray(value)) {
-				value.forEach((item) => {
-					if (item) searchParams.append(key, item);
-				});
-			} else {
-				searchParams.append(key, value);
-			}
-		});
+				if (Array.isArray(value)) {
+					value.forEach((item) => {
+						if (item) searchParams.append(key, item);
+					});
+				} else {
+					searchParams.append(key, value);
+				}
+			});
 
-		const queryString = searchParams.toString();
-		console.log("Wysyłam do API:", queryString);
+			const queryString = searchParams.toString();
+			console.log("Wysyłam do API:", queryString);
 
-		const res = await fetch(
-			`http://127.0.0.1:8000/recommendations_data?${queryString}`,
-		);
+			const res = await fetch(
+				`http://127.0.0.1:8000/recommendations_data?${queryString}`,
+			);
 
-		const data = await res.json();
-		onDataUpdate(Object.values(data));
+			const data = await res.json();
+			onDataUpdate(Object.values(data));
+		} catch (error) {
+			console.error("Error fetching recommendations:", error);
+		} finally {
+			onLoadingChange(false);
+		}
 	};
 
 	const handleClear = () => {
