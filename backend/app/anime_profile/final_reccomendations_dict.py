@@ -5,6 +5,9 @@ from backend.app.db.get_data.get_user_MAL_data import get_user_MAL_data
 from backend.app.db.get_data.get_user_anilist_data import get_user_anilist_data
 from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
 import time
+from backend.config.redis_client import redis_client
+import json
+
 def prepare_dictionary(filters,user_data):
     start_time = time.time()
     raw_data = fetch_raw_user_data(user_data)
@@ -57,12 +60,26 @@ def prepare_recommendation_reasons(anime_recommendations):
             )[:4]
         )
 
+USER_CACHE_TTL = 900
+
+
 def fetch_raw_user_data(user_data):
     platform = user_data.get("platform")
     username = user_data.get("username")
+    cache_key = f"user:{platform}:{username}"
+    cached = redis_client.get(cache_key)
+
+    if cached:
+        return json.loads(cached)
 
     if platform == "AniList":
-        return get_user_anilist_data(username)
-    if platform == "MyAnimeList":
-        return get_user_MAL_data(username)
-    return None
+        data = get_user_anilist_data(username)
+    elif platform == "MyAnimeList":
+        data = get_user_MAL_data(username)
+    else:
+        return None
+
+    if data:
+        redis_client.setex(cache_key, USER_CACHE_TTL, json.dumps(data))
+
+    return data
