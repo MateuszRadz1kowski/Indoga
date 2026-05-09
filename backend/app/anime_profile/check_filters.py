@@ -129,3 +129,16 @@ def check_show_media_type(anime, media_types):
         return anime_format in MANGA_FORMATS
 
     return False
+
+def check_show_streaming_service(anime, show_streaming_service):
+    if show_streaming_service == "All":
+        return True
+
+    if not anime[19]:
+        return False
+
+    for link in anime[19]:
+        site_name = link.get("site", "")
+        if show_streaming_service == site_name:
+            return True
+    return False

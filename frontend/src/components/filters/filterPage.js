@@ -18,7 +18,7 @@ import { Slider } from "../ui/slider";
 import { useEffect, useState } from "react";
 import TagsChoser from "./tagSelector";
 import GenreChoser from "./genreSelector";
-
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 // const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
 
 export default function FilterPage({ onDataUpdate, onLoadingChange }) {
@@ -42,6 +42,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		show_selected_genres: [],
 		hide_selected_genres: [],
 		media_types: null,
+		show_streaming_service: null,
 	});
 
 	const defaultValues = {
@@ -59,6 +60,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		tags: [],
 		genres: [],
 		media_types: "TV",
+		show_streaming_service: "All",
 	};
 
 	const updateFilter = (key, value) => {
@@ -129,6 +131,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			show_selected_genres: [],
 			hide_selected_genres: [],
 			media_types: null,
+			show_streaming_service: "All",
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
@@ -387,6 +390,37 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 							</SelectGroup>
 						</SelectContent>
 					</Select>
+
+					<div className="space-y-2">
+						<Label className="text-slate-400 text-xs uppercase tracking-wider">
+							Avalible on streaming Services
+						</Label>
+						<ToggleGroup
+							type="single"
+							variant="outline"
+							value={filters.show_streaming_service ?? ""}
+							onValueChange={(value) => {
+								updateFilter(
+									"show_streaming_service",
+									value == "All" ? null : value,
+								);
+							}}
+							className="justify-start gap-2"
+						>
+							<ToggleGroupItem
+								value="Netflix"
+								className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
+							>
+								Netflix
+							</ToggleGroupItem>
+							<ToggleGroupItem
+								value="Crunchyroll"
+								className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
+							>
+								Crunchyroll
+							</ToggleGroupItem>
+						</ToggleGroup>
+					</div>
 					{/* <Button onClick={() => console.log(filters)}>show</Button> */}
 				</Card>
 			</div>
