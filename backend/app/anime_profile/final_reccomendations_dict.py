@@ -44,6 +44,8 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["score"] = anime_recommendations[recommendation_data[2]]["score"]
         recommendations_dictionary[recommendation_data[2]]["why_recommended"] = anime_recommendations[recommendation_data[2]]["why_recommended"]
         recommendations_dictionary[recommendation_data[2]]["external_links"] = recommendation_data[13]
+        recommendations_dictionary[recommendation_data[2]]["popularity"] = recommendation_data[14]
+
     print("FINAL_RECOMMENDATIONS_DICT--- %s seconds ---" % (time.time() - start_time))
 
     return recommendations_dictionary

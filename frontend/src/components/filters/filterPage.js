@@ -210,41 +210,57 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					</div>
 				</Card>
 
-				<Card className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-4">
-					<Select
-						value={filters.tag_importance ?? ""}
-						onValueChange={(value) => updateFilter("tag_importance", value)}
-					>
-						<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100 w-[80%]">
-							<SelectValue placeholder="Tag Importance" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectItem value="low">Low</SelectItem>
-								<SelectItem value="medium">Medium</SelectItem>
-								<SelectItem value="high">High</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
+				<div className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-8">
+					<div className="space-y-2">
+						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
+							Tag Importance
+						</Label>
+						<ToggleGroup
+							type="single"
+							variant="outline"
+							value={filters.tag_importance ?? "medium"}
+							onValueChange={(value) => {
+								if (value) updateFilter("tag_importance", value);
+							}}
+							className="justify-start gap-2"
+						>
+							{["low", "medium", "high"].map((influenceLevel) => (
+								<ToggleGroupItem
+									key={influenceLevel}
+									value={influenceLevel}
+									className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 transition-all capitalize"
+								>
+									{influenceLevel}
+								</ToggleGroupItem>
+							))}
+						</ToggleGroup>
+					</div>
 
-					<Select
-						value={filters.popularity_importance ?? ""}
-						onValueChange={(value) =>
-							updateFilter("popularity_importance", value)
-						}
-					>
-						<SelectTrigger className="bg-slate-900 border-slate-700 text-slate-100 w-[80%]">
-							<SelectValue placeholder="Popularity Influence" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectItem value="low">Low</SelectItem>
-								<SelectItem value="medium">Medium</SelectItem>
-								<SelectItem value="high">High</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
-				</Card>
+					<div className="space-y-2">
+						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
+							Popularity Influence
+						</Label>
+						<ToggleGroup
+							type="single"
+							variant="outline"
+							value={filters.popularity_importance ?? "medium"}
+							onValueChange={(value) => {
+								if (value) updateFilter("popularity_importance", value);
+							}}
+							className="justify-start gap-2"
+						>
+							{["low", "medium", "high"].map((influenceLevel) => (
+								<ToggleGroupItem
+									key={influenceLevel}
+									value={influenceLevel}
+									className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 transition-all capitalize"
+								>
+									{influenceLevel}
+								</ToggleGroupItem>
+							))}
+						</ToggleGroup>
+					</div>
+				</div>
 
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
 					<Input
@@ -371,7 +387,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 						filters={filters}
 					/>
 
-					<Select
+					{/* <Select
 						value={filters.media_types ?? ""}
 						onValueChange={(value) =>
 							setFilters((prev) => ({
@@ -389,7 +405,42 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								<SelectItem value="MANGA">Manga</SelectItem>
 							</SelectGroup>
 						</SelectContent>
-					</Select>
+					</Select> */}
+
+					<div className="space-y-2">
+						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
+							Select Media Type
+						</Label>
+
+						<ToggleGroup
+							type="single"
+							variant="outline"
+							value={filters.media_types ?? "TV"}
+							onValueChange={(value) => {
+								if (value) {
+									setFilters((prev) => ({
+										...prev,
+										media_types: value,
+									}));
+								}
+							}}
+							className="justify-start gap-2"
+						>
+							<ToggleGroupItem
+								value="TV"
+								className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 hover:text-slate-200 transition-all duration-200 shadow-inner"
+							>
+								Anime
+							</ToggleGroupItem>
+
+							<ToggleGroupItem
+								value="MANGA"
+								className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 hover:text-slate-200 transition-all duration-200 shadow-inner"
+							>
+								Manga
+							</ToggleGroupItem>
+						</ToggleGroup>
+					</div>
 
 					<div className="space-y-2">
 						<Label className="text-slate-400 text-xs uppercase tracking-wider">

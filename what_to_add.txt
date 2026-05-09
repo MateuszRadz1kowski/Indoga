@@ -2,10 +2,10 @@ Reccomendations alghorithm
     anime_profile
         mnozenie wyniku anime przez:
             negatywne punkty gdy nie lubi
+        Sortowanie wyników — opcje: wg score, wg mean_score, wg roku, wg popularnośc
         filtry:
             Sortowanie wyników — opcje: wg score, wg mean_score, wg roku, wg popularnośc
-            user moze manualnie dodac ze bardzo lubi/nie lubi danego tagu/genre
-            x.user moze podac ze aktualnie szuka daneg typu anime np seinen i dostae to wielkiego boosta
+            user moze manualnie dodac ze bardzo lubi/nie lubi danego anime, np ja bardzo nie lubie jojo i one piece jednak nie widac tego w moim score, takie cos ma miec negatywny wplyw
             edytowaie jak bardzo wazne sa genre i tagi przy polecaniu
             opcje jak bardzo jest wazny pozytywny user score w porowananiu z negatywnym scorem, tak samo z meanscore
             opcje jak duzy boost jest planowanych anime przez usera
@@ -13,17 +13,15 @@ Reccomendations alghorithm
             
             
 
-filtrowanie przez profil MAL
-    musze wziac profil MAL, pozniej wziac wszystkie rekordy usera, potrzebuje tylko id i score, pozniej pobiore to anime z api anilista, i podepne poprawne dane by bylo w takim samym formacie
-
-
 manualnie pokazane jakie tagi i genre user lubi, ladnie przedstawione, porownywanie z innymi userami
-statystyki dla mojego wglądu
+strona ze statystykami strony dla mojego wglądu - chyba to jest devops
 
 ???dodac lazy loading???
 frontend:
-    dark mode
-    tooltip
+    dark mode - zmiana miedzy light a dark mode
+    tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
+    guzik po ktorego kliknieciu user wraca do trybu "logowania" - wyboru nicku 
+    widoczne promowanie , promowanie githuba gdzie jest postawiony ten opensource projekt, tez by ludzie widzieli dawanie "na kawe", kontakt porpzez email
     
 problemy na pozniej:
 w sequelach nie zawsze jest wykrywane np w sports genre u mnie pokazuje sie haiku s1 i s4, problemem jest ze pomiedzy sezonami moze byc film/ova kanoniczne, wiec trzeba wykrywac prequele duzo glebiej
