@@ -151,5 +151,5 @@ def get_user_MAL_data(username):
         }
     }
 
-print(get_user_MAL_data("Radz1k_"))
+# print(get_user_MAL_data("Radz1k_"))
 

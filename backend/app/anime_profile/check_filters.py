@@ -108,7 +108,7 @@ def check_hide_selected_genres(anime, hide_selected_genres):
 def check_show_sequels(anime, show_sequels):
     if show_sequels==False:
         for relation in anime[18] or []:
-            if relation["type"] == "PREQUEL" and relation["format"] == "TV":
+            if relation["type"] == "PREQUEL":
                 return False
         return True
     else:
