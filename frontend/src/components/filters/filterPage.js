@@ -135,7 +135,6 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
-		updateFilter(0);
 	};
 
 	useEffect(() => {
@@ -211,7 +210,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 				</Card>
 
 				<div className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-8">
-					<div className="space-y-2">
+					{/* <div className="space-y-2">
 						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
 							Tag Importance
 						</Label>
@@ -234,7 +233,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								</ToggleGroupItem>
 							))}
 						</ToggleGroup>
-					</div>
+					</div> */}
 
 					<div className="space-y-2">
 						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
@@ -265,7 +264,12 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
 					<Input
 						type="number"
-						placeholder={"minimum episodes"}
+						placeholder={
+							filters.media_types == "TV"
+								? "minimum episodes"
+								: "minimum chapters"
+						}
+						value={filters.min_number_episodes ?? ""}
 						className="bg-slate-900 border-slate-700 text-slate-100"
 						min="0"
 						onChange={(e) =>
@@ -278,7 +282,12 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 
 					<Input
 						type="number"
-						placeholder={"maximum episodes"}
+						placeholder={
+							filters.media_types == "TV"
+								? "maximum episodes"
+								: "maximum chapters"
+						}
+						value={filters.max_number_episodes ?? ""}
 						className="bg-slate-900 border-slate-700 text-slate-100"
 						min="0"
 						onChange={(e) =>
@@ -294,10 +303,11 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					<div>
 						<Input
 							type="number"
-							placeholder="Minimum release year (e.g. 2005)"
+							placeholder="Minimum release year"
 							className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
 							min="1970"
 							max="2026"
+							value={filters.min_release_year ?? ""}
 							onChange={(e) =>
 								updateFilter(
 									"min_release_year",
@@ -307,9 +317,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 						/>
 						<Input
 							type="number"
-							placeholder="Maximum release year (e.g. 2023)"
+							placeholder="Maximum release year"
 							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
 							min="1970"
+							value={filters.max_release_year ?? ""}
 							onChange={(e) =>
 								updateFilter(
 									"max_release_year",
@@ -442,36 +453,39 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 						</ToggleGroup>
 					</div>
 
-					<div className="space-y-2">
-						<Label className="text-slate-400 text-xs uppercase tracking-wider">
-							Avalible on streaming Services
-						</Label>
-						<ToggleGroup
-							type="single"
-							variant="outline"
-							value={filters.show_streaming_service ?? ""}
-							onValueChange={(value) => {
-								updateFilter(
-									"show_streaming_service",
-									value == "All" ? null : value,
-								);
-							}}
-							className="justify-start gap-2"
-						>
-							<ToggleGroupItem
-								value="Netflix"
-								className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
-							>
-								Netflix
-							</ToggleGroupItem>
-							<ToggleGroupItem
-								value="Crunchyroll"
-								className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
-							>
-								Crunchyroll
-							</ToggleGroupItem>
-						</ToggleGroup>
-					</div>
+					{filters.media_types == "TV" ||
+						(filters.media_types == null && (
+							<div className="space-y-2">
+								<Label className="text-slate-400 text-xs uppercase tracking-wider">
+									Avalible on streaming Services
+								</Label>
+								<ToggleGroup
+									type="single"
+									variant="outline"
+									value={filters.show_streaming_service ?? ""}
+									onValueChange={(value) => {
+										updateFilter(
+											"show_streaming_service",
+											value == "All" ? null : value,
+										);
+									}}
+									className="justify-start gap-2"
+								>
+									<ToggleGroupItem
+										value="Netflix"
+										className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
+									>
+										Netflix
+									</ToggleGroupItem>
+									<ToggleGroupItem
+										value="Crunchyroll"
+										className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
+									>
+										Crunchyroll
+									</ToggleGroupItem>
+								</ToggleGroup>
+							</div>
+						))}
 					{/* <Button onClick={() => console.log(filters)}>show</Button> */}
 				</Card>
 			</div>

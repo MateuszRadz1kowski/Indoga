@@ -1,47 +1,53 @@
 import {
 	Combobox,
-    ComboboxChip,
-    ComboboxChips,
-    ComboboxChipsInput,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxItem,
-    ComboboxList,
-    ComboboxValue } from "../ui/combobox";
+	ComboboxChip,
+	ComboboxChips,
+	ComboboxChipsInput,
+	ComboboxContent,
+	ComboboxEmpty,
+	ComboboxItem,
+	ComboboxList,
+	ComboboxValue,
+} from "../ui/combobox";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 
-export default function GenreChoser({ setGenreSwitchStatus, genreSwitchStatus, updateFilter, filters }){
-    const genres = [
-        "Action",
-        "Adventure",
-        "Comedy",
-        "Drama",
-        "Ecchi",
-        "Fantasy",
-        "Horror",
-        "Mahou Shoujo",
-        "Mecha",
-        "Music",
-        "Mystery",
-        "Psychological",
-        "Romance",
-        "Sci-Fi",
-        "Slice of Life",
-        "Sports",
-        "Supernatural",
-        "Thriller",
-    ];
+export default function GenreChoser({
+	setGenreSwitchStatus,
+	genreSwitchStatus,
+	updateFilter,
+	filters,
+}) {
+	const genres = [
+		"Action",
+		"Adventure",
+		"Comedy",
+		"Drama",
+		"Ecchi",
+		"Fantasy",
+		"Horror",
+		"Mahou Shoujo",
+		"Mecha",
+		"Music",
+		"Mystery",
+		"Psychological",
+		"Romance",
+		"Sci-Fi",
+		"Slice of Life",
+		"Sports",
+		"Supernatural",
+		"Thriller",
+	];
 
-    const availableGenresToShow = genres.filter(
+	const availableGenresToShow = genres.filter(
 		(g) => !filters.hide_selected_genres.includes(g),
 	);
 	const availableGenresToHide = genres.filter(
 		(g) => !filters.show_selected_genres.includes(g),
 	);
 
-    return(
-        <div>
+	return (
+		<div>
 			<Switch
 				className="w-10 h-5"
 				checked={genreSwitchStatus}
@@ -53,13 +59,11 @@ export default function GenreChoser({ setGenreSwitchStatus, genreSwitchStatus, u
 				id="showHideGenre"
 			/>
 			<Label htmlFor="showHideGenre" className="ml-2 text-slate-300">
-				Show or hide selected genres
+				{genreSwitchStatus ? "Show" : "Hide"} selected genres
 			</Label>
 			<Combobox
 				items={
-					genreSwitchStatus
-						? availableGenresToShow
-						: availableGenresToHide
+					genreSwitchStatus ? availableGenresToShow : availableGenresToHide
 				}
 				multiple
 				value={
@@ -100,5 +104,5 @@ export default function GenreChoser({ setGenreSwitchStatus, genreSwitchStatus, u
 				</ComboboxContent>
 			</Combobox>
 		</div>
-    )
+	);
 }
