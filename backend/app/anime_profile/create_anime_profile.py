@@ -4,7 +4,7 @@ from backend.app.anime_profile.check_filters import (
     check_episode_number, check_show_media_type, check_mean_score,
     check_show_selected_tags, check_hide_selected_tags,
     check_show_selected_genres, check_hide_selected_genres,
-    check_show_sequels
+    check_show_sequels, check_show_streaming_service
 )
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import (
@@ -44,6 +44,7 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
             check_hide_selected_genres(anime, filters["hide_selected_genres"]) and
             check_show_sequels(anime, filters["show_sequels"]) and
             check_show_media_type(anime, filters["media_types"]) and
+            check_show_streaming_service(anime,filters["show_streaming_service"]) and
             check_show_planning(anime, anime_planning)
         ):
             continue

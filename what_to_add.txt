@@ -17,7 +17,7 @@ filtrowanie przez profil MAL
     musze wziac profil MAL, pozniej wziac wszystkie rekordy usera, potrzebuje tylko id i score, pozniej pobiore to anime z api anilista, i podepne poprawne dane by bylo w takim samym formacie
 
 
-manualnie pokazane jakie tagi i genre user lubi
+manualnie pokazane jakie tagi i genre user lubi, ladnie przedstawione, porownywanie z innymi userami
 statystyki dla mojego wglądu
 
 ???dodac lazy loading???
@@ -29,11 +29,9 @@ problemy na pozniej:
 w sequelach nie zawsze jest wykrywane np w sports genre u mnie pokazuje sie haiku s1 i s4, problemem jest ze pomiedzy sezonami moze byc film/ova kanoniczne, wiec trzeba wykrywac prequele duzo glebiej
 gdy wybralem mange, to po kliknieciu apply filters, w filtrach po ilosci epizodow zmienia sie wartosc na maximun/minumun chapters, i na przemian
 gdy user ma swoj profil prywatny ustawiony, to zeby pisalo
-dodac loadery
 dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 defaultowo zaznaczony filter "ANIME", bo deafultowo pokazuja sie tylko anime
 defaultowo zaznaczony filter tag_importance i popularity_importance w trybie medium, bo to jest defaultowy tryb
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
-na kafelku rekomendacji obok linku do anilist/MAL jest tez link gdzie ogladac na stremingu Crunchyroll lub Netflix, dodatkowo mozna po tym filtrowac 
 w top tagach pierwsze jest u mnie Vore, nie powinno tak byc, jest to malo popularny tag z attack on titan, jest w wszystkich instancjach aot i jest malo popularny, nie powinien byc tak wysoko
