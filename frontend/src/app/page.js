@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import LoginPage from "./loginPage/page";
-import Recommendations from "./recommendations/page";
+import Dashboard from "./dashboard/page";
 
 export default function Home() {
 	const [username, setUsername] = useState(null);
@@ -16,8 +16,6 @@ export default function Home() {
 	if (!isLoaded) return null;
 
 	return (
-		<div>
-			{username && username != null ? <Recommendations /> : <LoginPage />}
-		</div>
+		<div>{username && username != null ? <Dashboard /> : <LoginPage />}</div>
 	);
 }

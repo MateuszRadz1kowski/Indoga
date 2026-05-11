@@ -1,0 +1,47 @@
+import { Github, Coffee, Mail, Star } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+export default function Footer() {
+  return (
+    <footer className="flex-shrink-0 bg-[#04090f] border-t border-white/[0.06] z-30">
+        <div className="flex items-center px-4 h-9 gap-1 flex-wrap">
+          <span className="text-[10px] text-slate-600 mr-1">Anime recommender — open source</span>
+
+          <Separator orientation="vertical" className="h-3 bg-white/10" />
+
+          <Button variant="link" size="sm" asChild
+            className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
+            <a href="https://github.com/MateuszRadz1kowski/anime-recommender"
+               target="_blank" rel="noopener noreferrer">
+              <Github size={11} />
+              GitHub
+              <Badge variant="outline"
+                className="text-[8px] px-1 py-0 h-4 text-amber-500/80 border-amber-500/25
+                           bg-transparent ml-0.5 gap-0.5">
+                <Star size={7} />Star
+              </Badge>
+            </a>
+          </Button>
+
+          <Separator orientation="vertical" className="h-3 bg-white/10" />
+
+          <Button variant="link" size="sm" asChild
+            className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-amber-400 gap-1">
+            <a href="" target="_blank" rel="noopener noreferrer">
+              <Coffee size={11} />Buy me a coffee
+            </a>
+          </Button>
+
+          <Separator orientation="vertical" className="h-3 bg-white/10" />
+
+          <Button variant="link" size="sm" asChild
+            className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
+            <a href="">
+              <Mail size={11} />Contact
+            </a>
+          </Button>
+        </div>
+      </footer>
+  );
+}
