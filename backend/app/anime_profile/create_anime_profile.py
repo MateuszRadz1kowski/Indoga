@@ -21,9 +21,7 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
     all_statuses = user_anime_status(user_data, raw_data)
     anime_completed = all_statuses.get(0, {})
     anime_planning  = all_statuses.get(2, {})
-
     anime_profile = {}
-
     for anime in db_response:
         if len(anime_profile) >= CANDIDATE_POOL_SIZE:
             break
@@ -99,16 +97,18 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
     return dict(list(sorted_profile.items())[:FINAL_RESULTS_SIZE])
 
 
-def normalise_score(anime: dict) -> dict:
+def normalise_score(anime):
     if not anime:
         return anime
 
-    sum_sq = sum(v["score"] ** 2 for v in anime.values())
-    if sum_sq == 0.0:
-        return anime
+    scores = [v["score"] for v in anime.values()]
 
-    norm = math.sqrt(sum_sq)
+    min_score = min(scores)
+    max_score = max(scores)
+
     for key in anime:
-        anime[key]["score"] = anime[key]["score"] / norm
+        normalized = (anime[key]["score"] - min_score) / (max_score - min_score)
+
+        anime[key]["score"] = round(normalized, 4)
 
     return anime
