@@ -34,7 +34,11 @@ export default function Dashboard() {
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-[#060d1b] text-slate-200 overflow-hidden">
-			<Navbar activeTab={activeTab} onTabChange={setActiveTab} />
+			<Navbar
+				activeTab={activeTab}
+				onTabChange={setActiveTab}
+				apiData={apiData}
+			/>
 
 			<main className="flex-1 min-h-0 relative">
 				<Tabs value={activeTab} className="h-full w-full flex flex-col">

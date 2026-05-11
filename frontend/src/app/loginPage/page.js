@@ -24,7 +24,7 @@ export default function LoginPage() {
 		if (!inputUser.trim()) return;
 		localStorage.setItem("username", inputUser.trim());
 		localStorage.setItem("platform", platform);
-		router.push("/recommendations");
+		router.push("/dashboard");
 	};
 
 	const handleKeyDown = (e, platform) => {
