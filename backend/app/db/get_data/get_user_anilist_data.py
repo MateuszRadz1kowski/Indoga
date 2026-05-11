@@ -21,6 +21,12 @@ def get_user_anilist_data(username):
           isAdult
           meanScore
           popularity
+          startDate {
+            year
+          }
+          coverImage {
+            large
+          }
           recommendations {
             nodes {
               mediaRecommendation {
