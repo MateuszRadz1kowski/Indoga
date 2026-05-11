@@ -1,8 +1,38 @@
-import { Sparkles, HelpCircle, Sun, ChevronDown } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Sparkles, HelpCircle, Sun, ChevronDown, LogOut, User, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export default function Navbar({ activeTab, onTabChange }) {
+export default function Navbar({ activeTab, onTabChange, apiData }) {
+  const router = useRouter();
+  const [rendered, setRendered] = useState(false);
+
+  useEffect(() => {
+    setRendered(true);
+  }, []);
+
+  const handleLogout = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("platform");
+  
+  window.location.href = "/"; 
+};
+
+  if (!rendered) {
+    return <header className="h-[56px] bg-[#04090f]/80" />; 
+  }
+
   return (
     <header className="flex-shrink-0 bg-[#04090f]/80 backdrop-blur-md border-b border-violet-950/40 z-50">
       <div className="flex items-center px-6 h-[56px] justify-between">
@@ -39,10 +69,34 @@ export default function Navbar({ activeTab, onTabChange }) {
           </Button>
           <Separator orientation="vertical" className="h-4 bg-white/10" />
           <div className="flex items-center gap-2 pl-2">
-             <div className="size-8 rounded-full bg-gradient-to-tr from-violet-600 to-fuchsia-600 p-[1px]">
-                <div className="w-full h-full rounded-full bg-[#04090f] flex items-center justify-center text-[10px] font-bold">R</div>
-             </div>
-             <ChevronDown size={12} className="text-slate-500" />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 px-2 gap-2 text-slate-400 hover:text-slate-200 hover:bg-white/5 focus-visible:ring-0"
+                >
+                  <div className="size-6 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-violet-900/20">
+                    <img 
+                      src={apiData[0]?.avatar_url} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover shadow-inner"
+                    />
+                  </div>
+                  <span className="text-[11px] font-medium hidden md:block">Profile</span>
+                  <ChevronDown size={10} className="text-slate-600" />
+                </Button>
+              </DropdownMenuTrigger>
+              
+              <DropdownMenuContent align="end" className="w-48 bg-[#0d1829] border-white/10 text-slate-300">
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="text-xs focus:bg-red-500/10 focus:text-red-400 text-red-400/80 cursor-pointer"
+                >
+                  <LogOut className="mr-2 size-3.5" /> Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

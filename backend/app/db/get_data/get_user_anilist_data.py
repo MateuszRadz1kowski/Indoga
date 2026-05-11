@@ -41,6 +41,9 @@ def get_user_anilist_data(username):
     }
     }
   User(name:$userName) {
+    avatar {
+      medium
+    }
     mediaListOptions {
       scoreFormat
     }

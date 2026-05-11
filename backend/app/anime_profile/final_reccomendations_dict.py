@@ -11,7 +11,6 @@ import json
 def prepare_dictionary(filters,user_data):
     start_time = time.time()
     raw_data = fetch_raw_user_data(user_data)
-
     recommendations_dictionary = {}
     anime_data = get_anime_data()
     user_interests_profile = create_user_interests_profile(raw_data) #3s
@@ -45,6 +44,7 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["why_recommended"] = anime_recommendations[recommendation_data[2]]["why_recommended"]
         recommendations_dictionary[recommendation_data[2]]["external_links"] = recommendation_data[13]
         recommendations_dictionary[recommendation_data[2]]["popularity"] = recommendation_data[14]
+        recommendations_dictionary[recommendation_data[2]]["avatar_url"] = raw_data['data']['User']['avatar']['medium']
 
     print("FINAL_RECOMMENDATIONS_DICT--- %s seconds ---" % (time.time() - start_time))
 
