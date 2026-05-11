@@ -19,10 +19,9 @@ frontend:
     dark mode - zmiana miedzy light a dark mode
     tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
     guzik po ktorego kliknieciu user wraca do trybu "logowania" - wyboru nicku 
-    widoczne promowanie , promowanie githuba gdzie jest postawiony ten opensource projekt, tez by ludzie widzieli dawanie "na kawe", kontakt porpzez email
     
 problemy na pozniej:
 dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
-w top tagach pierwsze jest u mnie Vore, nie powinno tak byc, jest to malo popularny tag z attack on titan, jest w wszystkich instancjach aot i jest malo popularny, nie powinien byc tak wysoko
+dodac w call do MAL avatar usera
