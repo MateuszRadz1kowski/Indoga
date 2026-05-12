@@ -3,6 +3,7 @@ from typing import List, Optional
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.anime_profile.final_reccomendations_dict import prepare_dictionary, fetch_raw_user_data
+from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
 
 app = FastAPI()
 
@@ -84,5 +85,20 @@ async def get_raw_data(
     raw_data = fetch_raw_user_data(user_data)
 
     return raw_data
+
+@app.get("/user_interests/")
+async def get_raw_data(
+    username: str = Query(None),
+    platform: str = Query(None),
+
+):
+    user_data = {
+        "username" : username,
+        "platform" : platform
+    }
+    raw_data = fetch_raw_user_data(user_data)
+    data = create_user_interests_profile(raw_data)
+    return data
+
 # by uruchomic w folderze anime-recommender: python -m uvicorn backend.app.api.main:app --reload
 #dane sa w: http://127.0.0.1:8000/recommendations_data

@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Combobox,
 	ComboboxChip,
@@ -205,27 +207,33 @@ export default function TagsChoser({
 	];
 
 	const availableTagsToShow = tags.filter(
-		(tag) => !filters.hide_selected_tags.includes(tag),
+		(tag) => !filters.hide_selected_tags?.includes(tag),
 	);
 	const availableTagsToHide = tags.filter(
-		(tag) => !filters.show_selected_tags.includes(tag),
+		(tag) => !filters.show_selected_tags?.includes(tag),
 	);
 
 	return (
-		<div>
-			<Switch
-				className="w-10 h-5"
-				checked={tagsSwitchStatus}
-				onCheckedChange={() =>
-					tagsSwitchStatus
-						? setTagsSwitchStatus(false)
-						: setTagsSwitchStatus(true)
-				}
-				id="showHideTag"
-			/>
-			<Label htmlFor="showHideTag" className="ml-2 text-slate-300">
-				{tagsSwitchStatus ? "Show" : "Hide"} selected tags
-			</Label>
+		<div className="space-y-4 p-1">
+			<div className="flex items-center justify-between px-1">
+				<Label
+					htmlFor="showHideTag"
+					className="text-[12px] text-slate-400 cursor-pointer"
+				>
+					{tagsSwitchStatus ? "Show" : "Hide"} selected tags
+				</Label>
+				<Switch
+					checked={tagsSwitchStatus}
+					onCheckedChange={() =>
+						tagsSwitchStatus
+							? setTagsSwitchStatus(false)
+							: setTagsSwitchStatus(true)
+					}
+					id="showHideTag"
+					className="data-[state=checked]:bg-violet-600 scale-75 origin-right"
+				/>
+			</div>
+
 			<Combobox
 				items={tagsSwitchStatus ? availableTagsToShow : availableTagsToHide}
 				multiple
@@ -240,26 +248,38 @@ export default function TagsChoser({
 						: updateFilter("hide_selected_tags", value)
 				}
 			>
-				<ComboboxChips className="w-full">
+				<ComboboxChips className="w-full bg-white/[0.02] border-white/[0.08] rounded-xl p-2 min-h-[44px] transition-all focus-within:border-violet-500/40 shadow-inner">
 					<ComboboxValue>
-						{tagsSwitchStatus
-							? filters.show_selected_tags.map((item) => (
-									<ComboboxChip key={item}>{item}</ComboboxChip>
-								))
-							: filters.hide_selected_tags.map((item) => (
-									<ComboboxChip key={item}>{item}</ComboboxChip>
-								))}
+						{(tagsSwitchStatus
+							? filters.show_selected_tags
+							: filters.hide_selected_tags
+						)?.map((item) => (
+							<ComboboxChip
+								key={item}
+								className={
+									"bg-violet-500/10 border-violet-500/30 text-violet-300 hover:bg-violet-500/20 transition-colors"
+								}
+							>
+								{item}
+							</ComboboxChip>
+						))}
 					</ComboboxValue>
 					<ComboboxChipsInput
-						placeholder="Filter by tags"
-						className="bg-slate-900 border-slate-700 text-slate-100"
+						placeholder="Search tags..."
+						className="text-[11px] text-slate-200 placeholder:text-slate-600 bg-transparent border-none focus:ring-0"
 					/>
 				</ComboboxChips>
-				<ComboboxContent>
-					<ComboboxEmpty>No tags found.</ComboboxEmpty>
-					<ComboboxList>
+				<ComboboxContent className="bg-[#0f172a] border-white/[0.1] shadow-2xl max-h-60 overflow-hidden">
+					<ComboboxEmpty className="text-xs text-slate-500 p-4">
+						No tags found.
+					</ComboboxEmpty>
+					<ComboboxList className="custom-filters-scrollbar overflow-y-auto">
 						{(item) => (
-							<ComboboxItem key={item} value={item}>
+							<ComboboxItem
+								key={item}
+								value={item}
+								className="text-xs text-slate-300 data-[highlighted]:bg-violet-500/20 data-[highlighted]:text-violet-200 cursor-pointer"
+							>
 								{item}
 							</ComboboxItem>
 						)}

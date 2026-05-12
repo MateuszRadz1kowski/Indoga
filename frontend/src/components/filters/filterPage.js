@@ -2,24 +2,26 @@
 
 import { Switch } from "../ui/switch";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { Slider } from "../ui/slider";
+import { Separator } from "../ui/separator";
 import { useEffect, useState } from "react";
 import TagsChoser from "./tagSelector";
 import GenreChoser from "./genreSelector";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-// const studios = ["MAPPA", "Madhouse", "Wit Studio", "Ufotable", "Bones"];
+import { Sparkles, SlidersHorizontal, RotateCcw } from "lucide-react";
+
+function FilterSection({ label, children }) {
+	return (
+		<div className="space-y-3 group/section">
+			<p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] group-hover/section:text-violet-400/80 transition-colors duration-300">
+				{label}
+			</p>
+			<div className="relative">{children}</div>
+		</div>
+	);
+}
 
 export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
@@ -64,19 +66,12 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	};
 
 	const updateFilter = (key, value) => {
-		setFilters((prev) => ({
-			...prev,
-			[key]: value,
-		}));
+		setFilters((prev) => ({ ...prev, [key]: value }));
 		console.log("Updated filters:", { ...filters, [key]: value });
 	};
 
 	const handleCheckbox = (key, checked) => {
-		if (checked == defaultValues[key]) {
-			updateFilter(key, null);
-		} else {
-			updateFilter(key, checked);
-		}
+		updateFilter(key, checked == defaultValues[key] ? null : checked);
 	};
 
 	const handleApply = async () => {
@@ -87,7 +82,6 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			searchParams.append("platform", localStorage.getItem("platform"));
 			Object.entries(filters).forEach(([key, value]) => {
 				if (value == null || value == undefined) return;
-
 				if (Array.isArray(value)) {
 					value.forEach((item) => {
 						if (item) searchParams.append(key, item);
@@ -96,14 +90,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					searchParams.append(key, value);
 				}
 			});
-
-			const queryString = searchParams.toString();
-			console.log("Wysyłam do API:", queryString);
-
+			console.log("Wysyłam do API:", searchParams.toString());
 			const res = await fetch(
-				`http://127.0.0.1:8000/recommendations_data?${queryString}`,
+				`http://127.0.0.1:8000/recommendations_data?${searchParams.toString()}`,
 			);
-
 			const data = await res.json();
 			onDataUpdate(Object.values(data));
 		} catch (error) {
@@ -141,172 +131,155 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		handleApply();
 	}, []);
 
+	const toogleGroupItemClassName =
+		"flex-1 h-8 text-[11px] font-medium capitalize rounded-lg border border-white/[0.05] " +
+		"bg-white/[0.02] text-slate-400 " +
+		"data-[state=on]:bg-violet-600 data-[state=on]:text-white " +
+		"data-[state=on]:border-violet-400 data-[state=on]:shadow-[0_0_15px_rgba(139,92,246,0.3)] " +
+		"hover:bg-white/[0.05] hover:text-slate-200 transition-all duration-300";
+
 	return (
-		<div className="text-white space-y-4">
-			{" "}
-			<div className="bg-linear-to-br from-purple-600 via-40% via-transparent to-transparent">
-				<h1 className="text-2xl font-semibold mb-4 bg-linear-to-tr from-purple-600 via-50% via-transparent to-transparent">
+		<div className="flex flex-col h-[calc(100vh-140px)] bg-gradient-to-b from-[#0a0f1d] to-[#060d1b] border-r border-white/[0.05] overflow-hidden relative">
+			<div className="px-6 pt-6 pb-4 bg-gradient-to-b from-[#0a0f1d] to-transparent z-10">
+				<h2 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-2.5">
+					<div className="p-1.5 rounded-md bg-violet-500/10 border border-violet-500/20">
+						<Sparkles
+							size={14}
+							className="text-violet-400 animate-pulse-subtle"
+						/>
+					</div>
 					Filters
-				</h1>
+				</h2>
 			</div>
-			<div className="flex gap-3 mb-6 sticky top-0 bg-[#0b1120] py-2 z-10">
-				<Button
-					onClick={handleApply}
-					className="bg-purple-600 hover:bg-purple-500"
-				>
-					Apply Filters
-				</Button>
 
-				<Button
-					onClick={handleClear}
-					variant="outline"
-					className="border-slate-700 text-slate-200 hover:bg-slate-800"
-				>
-					Clear Filters
-				</Button>
-			</div>
-			<div className="space-y-6">
-				<Card className="bg-[#0f172a] border border-slate-800 p-6 space-y-4">
-					<div className="flex items-center gap-3">
-						<Checkbox
-							checked={filters.show_sequels ?? defaultValues.show_sequels}
-							onCheckedChange={(checked) =>
-								handleCheckbox("show_sequels", checked)
+			<div className="flex-1 overflow-y-auto px-6 py-2 space-y-8 custom-filters-scrollbar pb-12">
+				<FilterSection label="Media type">
+					<ToggleGroup
+						type="single"
+						variant="outline"
+						value={filters.media_types ?? "TV"}
+						onValueChange={(value) => {
+							if (value) {
+								setFilters((prev) => ({
+									...prev,
+									media_types: value,
+								}));
 							}
-							id="sequels"
-						/>
-						<Label htmlFor="sequels" className={"text-gray-300"}>
-							Show sequels
-						</Label>
-					</div>
+						}}
+						className="gap-2.5"
+					>
+						<ToggleGroupItem value="TV" className={toogleGroupItemClassName}>
+							Anime
+						</ToggleGroupItem>
+						<ToggleGroupItem value="MANGA" className={toogleGroupItemClassName}>
+							Manga
+						</ToggleGroupItem>
+					</ToggleGroup>
+				</FilterSection>
 
-					<div className="flex items-center gap-3">
-						<Checkbox
-							checked={
-								filters.experimental_mode ?? defaultValues.experimental_mode
-							}
-							onCheckedChange={(checked) =>
-								handleCheckbox("experimental_mode", checked)
-							}
-							id="experimental"
-						/>
-						<Label htmlFor="experimental" className={"text-gray-300"}>
-							Experimental mode
-						</Label>
-					</div>
+				<Separator className="bg-white/[0.04] shadow-sm" />
 
-					<div className="flex items-center gap-3">
-						<Checkbox
-							checked={filters.show_18_rated ?? defaultValues.show_18_rated}
-							onCheckedChange={(checked) =>
-								handleCheckbox("show_18_rated", checked)
-							}
-							id="adult+"
-						/>
-						<Label htmlFor="adult+" className={"text-gray-300"}>
-							Show 18+ rated
-						</Label>
-					</div>
-				</Card>
-
-				<div className="mt-6 bg-[#0f172a] border border-slate-800 px-6 py-4 gap-8">
-					{/* <div className="space-y-2">
-						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
-							Tag Importance
-						</Label>
-						<ToggleGroup
-							type="single"
-							variant="outline"
-							value={filters.tag_importance ?? "medium"}
-							onValueChange={(value) => {
-								if (value) updateFilter("tag_importance", value);
-							}}
-							className="justify-start gap-2"
-						>
-							{["low", "medium", "high"].map((influenceLevel) => (
-								<ToggleGroupItem
-									key={influenceLevel}
-									value={influenceLevel}
-									className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 transition-all capitalize"
+				<FilterSection>
+					<div className="space-y-1.5">
+						{[
+							{
+								key: "show_sequels",
+								label: "Show sequels",
+								id: "filter-sequels",
+							},
+							{
+								key: "experimental_mode",
+								label: "Experimental mode",
+								id: "filter-experimental-mode",
+							},
+							{
+								key: "show_18_rated",
+								label: "Show 18+ content",
+								id: "filter-adult",
+							},
+						].map(({ key, label, id }) => (
+							<div
+								key={key}
+								className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.03] transition-all duration-300 group"
+							>
+								<Label
+									htmlFor={id}
+									className="text-[12px] text-slate-400 group-hover:text-slate-200 cursor-pointer transition-colors"
 								>
-									{influenceLevel}
-								</ToggleGroupItem>
-							))}
-						</ToggleGroup>
-					</div> */}
-
-					<div className="space-y-2">
-						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
-							Popularity Influence
-						</Label>
-						<ToggleGroup
-							type="single"
-							variant="outline"
-							value={filters.popularity_importance ?? "medium"}
-							onValueChange={(value) => {
-								if (value) updateFilter("popularity_importance", value);
-							}}
-							className="justify-start gap-2"
-						>
-							{["low", "medium", "high"].map((influenceLevel) => (
-								<ToggleGroupItem
-									key={influenceLevel}
-									value={influenceLevel}
-									className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 transition-all capitalize"
-								>
-									{influenceLevel}
-								</ToggleGroupItem>
-							))}
-						</ToggleGroup>
+									{label}
+								</Label>
+								<Switch
+									id={id}
+									checked={filters[key] ?? defaultValues[key]}
+									onCheckedChange={(checked) => handleCheckbox(key, checked)}
+									className="data-[state=checked]:bg-violet-500 scale-90"
+								/>
+							</div>
+						))}
 					</div>
-				</div>
+				</FilterSection>
 
-				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
-					<Input
-						type="number"
-						placeholder={
-							filters.media_types == "TV"
-								? "minimum episodes"
-								: "minimum chapters"
-						}
-						value={filters.min_number_episodes ?? ""}
-						className="bg-slate-900 border-slate-700 text-slate-100"
-						min="0"
-						onChange={(e) =>
-							updateFilter(
-								"min_number_episodes",
-								e.target.value ? Number(e.target.value) : null,
-							)
-						}
-					/>
+				<FilterSection label="Popularity influence">
+					<ToggleGroup
+						type="single"
+						value={filters.popularity_importance ?? "medium"}
+						onValueChange={(v) => v && updateFilter("popularity_importance", v)}
+						className="gap-2"
+					>
+						{["low", "medium", "high"].map((influenceLevel) => (
+							<ToggleGroupItem
+								key={influenceLevel}
+								value={influenceLevel}
+								className={toogleGroupItemClassName}
+							>
+								{influenceLevel}
+							</ToggleGroupItem>
+						))}
+					</ToggleGroup>
+				</FilterSection>
 
-					<Input
-						type="number"
-						placeholder={
-							filters.media_types == "TV"
-								? "maximum episodes"
-								: "maximum chapters"
-						}
-						value={filters.max_number_episodes ?? ""}
-						className="bg-slate-900 border-slate-700 text-slate-100"
-						min="0"
-						onChange={(e) =>
-							updateFilter(
-								"max_number_episodes",
-								e.target.value ? Number(e.target.value) : null,
-							)
-						}
-					/>
-				</Card>
+				<FilterSection
+					label={
+						filters.media_types == "MANGA" ? "Chapters Range" : "Episodes Range"
+					}
+				>
+					<div className="flex gap-3">
+						<div className="relative flex-1">
+							<Input
+								type="number"
+								placeholder="Min"
+								value={filters.min_number_episodes ?? ""}
+								onChange={(e) =>
+									updateFilter(
+										"min_number_episodes",
+										e.target.value ? Number(e.target.value) : null,
+									)
+								}
+								className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
+							/>
+						</div>
+						<div className="relative flex-1">
+							<Input
+								type="number"
+								placeholder="Max"
+								value={filters.max_number_episodes ?? ""}
+								onChange={(e) =>
+									updateFilter(
+										"max_number_episodes",
+										e.target.value ? Number(e.target.value) : null,
+									)
+								}
+								className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
+							/>
+						</div>
+					</div>
+				</FilterSection>
 
-				<Card className="mt-6 bg-[#0f172a] border border-slate-800 p-6 space-y-4">
-					<div>
+				<FilterSection label="Release year">
+					<div className="flex gap-3">
 						<Input
 							type="number"
-							placeholder="Minimum release year"
-							className="bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-							min="1970"
-							max="2026"
+							placeholder="From"
 							value={filters.min_release_year ?? ""}
 							onChange={(e) =>
 								updateFilter(
@@ -314,12 +287,11 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
+							className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:border-violet-500/50"
 						/>
 						<Input
 							type="number"
-							placeholder="Maximum release year"
-							className="mt-3 bg-slate-900 border-slate-700 text-slate-100 placeholder:text-slate-500"
-							min="1970"
+							placeholder="To"
 							value={filters.max_release_year ?? ""}
 							onChange={(e) =>
 								updateFilter(
@@ -327,167 +299,91 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
+							className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:border-violet-500/50"
 						/>
 					</div>
-				</Card>
+				</FilterSection>
 
-				<Card className="mt-6 bg-[#0f172a] border border-slate-800 text-slate-100 p-6 space-y-6">
-					<div>
-						<Label className="mb-2 text-slate-300">
-							Show items with mean score at least:{" "}
-							{filters.min_mean_score ?? defaultValues.min_mean_score}
-						</Label>
+				<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
+					<div className="pt-2 px-1">
 						<Slider
-							defaultValue={[75]}
 							max={100}
 							step={1}
-							value={[filters.min_mean_score]}
-							className="w-full"
+							value={[filters.min_mean_score ?? 0]}
 							onValueChange={(e) =>
 								updateFilter("min_mean_score", e[0] ? e[0] : null)
 							}
+							className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4 [&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-violet-500 [&_.bg-primary]:bg-violet-500 [&_.bg-secondary]:bg-white/10"
 						/>
 					</div>
+				</FilterSection>
 
-					{/* <div>
-						<Combobox
-							items={studios}
-							multiple
-							value={filters.show_selected_studios ?? []}
-							onValueChange={(value) =>
-								updateFilter("show_selected_studios", value)
-							}
-						>
-							<ComboboxChips>
-								<ComboboxValue>
-									{filters.show_selected_studios.map((item) => (
-										<ComboboxChip key={item}>{item}</ComboboxChip>
-									))}
-								</ComboboxValue>
+				<FilterSection label="Tags Selection">
+					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
+						<TagsChoser
+							setTagsSwitchStatus={setTagsSwitchStatus}
+							tagsSwitchStatus={tagsSwitchStatus}
+							updateFilter={updateFilter}
+							filters={filters}
+						/>
+					</div>
+				</FilterSection>
 
-								<ComboboxChipsInput
-									placeholder="Filter by studio"
-									className="bg-slate-900 border-slate-700 text-slate-100"
-								/>
-							</ComboboxChips>
+				<FilterSection label="Genres Selection">
+					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
+						<GenreChoser
+							setGenreSwitchStatus={setGenreSwitchStatus}
+							genreSwitchStatus={genreSwitchStatus}
+							updateFilter={updateFilter}
+							filters={filters}
+						/>
+					</div>
+				</FilterSection>
 
-							<ComboboxContent>
-								<ComboboxEmpty>No studio found.</ComboboxEmpty>
-								<ComboboxList>
-									{(item) => (
-										<ComboboxItem key={item} value={item}>
-											{item}
-										</ComboboxItem>
-									)}
-								</ComboboxList>
-							</ComboboxContent>
-						</Combobox>
-					</div> */}
-
-					<TagsChoser
-						setTagsSwitchStatus={setTagsSwitchStatus}
-						tagsSwitchStatus={tagsSwitchStatus}
-						updateFilter={updateFilter}
-						filters={filters}
-					/>
-
-					<GenreChoser
-						setGenreSwitchStatus={setGenreSwitchStatus}
-						genreSwitchStatus={genreSwitchStatus}
-						updateFilter={updateFilter}
-						filters={filters}
-					/>
-
-					{/* <Select
-						value={filters.media_types ?? ""}
-						onValueChange={(value) =>
-							setFilters((prev) => ({
-								...prev,
-								media_types: value,
-							}))
-						}
-					>
-						<SelectTrigger className="w-full bg-slate-900 border-slate-700 text-slate-100">
-							<SelectValue placeholder="Select media type" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectItem value="TV">Anime</SelectItem>
-								<SelectItem value="MANGA">Manga</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select> */}
-
-					<div className="space-y-2">
-						<Label className="text-slate-400 text-xs uppercase tracking-wider flex items-center gap-2">
-							Select Media Type
-						</Label>
-
+				{(filters.media_types === "TV" || filters.media_types == null) && (
+					<FilterSection label="Streaming Services">
 						<ToggleGroup
 							type="single"
-							variant="outline"
-							value={filters.media_types ?? "TV"}
-							onValueChange={(value) => {
-								if (value) {
-									setFilters((prev) => ({
-										...prev,
-										media_types: value,
-									}));
-								}
-							}}
-							className="justify-start gap-2"
+							value={filters.show_streaming_service ?? ""}
+							onValueChange={(v) =>
+								updateFilter("show_streaming_service", v === "All" ? null : v)
+							}
+							className="gap-2.5"
 						>
 							<ToggleGroupItem
-								value="TV"
-								className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 hover:text-slate-200 transition-all duration-200 shadow-inner"
+								value="Netflix"
+								className={toogleGroupItemClassName}
 							>
-								Anime
+								Netflix
 							</ToggleGroupItem>
-
 							<ToggleGroupItem
-								value="MANGA"
-								className="flex-1 bg-slate-900/50 border-slate-700/50 text-slate-400 data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:border-purple-500 hover:bg-slate-800 hover:text-slate-200 transition-all duration-200 shadow-inner"
+								value="Crunchyroll"
+								className={toogleGroupItemClassName}
 							>
-								Manga
+								Crunchyroll
 							</ToggleGroupItem>
 						</ToggleGroup>
-					</div>
+					</FilterSection>
+				)}
+			</div>
 
-					{filters.media_types == "TV" ||
-						(filters.media_types == null && (
-							<div className="space-y-2">
-								<Label className="text-slate-400 text-xs uppercase tracking-wider">
-									Avalible on streaming Services
-								</Label>
-								<ToggleGroup
-									type="single"
-									variant="outline"
-									value={filters.show_streaming_service ?? ""}
-									onValueChange={(value) => {
-										updateFilter(
-											"show_streaming_service",
-											value == "All" ? null : value,
-										);
-									}}
-									className="justify-start gap-2"
-								>
-									<ToggleGroupItem
-										value="Netflix"
-										className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
-									>
-										Netflix
-									</ToggleGroupItem>
-									<ToggleGroupItem
-										value="Crunchyroll"
-										className="flex-1 bg-slate-900 border-slate-700 data-[state=on]:bg-purple-600 data-[state=on]:text-white hover:bg-slate-800"
-									>
-										Crunchyroll
-									</ToggleGroupItem>
-								</ToggleGroup>
-							</div>
-						))}
-					{/* <Button onClick={() => console.log(filters)}>show</Button> */}
-				</Card>
+			<div className="flex-shrink-0 p-6 pb-8 bg-[#060d1b]/95 backdrop-blur-md border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20">
+				<div className="flex gap-3">
+					<Button
+						onClick={handleApply}
+						className="flex-[2.5] h-11 bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs rounded-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
+					>
+						<SlidersHorizontal size={14} />
+						Apply Filters
+					</Button>
+					<Button
+						onClick={handleClear}
+						variant="outline"
+						className="flex-1 h-11 border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/[0.2] text-slate-400 rounded-xl transition-all duration-300"
+					>
+						<RotateCcw size={14} />
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
