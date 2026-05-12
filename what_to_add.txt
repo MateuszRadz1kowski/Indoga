@@ -25,3 +25,4 @@ dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
 dodac w call do MAL avatar usera
+gdy wlacza sie filter, sortowanie sie resetuje do match%, a gdy mialem wlaczane np score do nadal pokazuje score sortowanie

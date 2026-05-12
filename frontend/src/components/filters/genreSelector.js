@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Combobox,
 	ComboboxChip,
@@ -40,27 +42,33 @@ export default function GenreChoser({
 	];
 
 	const availableGenresToShow = genres.filter(
-		(g) => !filters.hide_selected_genres.includes(g),
+		(g) => !filters.hide_selected_genres?.includes(g),
 	);
 	const availableGenresToHide = genres.filter(
-		(g) => !filters.show_selected_genres.includes(g),
+		(g) => !filters.show_selected_genres?.includes(g),
 	);
 
 	return (
-		<div>
-			<Switch
-				className="w-10 h-5"
-				checked={genreSwitchStatus}
-				onCheckedChange={() =>
-					genreSwitchStatus
-						? setGenreSwitchStatus(false)
-						: setGenreSwitchStatus(true)
-				}
-				id="showHideGenre"
-			/>
-			<Label htmlFor="showHideGenre" className="ml-2 text-slate-300">
-				{genreSwitchStatus ? "Show" : "Hide"} selected genres
-			</Label>
+		<div className="space-y-4 p-1">
+			<div className="flex items-center justify-between px-1">
+				<Label
+					htmlFor="showHideGenre"
+					className="text-[12px] text-slate-400 cursor-pointer"
+				>
+					{genreSwitchStatus ? "Show" : "Hide"} selected genres
+				</Label>
+				<Switch
+					checked={genreSwitchStatus}
+					onCheckedChange={() =>
+						genreSwitchStatus
+							? setGenreSwitchStatus(false)
+							: setGenreSwitchStatus(true)
+					}
+					id="showHideGenre"
+					className="data-[state=checked]:bg-violet-600 scale-75 origin-right"
+				/>
+			</div>
+
 			<Combobox
 				items={
 					genreSwitchStatus ? availableGenresToShow : availableGenresToHide
@@ -77,26 +85,38 @@ export default function GenreChoser({
 						: updateFilter("hide_selected_genres", value)
 				}
 			>
-				<ComboboxChips>
+				<ComboboxChips className="w-full bg-white/[0.02] border-white/[0.08] rounded-xl p-2 min-h-[44px] transition-all focus-within:border-violet-500/40">
 					<ComboboxValue>
-						{genreSwitchStatus
-							? filters.show_selected_genres.map((item) => (
-									<ComboboxChip key={item}>{item}</ComboboxChip>
-								))
-							: filters.hide_selected_genres.map((item) => (
-									<ComboboxChip key={item}>{item}</ComboboxChip>
-								))}
+						{(genreSwitchStatus
+							? filters.show_selected_genres
+							: filters.hide_selected_genres
+						)?.map((item) => (
+							<ComboboxChip
+								key={item}
+								className={
+									"bg-violet-500/10 border-violet-500/30 text-violet-300 hover:bg-violet-500/20 transition-colors"
+								}
+							>
+								{item}
+							</ComboboxChip>
+						))}
 					</ComboboxValue>
 					<ComboboxChipsInput
-						placeholder="Filter by genre"
-						className="bg-slate-900 border-slate-700 text-slate-100"
+						placeholder="Filter by genre..."
+						className="text-[11px] text-slate-200 placeholder:text-slate-600 bg-transparent border-none focus:ring-0"
 					/>
 				</ComboboxChips>
-				<ComboboxContent>
-					<ComboboxEmpty>No genres found.</ComboboxEmpty>
-					<ComboboxList>
+				<ComboboxContent className="bg-[#0f172a] border-white/[0.1] shadow-2xl">
+					<ComboboxEmpty className="text-xs text-slate-500 p-4">
+						No genres found.
+					</ComboboxEmpty>
+					<ComboboxList className="custom-filters-scrollbar">
 						{(item) => (
-							<ComboboxItem key={item} value={item}>
+							<ComboboxItem
+								key={item}
+								value={item}
+								className="text-xs text-slate-300 data-[highlighted]:bg-violet-500/20 data-[highlighted]:text-violet-200 cursor-pointer"
+							>
 								{item}
 							</ComboboxItem>
 						)}
