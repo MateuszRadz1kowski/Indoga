@@ -1,4 +1,5 @@
 "use client";
+import HotTakes from "./HotTakes";
 import TimelineDecades from "./TimelineDecades";
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,10 @@ export default function StatsTab() {
 	return (
 		<div className="p-4 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar">
 			{data ? (
-				<TimelineDecades apiData={data} />
+				<div>
+					<TimelineDecades apiData={data} />
+					<HotTakes data={data} />
+				</div>
 			) : (
 				<div className="flex items-center justify-center h-32 text-slate-500 text-xs animate-pulse uppercase tracking-widest">
 					Loading stats...
