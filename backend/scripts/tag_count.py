@@ -21,9 +21,13 @@ def export_tag_count():
 
 def get_tag_popularity_weight(tag):
     tag_count = export_tag_count()
+    tag_id = tag.get("id")
+
+    if tag_id not in tag_count:
+        return math.log1p((4759 + TAG_WEIGHT_BASE_BONUS) / (TAG_WEIGHT_BASE_BONUS + 1))
     #log((tag with max count + some number so tags with very few instances arent lost) / tag count + some number so tags with very few instances arent lost)) ** number to normalise less popular and more popular tags
     #tag_weight = (math.log((4759 + 100) / tag_count[tag["id"]] + 100)) **1.5
-    tag_weight = math.log1p((4759+TAG_WEIGHT_BASE_BONUS)/(TAG_WEIGHT_BASE_BONUS+tag_count[tag["id"]]))
+    tag_weight = math.log1p((4759 + TAG_WEIGHT_BASE_BONUS) / (TAG_WEIGHT_BASE_BONUS + tag_count[tag_id]))
     return tag_weight
 
 

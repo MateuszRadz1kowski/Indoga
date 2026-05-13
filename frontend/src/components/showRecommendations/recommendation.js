@@ -163,15 +163,47 @@ function DetailDialog({ data, open, onOpenChange }) {
 								</p>
 							</div>
 							<div className="space-y-1">
-								<p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-									Studio
-								</p>
-								<p className="text-xs text-slate-200">
-									{data.studios.length > 0 && data.studios[0].name}
-								</p>
+								{["MANGA", "NOVEL", "ONE_SHOT"].includes(data.format) ? (
+									<>
+										<p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+											Mangaka
+										</p>
+										<div className="flex flex-wrap gap-3 mt-1">
+											{data.creators
+												?.filter((creator) =>
+													creator.role?.toLowerCase().includes("story"),
+												)
+												.map((creator, index) => (
+													<div
+														key={index}
+														className="flex items-center gap-2 bg-white/5 pr-3 rounded-full border border-white/10"
+													>
+														<img
+															src={creator.node.image?.large}
+															alt={creator.node.name.full}
+															className="w-7 h-7 rounded-full object-cover border border-violet-500/30"
+														/>
+														<p className="text-xs text-slate-200 font-medium whitespace-nowrap">
+															{creator.node.name.full}
+														</p>
+													</div>
+												))}
+										</div>
+									</>
+								) : (
+									<>
+										<p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+											Studio
+										</p>
+										<p className="text-xs text-slate-200 font-medium">
+											{data.creators && data.creators.length > 0
+												? data.creators[0].name
+												: "Unknown"}
+										</p>
+									</>
+								)}
 							</div>
 						</div>
-						={" "}
 						<div className="space-y-4">
 							<div>
 								<p className="text-[10px] font-semibold text-violet-400 uppercase tracking-widest flex items-center gap-1.5 mb-2">

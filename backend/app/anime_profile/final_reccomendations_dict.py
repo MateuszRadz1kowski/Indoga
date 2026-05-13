@@ -8,13 +8,27 @@ import time
 from backend.config.redis_client import redis_client
 import json
 
-def prepare_dictionary(filters,user_data):
+def prepare_dictionary(filters, user_data):
     start_time = time.time()
     raw_data = fetch_raw_user_data(user_data)
+
+    if not raw_data:
+        return {}
+
     recommendations_dictionary = {}
-    anime_data = get_anime_data()
-    user_interests_profile = create_user_interests_profile(raw_data) #3s
-    anime_recommendations = create_anime_profile(anime_data, user_interests_profile, filters, user_data,raw_data) #5s
+    anime_data = get_anime_data() or []
+
+    user_tags, user_genres, user_recs = create_user_interests_profile(raw_data)
+    user_interests_profile = (user_tags, user_genres, user_recs)
+
+    if not user_tags and not user_genres:
+        return {}
+
+    anime_recommendations = create_anime_profile(anime_data, user_interests_profile, filters, user_data, raw_data)
+
+    if not anime_recommendations:
+        return {}
+
     prepare_recommendation_reasons(anime_recommendations)
     # print(f"tag scores: {user_interests_profile[0]}")
     # print(f"genre scores: {user_interests_profile[1]}")
@@ -46,7 +60,7 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["popularity"] = recommendation_data[14]
         recommendations_dictionary[recommendation_data[2]]["avatar_url"] = raw_data['data']['User']['avatar']['medium']
         recommendations_dictionary[recommendation_data[2]]["status"] = recommendation_data[15]
-        recommendations_dictionary[recommendation_data[2]]["studios"] = recommendation_data[16]
+        recommendations_dictionary[recommendation_data[2]]["creators"] = recommendation_data[16]
         recommendations_dictionary[recommendation_data[2]]["genres"] = recommendation_data[17]
         recommendations_dictionary[recommendation_data[2]]["bannerImage"] = recommendation_data[18]
 
