@@ -9,7 +9,7 @@ INSERT INTO anime_data (
     id, id_mal, title_english, season_year, format, is_adult,
     genres, tags, recommendations, popularity, favourites,
     mean_score, description, episode_number, cover_image,
-    trailer_id, trailer_site, season, relations, external_links, status, banner_image, studios
+    trailer_id, trailer_site, season, relations, external_links, status, banner_image, creators
 )
 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
 ON CONFLICT (id) DO UPDATE SET

@@ -14,7 +14,7 @@ def get_recommended_animes_data(anime_list, media_types="TV"):
     SQL = f"""
     SELECT id, id_mal, title_english, season_year, format, is_adult,
            mean_score, description, episode_number, cover_image,
-           trailer_id, trailer_site, season, external_links, popularity, status, studios, genres, banner_image
+           trailer_id, trailer_site, season, external_links, popularity, status, creators, genres, banner_image
     FROM anime_data
     WHERE title_english IN ({placeholders_titles})
     AND format IN ({placeholders_formats})
