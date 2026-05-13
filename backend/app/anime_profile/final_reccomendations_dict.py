@@ -45,9 +45,12 @@ def prepare_dictionary(filters,user_data):
         recommendations_dictionary[recommendation_data[2]]["external_links"] = recommendation_data[13]
         recommendations_dictionary[recommendation_data[2]]["popularity"] = recommendation_data[14]
         recommendations_dictionary[recommendation_data[2]]["avatar_url"] = raw_data['data']['User']['avatar']['medium']
+        recommendations_dictionary[recommendation_data[2]]["status"] = recommendation_data[15]
+        recommendations_dictionary[recommendation_data[2]]["studios"] = recommendation_data[16]
+        recommendations_dictionary[recommendation_data[2]]["genres"] = recommendation_data[17]
+        recommendations_dictionary[recommendation_data[2]]["bannerImage"] = recommendation_data[18]
 
     print("FINAL_RECOMMENDATIONS_DICT--- %s seconds ---" % (time.time() - start_time))
-
     return recommendations_dictionary
 
 def prepare_recommendation_reasons(anime_recommendations):

@@ -27,7 +27,7 @@ async def get_recommendations(
     tag_importance: str = Query("medium"),
     popularity_importance: str = Query("medium"),
 
-    min_number_episodes: int = Query(1, ge=1),
+    min_number_episodes: int = Query(0, ge=0),
     max_number_episodes: int = Query(9999),
 
     min_release_year: int = Query(1900),

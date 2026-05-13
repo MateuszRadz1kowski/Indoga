@@ -11,16 +11,14 @@ def get_recommended_animes_data(anime_list, media_types="TV"):
 
     placeholders_titles = ','.join(['%s'] * len(anime_list))
     placeholders_formats = ','.join(['%s'] * len(formats))
-
     SQL = f"""
     SELECT id, id_mal, title_english, season_year, format, is_adult,
            mean_score, description, episode_number, cover_image,
-           trailer_id, trailer_site, season, external_links, popularity
+           trailer_id, trailer_site, season, external_links, popularity, status, studios, genres, banner_image
     FROM anime_data
     WHERE title_english IN ({placeholders_titles})
     AND format IN ({placeholders_formats})
     """
-
     config = {'host': HOST, 'database': DATABASE, 'user': USER, 'password': PASSWORD}
     try:
         with psycopg2.connect(**config) as conn:

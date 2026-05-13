@@ -9,10 +9,11 @@ INSERT INTO anime_data (
     id, id_mal, title_english, season_year, format, is_adult,
     genres, tags, recommendations, popularity, favourites,
     mean_score, description, episode_number, cover_image,
-    trailer_id, trailer_site, season, relations, external_links
+    trailer_id, trailer_site, season, relations, external_links, status, banner_image, studios
 )
-VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
 ON CONFLICT (id) DO UPDATE SET
+    mean_score = EXCLUDED.mean_score,
     external_links = EXCLUDED.external_links
 """
 

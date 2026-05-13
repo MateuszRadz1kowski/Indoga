@@ -82,6 +82,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			searchParams.append("platform", localStorage.getItem("platform"));
 			Object.entries(filters).forEach(([key, value]) => {
 				if (value == null || value == undefined) return;
+
 				if (Array.isArray(value)) {
 					value.forEach((item) => {
 						if (item) searchParams.append(key, item);
@@ -90,11 +91,16 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					searchParams.append(key, value);
 				}
 			});
-			console.log("Wysyłam do API:", searchParams.toString());
+
+			const queryString = searchParams.toString();
+			console.log("Wysyłam do API:", queryString);
+
 			const res = await fetch(
-				`http://127.0.0.1:8000/recommendations_data?${searchParams.toString()}`,
+				`http://127.0.0.1:8000/recommendations_data?${queryString}`,
 			);
+
 			const data = await res.json();
+			console.log("Otrzymałem dane z API:", data);
 			onDataUpdate(Object.values(data));
 		} catch (error) {
 			console.error("Error fetching recommendations:", error);
