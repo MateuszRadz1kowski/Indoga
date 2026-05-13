@@ -1,5 +1,6 @@
 import requests
 import time
+from bs4 import BeautifulSoup
 
 from backend.config.MAL_api_key import MAL_KEY
 
@@ -17,6 +18,12 @@ query($ids: [Int]) {
       idMal
       isAdult
       meanScore
+      startDate {
+        year
+        }
+      coverImage {
+        large
+        }
       popularity
       recommendations {
         nodes {
@@ -106,7 +113,21 @@ def fetch_anilist_batch(mal_ids):
         return {}
 
 
+def get_mal_user_avatar(username):
+    url = f"https://myanimelist.net/profile/{username}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            img_tag = soup.find('div', class_='user-image').find('img')
+            if img_tag:
+                return img_tag.get('data-src') or img_tag.get('src')
+    except Exception as e:
+        print(f"Błąd scrapingu awatara: {e}")
+
 def get_user_MAL_data(username):
+    user_avatar_url = get_mal_user_avatar(username)
+
     mal_entries = get_mal_anime_list(username)
     all_mal_ids = [item["node"]["id"] for item in mal_entries if item.get("node", {}).get("id")]
 
@@ -115,7 +136,6 @@ def get_user_MAL_data(username):
 
     for i in range(0, len(all_mal_ids), batch_size):
         batch = all_mal_ids[i: i + batch_size]
-
         anilist_cache.update(fetch_anilist_batch(batch))
         if i + batch_size < len(all_mal_ids):
             time.sleep(1)
@@ -135,21 +155,20 @@ def get_user_MAL_data(username):
             "status": status_str,
             "media": anilist_cache[mal_id]
         }
-
         lists_dict[status_str]["entries"].append(entry)
 
     final_lists = [lists_dict[status] for status in sorted(STATUS_MAP, key=STATUS_MAP.get)]
-
 
     return {
         "data": {
             "MediaListCollection": {"lists": final_lists},
             "User": {
+                "avatar": {"medium": user_avatar_url},
                 "mediaListOptions": {"scoreFormat": "POINT_10"},
                 "favourites": {"anime": {"nodes": []}}
             }
         }
     }
 
-# print(get_user_MAL_data("Radz1k_"))
+print(get_user_MAL_data("Radz1k_"))
 
