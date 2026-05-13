@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import FilterPage from "@/components/filters/filterPage";
 import Recommendation from "@/components/showRecommendations/recommendation";
-import { RecommendationSkeleton } from "@/components/showRecommendations/recommendationSkeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Toolbar from "./Toolbar";
+import RecommendationSkeleton from "./showRecommendations/recommendationSkeleton";
 
 
 export default function DiscoverTab({ 
@@ -49,7 +49,7 @@ export default function DiscoverTab({
         <ScrollArea className="flex-1 h-full">
           <div className={`${gridClass} p-4 animate-in fade-in duration-500`}>
             {isLoading
-              ? [...Array(12)].map((_, i) => <RecommendationSkeleton key={i} />)
+              ? [...Array(12)].map((_, i) => <RecommendationSkeleton viewMode={viewMode} />)
               : apiData.map((item) => (
                   <Recommendation 
                     key={item.id} 
