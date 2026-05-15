@@ -6,7 +6,6 @@ from backend.config.reccomender_values_settings import (
 
 def user_genre_profile(entry, user_data, user_genres):
     anime_score = entry["score"]
-
     genres = entry["media"]["genres"]
     repeat_multiplier = entry["repeat"] + REPEAT_MULTIPLIER
     favourites_multiplier = 1
@@ -23,10 +22,10 @@ def user_genre_profile(entry, user_data, user_genres):
 
     for fav in user_data["favourites"]["anime"]["nodes"]:
         if entry["media"]["id"] == fav["id"]:
-            favourites_multiplier = USER_FAVOURITES_MULTIPLIER
+            if multiplier > 0:
+                favourites_multiplier = USER_FAVOURITES_MULTIPLIER
             break
 
     for genre in genres:
-        user_genres[genre] = user_genres.get(genre, 0) + (
-            multiplier * repeat_multiplier * favourites_multiplier
-        )
+        contribution = multiplier * repeat_multiplier * favourites_multiplier
+        user_genres[genre] = user_genres.get(genre, 0) + contribution

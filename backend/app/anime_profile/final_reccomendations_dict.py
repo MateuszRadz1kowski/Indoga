@@ -29,7 +29,6 @@ def prepare_dictionary(filters, user_data):
     if not anime_recommendations:
         return {}
 
-    prepare_recommendation_reasons(anime_recommendations)
     # print(f"tag scores: {user_interests_profile[0]}")
     # print(f"genre scores: {user_interests_profile[1]}")
     # print(f"anime recommendations: {anime_recommendations}")
@@ -67,17 +66,6 @@ def prepare_dictionary(filters, user_data):
     print("FINAL_RECOMMENDATIONS_DICT--- %s seconds ---" % (time.time() - start_time))
     return recommendations_dictionary
 
-def prepare_recommendation_reasons(anime_recommendations):
-    for data in anime_recommendations.values():
-        reasons = data["why_recommended"]
-
-        data["why_recommended"] = dict(
-            sorted(
-                reasons.items(),
-                key=lambda x: x[1],
-                reverse=True
-            )[:4]
-        )
 
 USER_CACHE_TTL = 900
 
