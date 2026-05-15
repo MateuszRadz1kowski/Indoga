@@ -8,7 +8,6 @@ from backend.scripts.tag_count import get_tag_popularity_weight
 
 def user_tag_profile(entry, user_data, user_tags):
     anime_score = entry["score"]
-
     tags = entry["media"]["tags"]
     repeat_multiplier = entry["repeat"] + REPEAT_MULTIPLIER
     favourites_multiplier = 1
@@ -25,19 +24,25 @@ def user_tag_profile(entry, user_data, user_tags):
 
     for fav in user_data["favourites"]["anime"]["nodes"]:
         if entry["media"]["id"] == fav["id"]:
-            favourites_multiplier = USER_FAVOURITES_MULTIPLIER
+            if multiplier > 0:
+                favourites_multiplier = USER_FAVOURITES_MULTIPLIER
             break
 
     for tag in tags:
         tag_name = tag["name"]
-        tag_rank = tag["rank"]
+        tag_rank = tag["rank"] / 100.0
+
+        if multiplier >= 0:
+            pop_weight = get_tag_popularity_weight(tag)
+        else:
+            pop_weight = 1.0
 
         tag_score = (
             tag_rank
             * multiplier
             * repeat_multiplier
             * favourites_multiplier
-            * get_tag_popularity_weight(tag)
+            * pop_weight
         )
 
         user_tags[tag_name] = user_tags.get(tag_name, 0) + tag_score

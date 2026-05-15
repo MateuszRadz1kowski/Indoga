@@ -1,4 +1,5 @@
 import math
+
 from backend.app.anime_profile.check_filters import (
     check_if_adult, check_season_year, check_show_planning,
     check_episode_number, check_show_media_type, check_mean_score,
@@ -8,25 +9,77 @@ from backend.app.anime_profile.check_filters import (
 )
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import (
-    ANIME_PROFILE_GENRE_MODIFIER, mean_score_multiplier,
-    anime_favourites_multiplier, ANIME_USER_PLANNING_MULTIPLIER,
-    ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER, anime_popularity_multiplier
+    mean_score_multiplier,
+    anime_favourites_multiplier,
+    ANIME_USER_PLANNING_MULTIPLIER,
+    ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER,
+    anime_popularity_multiplier,
+    ANIME_PROFILE_GENRE_MODIFIER
 )
 
-CANDIDATE_POOL_SIZE = 10000
 FINAL_RESULTS_SIZE = 100
 
 
+def build_anime_vector(anime):
+    vector = {}
+
+    for tag in (anime[7] or []):
+        name = tag.get("name")
+        rank = tag.get("rank", 0) / 100.0
+        if name and rank > 0:
+            vector[("tag", name)] = rank
+
+    for genre in (anime[6] or []):
+        if genre:
+            vector[("genre", genre)] = 0.5 * ANIME_PROFILE_GENRE_MODIFIER
+
+    if not vector:
+        return {}
+
+    norm = math.sqrt(sum(v ** 2 for v in vector.values()))
+    if norm == 0:
+        return {}
+
+    return {k: v / norm for k, v in vector.items()}
+
+
+def score_anime(anime_vector, user_tags, user_genres):
+    score = 0.0
+    why_recommended = {}
+
+    for (feature_type, feature_name), anime_weight in anime_vector.items():
+        if feature_type == "tag":
+            user_weight = user_tags.get(feature_name, 0.0)
+        else:
+            user_weight = user_genres.get(feature_name, 0.0)
+
+        if user_weight == 0.0:
+            continue
+
+        contribution = anime_weight * user_weight
+        score += contribution
+
+        if contribution > 0 and feature_type == "tag":
+            why_recommended[feature_name] = contribution
+
+    return score, why_recommended
+
+
 def create_anime_profile(db_response, user_interests_profile, filters, user_data, raw_data):
+    user_tags = user_interests_profile[0]
+    user_genres = user_interests_profile[1]
+    user_recs = user_interests_profile[2]
+
     all_statuses = user_anime_status(user_data, raw_data)
     anime_completed = all_statuses.get(0, {})
-    anime_planning  = all_statuses.get(2, {})
-    anime_profile = {}
-    for anime in db_response:
-        if len(anime_profile) >= CANDIDATE_POOL_SIZE:
-            break
+    anime_planning = all_statuses.get(2, {})
 
+    anime_profile = {}
+
+    for anime in db_response:
         anime_name = anime[2]
+        if not anime_name:
+            continue
 
         if anime_name in anime_completed:
             continue
@@ -42,49 +95,42 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
             check_hide_selected_genres(anime, filters["hide_selected_genres"]) and
             check_show_sequels(anime, filters["show_sequels"]) and
             check_show_media_type(anime, filters["media_types"]) and
-            check_show_streaming_service(anime,filters["show_streaming_service"]) and
+            check_show_streaming_service(anime, filters["show_streaming_service"]) and
             check_show_planning(anime, anime_planning)
         ):
             continue
 
-        anime_profile[anime_name] = {
-            "score": 0.0,
-            "why_recommended": {}
-        }
+        anime_vector = build_anime_vector(anime)
+        if not anime_vector:
+            continue
 
-        anime_score = 0.0
+        base_score, why_recommended = score_anime(anime_vector, user_tags, user_genres)
 
-        for tag in (anime[7] or []):
-            tag_name = tag.get("name")
-            tag_rank = tag.get("rank", 0)
-            if tag_name and tag_name in user_interests_profile[0]:
-                value = tag_rank * user_interests_profile[0][tag_name]
-                anime_score += value
-                anime_profile[anime_name]["why_recommended"].setdefault(tag_name, 0.0)
-                anime_profile[anime_name]["why_recommended"][tag_name] += value
-
-        for genre in (anime[6] or []):
-            if genre in user_interests_profile[1]:
-                anime_score += ANIME_PROFILE_GENRE_MODIFIER * user_interests_profile[1][genre]
+        if anime_name in user_recs:
+            base_score += ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER * user_recs[anime_name]
 
         if anime_name in anime_planning:
-            anime_score *= ANIME_USER_PLANNING_MULTIPLIER
+            base_score *= ANIME_USER_PLANNING_MULTIPLIER
 
-        if anime_name in user_interests_profile[2]:
-            anime_score += ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER * user_interests_profile[2][anime_name]
+        base_score *= mean_score_multiplier(anime[11])
 
-        if anime[11] is not None:
-            anime_score *= mean_score_multiplier(anime[11])
-        anime_score *= anime_favourites_multiplier(anime[10])
+        base_score *= anime_favourites_multiplier(anime[10])
 
-        anime_score *= anime_popularity_multiplier(
+        base_score *= anime_popularity_multiplier(
             filters["popularity_importance"],
             anime[9]
         )
 
-        anime_profile[anime_name]["score"] = anime_score
+        anime_profile[anime_name] = {
+            "score": base_score,
+            "why_recommended": why_recommended
+        }
+
+    if not anime_profile:
+        return {}
 
     normalise_score(anime_profile)
+    prepare_recommendation_reasons(anime_profile)
 
     sorted_profile = dict(
         sorted(
@@ -97,18 +143,36 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
     return dict(list(sorted_profile.items())[:FINAL_RESULTS_SIZE])
 
 
-def normalise_score(anime):
-    if not anime:
-        return anime
-
-    scores = [v["score"] for v in anime.values()]
-
+def normalise_score(anime_profile):
+    scores = [v["score"] for v in anime_profile.values()]
     min_score = min(scores)
     max_score = max(scores)
 
-    for key in anime:
-        normalized = (anime[key]["score"] - min_score) / (max_score - min_score)
+    score_range = max_score - min_score
+    if score_range == 0:
+        for key in anime_profile:
+            anime_profile[key]["score"] = 0.5
+        return
 
-        anime[key]["score"] = round(normalized, 4)
+    for key in anime_profile:
+        raw = anime_profile[key]["score"]
+        anime_profile[key]["score"] = round((raw - min_score) / score_range, 4)
 
-    return anime
+def prepare_recommendation_reasons(anime_profile):
+    for data in anime_profile.values():
+        reasons = data["why_recommended"]
+        total = sum(reasons.values()) if reasons else 1
+
+        if total <= 0:
+            data["why_recommended"] = {}
+            continue
+
+        relative = {
+            tag: round(contrib / total, 3)
+            for tag, contrib in reasons.items()
+            if contrib > 0
+        }
+
+        data["why_recommended"] = dict(
+            sorted(relative.items(), key=lambda x: x[1], reverse=True)[:4]
+        )

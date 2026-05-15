@@ -9,7 +9,7 @@ def check_if_adult(anime,show_18_rated):
             return False
         else:
             return True
-    return False
+    return True
 
 def check_episode_number(anime, min_number_episodes, max_number_episodes):
     if anime[13] is not None:
