@@ -5,7 +5,7 @@ from backend.app.anime_profile.check_filters import (
     check_episode_number, check_show_media_type, check_mean_score,
     check_show_selected_tags, check_hide_selected_tags,
     check_show_selected_genres, check_hide_selected_genres,
-    check_show_sequels, check_show_streaming_service
+    check_show_sequels, check_show_streaming_service, check_high_popularity
 )
 from backend.app.anime_profile.user_anime_status import user_anime_status
 from backend.config.reccomender_values_settings import (
@@ -96,7 +96,8 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
             check_show_sequels(anime, filters["show_sequels"]) and
             check_show_media_type(anime, filters["media_types"]) and
             check_show_streaming_service(anime, filters["show_streaming_service"]) and
-            check_show_planning(anime, anime_planning)
+            check_show_planning(anime,filters["show_planning"],anime_planning) and
+            check_high_popularity(anime,filters["show_high_popularity"])
         ):
             continue
 
@@ -118,14 +119,16 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
 
         base_score *= anime_popularity_multiplier(
             filters["popularity_importance"],
-            anime[9]
+            anime[10]
         )
+
+        if not why_recommended:
+            why_recommended = {}
 
         anime_profile[anime_name] = {
             "score": base_score,
             "why_recommended": why_recommended
         }
-
     if not anime_profile:
         return {}
 

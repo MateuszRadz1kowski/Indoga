@@ -1,6 +1,3 @@
-from backend.app.anime_profile.filters import SHOW_PLANNING
-
-
 def check_if_adult(anime,show_18_rated):
     if anime[5] is not None:
         if show_18_rated == True:
@@ -28,15 +25,15 @@ def check_season_year(anime, min_release_year, max_release_year):
             return False
     return False
 
-def check_show_planning(anime,anime_planning):
-    if anime[2] is not None:
-        if SHOW_PLANNING == True:
-            return True
-        elif anime[2] in anime_planning:
-            return False
-        else:
-            return True
-    return False
+
+def check_show_planning(anime, show_planning, anime_planning):
+    if show_planning:
+        return True
+
+    if anime[2] in anime_planning:
+        return False
+
+    return True
 
 def check_mean_score(anime, min_score):
     if min_score == 0:
@@ -105,9 +102,15 @@ def check_hide_selected_genres(anime, hide_selected_genres):
         return False
 
 def check_show_sequels(anime, show_sequels):
+    if anime[4] in {"MANGA", "NOVEL", "ONE_SHOT"}:
+        sequels_formats = {"PREQUEL", "PARENT", "SUMMARY"}
+    else:
+        sequels_formats = {"PREQUEL", "PARENT", "SIDE_STORY", "ALTERNATIVE", "SUMMARY"}
+
     if show_sequels==False:
-        for relation in anime[18] or []:
-            if relation["type"] == "PREQUEL":
+        for relation in anime[18]:
+            rel_type = relation.get("type").upper()
+            if rel_type in sequels_formats:
                 return False
         return True
     else:
@@ -141,3 +144,21 @@ def check_show_streaming_service(anime, show_streaming_service):
         if show_streaming_service == site_name:
             return True
     return False
+
+
+def check_high_popularity(anime, show_high_popularity):
+    if show_high_popularity:
+        return True
+
+
+    if anime[4] not in {"MANGA", "NOVEL", "ONE_SHOT"} and anime[10] >= 7000 and anime[9] >= 150000:
+        return False
+    elif anime[4] in {"MANGA", "NOVEL", "ONE_SHOT"} and anime[10] >= 2500 and anime[9] >= 30000:
+        return False
+
+    for relation in  anime[18]:
+        rel_type = relation.get("type").upper()
+        if rel_type in ["PARENT", "SIDE_STORY", "ALTERNATIVE", "SUMMARY"]:
+            return False
+
+    return True

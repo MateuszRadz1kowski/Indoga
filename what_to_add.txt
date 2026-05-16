@@ -29,3 +29,4 @@ nowe ui zeby bylo w 100% poloczone z mal i z anilist/manga
 nowe skeletony w zaleznosci jaki viewmode wybrany
 gdy jest wybrany streaming service do pokazania i przechodze na mange, to nadal jest wybrany streaming service
 moze zeby naprawic problem z popularnoscia tryb ktory wyrzuca wszystko z popularnoscia wieksza niz np 100 000
+odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning
