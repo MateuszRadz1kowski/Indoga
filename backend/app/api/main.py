@@ -20,7 +20,7 @@ async def get_recommendations(
     username: str = Query(None),
     platform: str = Query(None),
 
-    show_sequels: bool = Query(True),
+    show_sequels: bool = Query(False),
     experimental_mode: bool = Query(False),
     show_18_rated: bool = Query(True),
 
@@ -41,7 +41,9 @@ async def get_recommendations(
     show_selected_genres: Optional[List[str]] = Query(None),
     hide_selected_genres: Optional[List[str]] = Query(None),
     media_types: str = Query("TV"),
-    show_streaming_service: str = Query("All")
+    show_streaming_service: str = Query("All"),
+    show_planning: bool = Query(False),
+    show_high_popularity: bool = Query(True),
 ):
     filters = {
         "show_sequels" : show_sequels,
@@ -60,7 +62,9 @@ async def get_recommendations(
         "show_selected_genres": show_selected_genres,
         "hide_selected_genres": hide_selected_genres,
         "media_types": media_types,
-        "show_streaming_service": show_streaming_service
+        "show_streaming_service": show_streaming_service,
+        "show_planning": show_planning,
+        "show_high_popularity": show_high_popularity,
     }
 
     user_data = {

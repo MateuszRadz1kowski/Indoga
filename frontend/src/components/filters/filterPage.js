@@ -45,10 +45,12 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		hide_selected_genres: [],
 		media_types: null,
 		show_streaming_service: null,
+		show_planning: null,
+		show_high_popularity: null,
 	});
 
 	const defaultValues = {
-		show_sequels: true,
+		show_sequels: false,
 		experimental_mode: false,
 		show_18_rated: true,
 		tag_importance: "medium",
@@ -63,6 +65,8 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		genres: [],
 		media_types: "TV",
 		show_streaming_service: "All",
+		show_planning: false,
+		show_high_popularity: true,
 	};
 
 	const updateFilter = (key, value) => {
@@ -127,7 +131,9 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			show_selected_genres: [],
 			hide_selected_genres: [],
 			media_types: null,
-			show_streaming_service: "All",
+			show_streaming_service: null,
+			show_planning: null,
+			show_high_popularity: null,
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
@@ -189,6 +195,11 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					<div className="space-y-1.5">
 						{[
 							{
+								key: "show_planning",
+								label: "Show planning",
+								id: "filter-planning",
+							},
+							{
 								key: "show_sequels",
 								label: "Show sequels",
 								id: "filter-sequels",
@@ -202,6 +213,11 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								key: "show_18_rated",
 								label: "Show 18+ content",
 								id: "filter-adult",
+							},
+							{
+								key: "show_high_popularity",
+								label: `Show ${filters.media_types == "MANGA" ? "manga" : "anime"} with high popularity`,
+								id: "filter-high-popularity",
 							},
 						].map(({ key, label, id }) => (
 							<div

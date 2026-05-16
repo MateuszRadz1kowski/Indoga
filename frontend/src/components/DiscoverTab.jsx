@@ -50,9 +50,9 @@ export default function DiscoverTab({
           <div className={`${gridClass} p-4 animate-in fade-in duration-500`}>
             {isLoading
               ? [...Array(12)].map((_, i) => <RecommendationSkeleton viewMode={viewMode} />)
-              : apiData.map((item) => (
+              : apiData.map((item, index) => (
                   <Recommendation 
-                    key={item.id} 
+                    key={item.id || index} 
                     recommendationData={item} 
                     viewMode={viewMode} 
                   />

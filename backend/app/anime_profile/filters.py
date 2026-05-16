@@ -1,5 +1,0 @@
-IS_ADULT = True
-FORMAT={"TV":True, "TV_SHORT":False,"MOVIE":False,"SPECIAL":False,"OVA":False,"ONA":False,"MUSIC":False,"MANGA":False,"NOVEL":False,"ONE_SHOT":False}
-SEASON_YEAR_FROM = 1900
-SEASON_YEAR_TO=2026
-SHOW_PLANNING = True

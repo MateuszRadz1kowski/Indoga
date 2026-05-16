@@ -36,9 +36,12 @@ function ExternalLinkButton({ href, children, className = "" }) {
 }
 
 function Why_recommend_Tags({ why_recommended }) {
+	const entries = Object.entries(why_recommended || {});
+
+	if (entries.length == 0) return null;
 	return (
 		<div className="flex flex-wrap gap-1">
-			{Object.entries(why_recommended).map(([tag]) => (
+			{entries.map(([tag]) => (
 				<Badge
 					key={tag}
 					variant="outline"
