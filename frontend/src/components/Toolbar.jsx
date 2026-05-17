@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useEffect } from "react";
 
 const SORT_OPTIONS = [
   { id: "match", label: "Match %" },

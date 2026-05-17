@@ -1,11 +1,13 @@
 "use client";
+import GenreAffinityMap from "./GenreAffinityMap";
 import HotTakes from "./HotTakes";
+import TagAffinityMap from "./TagAffinityMap";
 import TimelineDecades from "./TimelineDecades";
 import { useEffect, useState } from "react";
 
 export default function StatsTab() {
 	const [data, setData] = useState(null);
-
+	const [dataUserInterests, setDataUserInterests] = useState(null);
 	useEffect(() => {
 		async function fetchData() {
 			const username = localStorage.getItem("username");
@@ -26,10 +28,32 @@ export default function StatsTab() {
 		fetchData();
 	}, []);
 
+	useEffect(() => {
+		async function fetchData() {
+			const username = localStorage.getItem("username");
+			const platform = localStorage.getItem("platform");
+			if (!username) return;
+
+			try {
+				const res = await fetch(
+					`http://127.0.0.1:8000/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+				);
+				const json = await res.json();
+				console.log(json);
+				setDataUserInterests(json);
+			} catch (err) {
+				console.error(err);
+			}
+		}
+		fetchData();
+	}, []);
+
 	return (
 		<div className="p-4 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar">
-			{data ? (
+			{data && dataUserInterests ? (
 				<div>
+					<GenreAffinityMap interests={dataUserInterests} />
+					<TagAffinityMap interests={dataUserInterests} />
 					<TimelineDecades apiData={data} />
 					<HotTakes data={data} />
 				</div>

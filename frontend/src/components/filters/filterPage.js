@@ -174,6 +174,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 							if (value) {
 								setFilters((prev) => ({
 									...prev,
+									show_streaming_service: null,
 									media_types: value,
 								}));
 							}

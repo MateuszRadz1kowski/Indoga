@@ -1,7 +1,5 @@
 Reccomendations alghorithm
     anime_profile
-        mnozenie wyniku anime przez:
-            negatywne punkty gdy nie lubi
         filtry:
             user moze manualnie dodac ze bardzo lubi/nie lubi danego anime, np ja bardzo nie lubie jojo i one piece jednak nie widac tego w moim score, takie cos ma miec negatywny wplyw
             edytowaie jak bardzo wazne sa genre i tagi przy polecaniu
@@ -24,9 +22,4 @@ problemy na pozniej:
 dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
-gdy wlacza sie filter, sortowanie sie resetuje do match%, a gdy mialem wlaczane np score do nadal pokazuje score sortowanie
-nowe ui zeby bylo w 100% poloczone z mal i z anilist/manga
-nowe skeletony w zaleznosci jaki viewmode wybrany
-gdy jest wybrany streaming service do pokazania i przechodze na mange, to nadal jest wybrany streaming service
-moze zeby naprawic problem z popularnoscia tryb ktory wyrzuca wszystko z popularnoscia wieksza niz np 100 000
 odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning

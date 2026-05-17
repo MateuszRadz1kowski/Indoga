@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import FilterPage from "@/components/filters/filterPage";
 import Recommendation from "@/components/showRecommendations/recommendation";
 import { ScrollArea } from "@/components/ui/scroll-area";
