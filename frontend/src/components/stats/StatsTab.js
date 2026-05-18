@@ -39,11 +39,36 @@ function buildComparison(interestsUserA, interestsUserB) {
 	const matchPercentage = Math.round(
 		(tagSimilarity * 0.7 + genreSimilarity * 0.3) * 100,
 	);
+	const sharedTags = Object.keys(tagsUserA)
+		.filter((tagName) => tagsUserB[tagName])
+		.map((tagName) => ({
+			name: tagName,
+			scoreA: tagsUserA[tagName],
+			scoreB: tagsUserB[tagName],
+			averageScore: (tagsUserA[tagName] + tagsUserB[tagName]) / 2,
+		}))
+		.sort((a, b) => b.averageScore - a.averageScore)
+		.slice(0, 8);
+
+	const uniqueTagsA = Object.entries(tagsUserA)
+		.filter(([tagName]) => !tagsUserB[tagName])
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 5)
+		.map(([tagName, score]) => ({ name: tagName, score }));
+
+	const uniqueTagsB = Object.entries(tagsUserB)
+		.filter(([tagName]) => !tagsUserA[tagName])
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 5)
+		.map(([tagName, score]) => ({ name: tagName, score }));
 
 	return {
 		match: matchPercentage,
 		tagSim: tagSimilarity,
 		genreSim: genreSimilarity,
+		sharedTags: sharedTags,
+		uniqueA: uniqueTagsA,
+		uniqueB: uniqueTagsB,
 	};
 }
 

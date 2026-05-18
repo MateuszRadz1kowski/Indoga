@@ -72,7 +72,6 @@ async def get_recommendations(
         "platform" : platform
     }
     data = prepare_dictionary(filters,user_data)
-
     return data
 
 @app.get("/raw_data/")
