@@ -23,3 +23,5 @@ dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
 gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
 odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning
+duzo problemow w filtrowaniu po sequelach trzeba znalezc sposob by realnie tylko sequele znajdowac
+gdy jes tsie na telefonie to defaultowo jest wide widok
