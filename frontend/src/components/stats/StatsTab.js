@@ -7,6 +7,7 @@ import TagAffinityMap from "./TagAffinityMap";
 import TimelineDecades from "./TimelineDecades";
 import ComparisonForm from "./ComparisonForm";
 import ComparisonOverview from "./ComparisonOverview";
+import ComparisonShared from "./ComparisonShared";
 
 function calculateCosineSimilarity(userAScores, userBScores) {
 	const allKeys = new Set([
@@ -36,6 +37,8 @@ function buildComparison(interestsUserA, interestsUserB) {
 
 	const tagSimilarity = calculateCosineSimilarity(tagsUserA, tagsUserB);
 	const genreSimilarity = calculateCosineSimilarity(genresUserA, genresUserB);
+	console.log("Tag similarity:", tagSimilarity);
+	console.log("Genre similarity:", genreSimilarity);
 	const matchPercentage = Math.round(
 		(tagSimilarity * 0.7 + genreSimilarity * 0.3) * 100,
 	);
@@ -149,8 +152,16 @@ export default function StatsTab() {
 						<div className="space-y-4">
 							<ComparisonOverview
 								match={comparison.match}
-								tagSim={comparison.tagSim}
-								genreSim={comparison.genreSim}
+								tagSimilarity={comparison.tagSim}
+								genreSimilarity={comparison.genreSim}
+							/>
+
+							<ComparisonShared
+								sharedTags={comparison.sharedTags}
+								uniqueA={comparison.uniqueA}
+								uniqueB={comparison.uniqueB}
+								nameA="You"
+								nameB={comparisonUsername.trim()}
 							/>
 						</div>
 					)}

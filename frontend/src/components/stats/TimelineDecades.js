@@ -5,8 +5,15 @@ import { Card } from "@/components/ui/card";
 import { Calendar, CalendarDays, Star, Trophy } from "lucide-react";
 
 const groupByDecade = (rawData) => {
-	const completedList = rawData.data.MediaListCollection.lists[0].entries;
+	if (!rawData?.data?.MediaListCollection?.lists) return {};
 
+	const completedListObj = rawData.data.MediaListCollection.lists.find(
+		(list) => list.entries?.[0]?.status == "COMPLETED",
+	);
+
+	if (!completedListObj) return {};
+
+	const completedList = completedListObj.entries;
 	const grouped = {};
 
 	completedList.forEach((entry) => {

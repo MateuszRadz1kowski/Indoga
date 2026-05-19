@@ -17,15 +17,27 @@ def user_anime_status(user_data, raw_data):
 
     all_lists = data.get('data', {}).get('MediaListCollection', {}).get('lists', [])
 
-    result = {}
-    for status_number, lst in enumerate(all_lists):
-        titles = {}
-        for entry in lst.get('entries', []):
+    result = {
+        "COMPLETED": {},
+        "PLANNING": {},
+        "CURRENT": {},
+        "DROPPED": {},
+        "PAUSED": {}
+    }
+
+    for list in all_lists:
+        for entry in list.get('entries', []):
+            entry_status = entry.get("status")
+            if not entry_status:
+                continue
+
             media = entry.get("media", {})
             title_obj = media.get("title", {})
             entry_title = title_obj.get("english") or title_obj.get("romaji")
             if entry_title:
-                titles[entry_title] = entry_title
-        result[status_number] = titles
+                if entry_status in result:
+                    result[entry_status][entry_title] = entry_title
+                else:
+                    result[entry_status] = {entry_title: entry_title}
 
     return result

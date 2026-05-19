@@ -71,8 +71,8 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
     user_recs = user_interests_profile[2]
 
     all_statuses = user_anime_status(user_data, raw_data)
-    anime_completed = all_statuses.get(0, {})
-    anime_planning = all_statuses.get(2, {})
+    anime_completed = all_statuses.get("COMPLETED", {})
+    anime_planning = all_statuses.get("PLANNING", {})
 
     anime_profile = {}
 
@@ -80,7 +80,6 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
         anime_name = anime[2]
         if not anime_name:
             continue
-
         if anime_name in anime_completed:
             continue
 
