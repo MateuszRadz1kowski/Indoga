@@ -43,7 +43,7 @@ const TagRow = ({ tag, scoreA, scoreB }) => {
 	);
 };
 
-export default function VersusShared({
+export default function ComparisonShared({
 	sharedTags,
 	uniqueA,
 	uniqueB,
@@ -85,7 +85,7 @@ export default function VersusShared({
 					<div>
 						<p
 							className="text-[10px] font-semibold mb-1.5 truncate"
-							style={{ color: C_A }}
+							style={{ color: "8b5cf6" }}
 						>
 							Only {nameA}
 						</p>
@@ -100,7 +100,7 @@ export default function VersusShared({
 									</span>
 									<span
 										className="font-mono text-[10px]"
-										style={{ color: C_A }}
+										style={{ color: "8b5cf6" }}
 									>
 										{(tag.score * 100).toFixed(0)}%
 									</span>
@@ -111,7 +111,7 @@ export default function VersusShared({
 					<div>
 						<p
 							className="text-[10px] font-semibold mb-1.5 truncate"
-							style={{ color: C_B }}
+							style={{ color: "06b6d4" }}
 						>
 							Only {nameB}
 						</p>
@@ -126,7 +126,7 @@ export default function VersusShared({
 									</span>
 									<span
 										className="font-mono text-[10px]"
-										style={{ color: C_B }}
+										style={{ color: "06b6d4" }}
 									>
 										{(tag.score * 100).toFixed(0)}%
 									</span>

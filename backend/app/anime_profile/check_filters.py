@@ -101,21 +101,37 @@ def check_hide_selected_genres(anime, hide_selected_genres):
     except (TypeError, KeyError, IndexError):
         return False
 
-def check_show_sequels(anime, show_sequels):
-    if anime[4] in {"MANGA", "NOVEL", "ONE_SHOT"}:
-        sequels_formats = {"PREQUEL", "PARENT", "SUMMARY"}
-    else:
-        sequels_formats = {"PREQUEL", "PARENT", "SIDE_STORY", "ALTERNATIVE", "SUMMARY"}
 
-    if show_sequels==False:
+def check_show_sequels(anime, show_sequels):
+    if show_sequels == True:
+        return True
+
+    anime_format = anime[4]
+
+    if anime_format in {"MANGA", "NOVEL", "ONE_SHOT"}:
+        manga_sequels_formats = {"PREQUEL", "PARENT", "SUMMARY", "SEQUEL"}
         for relation in anime[18]:
-            rel_type = relation.get("type").upper()
-            if rel_type in sequels_formats:
+            rel_type = str(relation.get("type") or "").upper()
+            if rel_type in manga_sequels_formats:
                 return False
         return True
-    else:
-        return True
 
+    else:
+        if anime_format != "TV":
+            for relation in anime[18]:
+                rel_type = relation.get("type") or ""
+                if rel_type in { "PREQUEL", "PARENT", "SUMMARY", "SIDE_STORY", "ALTERNATIVE"}:
+                    return False
+            return True
+
+
+        for relation in anime[18]:
+            rel_type = relation.get("type") or ""
+            related_format = relation.get("format") or ""
+
+            if rel_type in {"PREQUEL", "PARENT"} and related_format == "TV":
+                return False
+        return True
 
 def check_show_media_type(anime, media_types):
     ANIME_FORMATS = {"TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC"}

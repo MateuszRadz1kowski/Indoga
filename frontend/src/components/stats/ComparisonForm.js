@@ -13,7 +13,7 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Users } from "lucide-react";
 
-export default function VersusSearch({
+export default function ComparisonForm({
 	comparisonUsername,
 	setComparisonUsername,
 	comparisonPlatform,
@@ -30,7 +30,7 @@ export default function VersusSearch({
 					</div>
 					<div>
 						<h3 className="text-sm font-bold text-white tracking-tight">
-							Versus Mode
+							Comparison Mode
 						</h3>
 						<p className="text-[11px] text-slate-500">
 							Compare your taste with any user
