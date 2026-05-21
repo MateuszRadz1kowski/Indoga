@@ -9,6 +9,7 @@ import ComparisonForm from "./ComparisonForm";
 import ComparisonOverview from "./ComparisonOverview";
 import ComparisonShared from "./ComparisonShared";
 import ComparisonDiffrence from "./ComparisonDiffrence";
+import ComparisonGenres from "./ComparisonGenres";
 
 function calculateCosineSimilarity(userAScores, userBScores) {
 	const allKeys = new Set([
@@ -86,6 +87,18 @@ function buildComparison(interestsUserA, interestsUserB) {
 		.sort((a, b) => Math.abs(b.difference) - Math.abs(a.difference))
 		.slice(0, 10);
 
+	const allGenres = [
+		...new Set([...Object.keys(genresUserA), ...Object.keys(genresUserB)]),
+	];
+	console.log(genresUserA, genresUserB);
+	const radarData = allGenres
+		.map((genre) => ({
+			genre: genre,
+			userA: Math.round((genresUserA[genre] ?? 0) * 100),
+			userB: Math.round((genresUserB[genre] ?? 0) * 100),
+		}))
+		.slice(0, 10);
+
 	return {
 		match: matchPercentage,
 		tagSim: tagSimilarity,
@@ -94,6 +107,7 @@ function buildComparison(interestsUserA, interestsUserB) {
 		uniqueA: uniqueTagsA,
 		uniqueB: uniqueTagsB,
 		diffrence: diffrence,
+		radarData: radarData,
 	};
 }
 
@@ -190,6 +204,12 @@ export default function StatsTab() {
 								diffrence={comparison.diffrence}
 								nameA="You"
 								nameB={comparisonUsername}
+							/>
+
+							<ComparisonGenres
+								radarData={comparison.radarData}
+								nameA="You"
+								nameB={comparisonUsername.trim()}
 							/>
 						</div>
 					)}

@@ -6,17 +6,13 @@ Reccomendations alghorithm
             opcje jak bardzo jest wazny pozytywny user score w porowananiu z negatywnym scorem, tak samo z meanscore
             opcje jak duzy boost jest planowanych anime przez usera
             status np finished
-            
-            
 
-manualnie pokazane jakie tagi i genre user lubi, ladnie przedstawione, porownywanie z innymi userami
 strona ze statystykami strony dla mojego wglądu - chyba to jest devops
 
 ???dodac lazy loading???
 frontend:
     dark mode - zmiana miedzy light a dark mode
     tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
-    guzik po ktorego kliknieciu user wraca do trybu "logowania" - wyboru nicku 
     
 problemy na pozniej:
 dodac weryfikacje danych ze gdy jest jakis blad by pisalo w ui
@@ -24,4 +20,5 @@ gdy profil usera jest prywatny pokazuje w frontendzie
 ???filtr lat zmienic na slider???
 odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning
 duzo problemow w filtrowaniu po sequelach trzeba znalezc sposob by realnie tylko sequele znajdowac
-gdy jes tsie na telefonie to defaultowo jest wide widok
+gdy jes tsie na telefonie to defaultowo powinien byc wide widok
+ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce
