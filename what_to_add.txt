@@ -22,3 +22,30 @@ odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie p
 duzo problemow w filtrowaniu po sequelach trzeba znalezc sposob by realnie tylko sequele znajdowac
 gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce
+
+
+
+frontend:
+    > Wrap na timeline (poprawny)
+    > timeline bounuje (oś y)
+    > key prop error
+    > cursor zachowanie na stronie
+    Main:
+        > Długości opisów
+        > reset strony po kliknięciu resetu filtrów
+        > reset klikalny po wyborze filtrów
+        > ?standard grid przesłona na hover
+        > stopke zabrać absolute
+        > show/hide bardziej intuicyjne
+
+    Wykresy:
+        > do accordition
+        > paddingi
+        > zmiana stylu overflow
+        > oscylować
+        > pododawać dane liczbowe
+        > kolory losowe (TagAffinityMap.js GenreAffilityMap.js)
+        > wyszukiwanie tego samego siebie
+        > nazwa porównywanego onClick
+
+                > Różnią się w zalżności kto kogo wyszukuje (ja ty =/= ty ja)
