@@ -78,6 +78,7 @@ export default function LoginPage() {
 							className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:rotate-[360deg] group-hover:scale-110 shadow-lg"
 							style={{
 								background: "oklch(0.65 0.25 290)",
+								shadowColor: "oklch(0.65 0.25 290 / 0.4)",
 								boxShadow: "0 0 25px oklch(0.65 0.25 290 / 0.4)",
 							}}
 						>
@@ -101,31 +102,16 @@ export default function LoginPage() {
 						boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.6)",
 					}}
 				>
-					<div className="absolute top-0 left-0 w-full h-px bg-gradient-to-right from-transparent via-purple-500/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
+					<div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
 
-					<Tabs defaultValue="mal" className="w-full">
+					<Tabs defaultValue="anilist" className="w-full">
 						<TabsList
 							className="grid grid-cols-2 mb-8 rounded-2xl p-1 border border-white/5"
 							style={{ background: "oklch(0.06 0.01 265)" }}
 						>
 							<TabsTrigger
-								value="mal"
-								className="flex items-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
-                  data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
-                  data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-400"
-							>
-								<Image
-									src="/mal_logo.png"
-									alt="MAL"
-									width={14}
-									height={14}
-									className="rounded-sm"
-								/>
-								MAL
-							</TabsTrigger>
-							<TabsTrigger
 								value="anilist"
-								className="flex items-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
+								className="flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
                   data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
                   data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-400"
 							>
@@ -138,9 +124,25 @@ export default function LoginPage() {
 								/>
 								AniList
 							</TabsTrigger>
+
+							<TabsTrigger
+								value="mal"
+								className="flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
+                  data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
+                  data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-400"
+							>
+								<Image
+									src="/mal_logo.png"
+									alt="MAL"
+									width={14}
+									height={14}
+									className="rounded-sm"
+								/>
+								MAL
+							</TabsTrigger>
 						</TabsList>
 
-						{["mal", "anilist"].map((platform) => (
+						{["anilist", "mal"].map((platform) => (
 							<TabsContent
 								key={platform}
 								value={platform}
@@ -152,7 +154,7 @@ export default function LoginPage() {
 									</label>
 									<div className="flex gap-2">
 										<Input
-											placeholder={`Enter your ${platform === "mal" ? "MAL" : "AniList"} username`}
+											placeholder={`Enter your ${platform === "anilist" ? "AniList" : "MAL"} username`}
 											className="flex-1 rounded-2xl border-2 text-sm h-14 bg-black/40 px-5 focus:ring-0 focus:border-purple-500/50 transition-all placeholder:text-slate-700"
 											style={{
 												borderColor: "oklch(0.22 0.02 265)",
@@ -163,7 +165,7 @@ export default function LoginPage() {
 											onKeyDown={(e) =>
 												handleKeyDown(
 													e,
-													platform == "mal" ? "MyAnimeList" : "AniList",
+													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
 										/>
@@ -173,7 +175,7 @@ export default function LoginPage() {
 											style={{ background: "oklch(0.65 0.25 290)" }}
 											onClick={() =>
 												handleLogin(
-													platform == "mal" ? "MyAnimeList" : "AniList",
+													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
 											disabled={!inputUser.trim()}
