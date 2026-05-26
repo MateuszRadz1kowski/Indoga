@@ -1,12 +1,17 @@
 import psycopg2
+import json
+from backend.config.db_settings import HOST, DATABASE, USER, PASSWORD
+from backend.config.redis_client import redis_client
 
-from backend.config.db_settings import HOST,DATABASE,USER,PASSWORD
-
-SQL = """
-SELECT * FROM anime_data
-"""
+SQL = "SELECT * FROM anime_data"
+ANIME_CACHE_KEY = "anime_db:all"
+ANIME_CACHE_TTL =  86400 
 
 def get_anime_data():
+    cached = redis_client.get(ANIME_CACHE_KEY)
+    if cached:
+        return json.loads(cached)
+
     config = {'host': HOST, 'database': DATABASE, 'user': USER, 'password': PASSWORD}
     try:
         with psycopg2.connect(**config) as conn:

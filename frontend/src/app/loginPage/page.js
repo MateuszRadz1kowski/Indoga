@@ -138,6 +138,22 @@ export default function LoginPage() {
 								/>
 								AniList
 							</TabsTrigger>
+
+							<TabsTrigger
+								value="mal"
+								className="flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
+                  data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
+                  data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-400"
+							>
+								<Image
+									src="/mal_logo.png"
+									alt="MAL"
+									width={14}
+									height={14}
+									className="rounded-sm"
+								/>
+								MAL
+							</TabsTrigger>
 						</TabsList>
 
 						{["mal", "anilist"].map((platform) => (

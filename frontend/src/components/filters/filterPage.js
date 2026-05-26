@@ -102,7 +102,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			console.log("Wysyłam do API:", queryString);
 
 			const res = await fetch(
-				`http://127.0.0.1:8000/recommendations_data?${queryString}`,
+				`http://${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${queryString}`,
 			);
 
 			const data = await res.json();
@@ -330,92 +330,89 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								)
 							}
 							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50"
-						/>
-					</div>
-				</FilterSection>
 
 				<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
-					<div className="pt-2 px-1">
-						<Slider
-							max={100}
-							step={1}
-							value={[filters.min_mean_score ?? 0]}
-							onValueChange={(e) =>
-								updateFilter("min_mean_score", e[0] ? e[0] : null)
-							}
-							className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4 [&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-violet-500 [&_.bg-primary]:bg-violet-500 [&_.bg-secondary]:bg-white/10"
-						/>
-					</div>
-				</FilterSection>
+							<div className="pt-2 px-1">
+								<Slider
+									max={100}
+									step={1}
+									value={[filters.min_mean_score ?? 0]}
+									onValueChange={(e) =>
+										updateFilter("min_mean_score", e[0] ? e[0] : null)
+									}
+									className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4 [&_[role=slider]]:bg-white [&_[role=slider]]:border-2 [&_[role=slider]]:border-violet-500 [&_.bg-primary]:bg-violet-500 [&_.bg-secondary]:bg-white/10"
+								/>
+							</div>
+						</FilterSection>
 
-				<FilterSection label="Tags Selection">
-					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
-						<TagsChoser
-							setTagsSwitchStatus={setTagsSwitchStatus}
-							tagsSwitchStatus={tagsSwitchStatus}
-							updateFilter={updateFilter}
-							filters={filters}
-						/>
-					</div>
-				</FilterSection>
+						<FilterSection label="Tags Selection">
+							<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
+								<TagsChoser
+									setTagsSwitchStatus={setTagsSwitchStatus}
+									tagsSwitchStatus={tagsSwitchStatus}
+									updateFilter={updateFilter}
+									filters={filters}
+								/>
+							</div>
+						</FilterSection>
 
-				<FilterSection label="Genres Selection">
-					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
-						<GenreChoser
-							setGenreSwitchStatus={setGenreSwitchStatus}
-							genreSwitchStatus={genreSwitchStatus}
-							updateFilter={updateFilter}
-							filters={filters}
-						/>
-					</div>
-				</FilterSection>
+						<FilterSection label="Genres Selection">
+							<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
+								<GenreChoser
+									setGenreSwitchStatus={setGenreSwitchStatus}
+									genreSwitchStatus={genreSwitchStatus}
+									updateFilter={updateFilter}
+									filters={filters}
+								/>
+							</div>
+						</FilterSection>
 
-				{(filters.media_types === "TV" || filters.media_types == null) && (
-					<FilterSection label="Streaming Services">
-						<ToggleGroup
-							type="single"
-							value={filters.show_streaming_service ?? ""}
-							onValueChange={(v) =>
-								updateFilter("show_streaming_service", v === "All" ? null : v)
-							}
-							className="gap-2.5"
-						>
-							<ToggleGroupItem
-								value="Netflix"
-								className={toogleGroupItemClassName}
+						{(filters.media_types === "TV" || filters.media_types == null) && (
+							<FilterSection label="Streaming Services">
+								<ToggleGroup
+									type="single"
+									value={filters.show_streaming_service ?? ""}
+									onValueChange={(v) =>
+										updateFilter("show_streaming_service", v === "All" ? null : v)
+									}
+									className="gap-2.5"
+								>
+									<ToggleGroupItem
+										value="Netflix"
+										className={toogleGroupItemClassName}
+									>
+										Netflix
+									</ToggleGroupItem>
+									<ToggleGroupItem
+										value="Crunchyroll"
+										className={toogleGroupItemClassName}
+									>
+										Crunchyroll
+									</ToggleGroupItem>
+								</ToggleGroup>
+							</FilterSection>
+						)}
+					</div>
+
+					<div className="flex-shrink-0 p-6 pb-8 bg-[#060d1b]/95 backdrop-blur-md border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20">
+						<div className="flex gap-3">
+							<Button
+								onClick={handleApply}
+								className="flex-[2.5] h-11 bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs rounded-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
 							>
-								Netflix
-							</ToggleGroupItem>
-							<ToggleGroupItem
-								value="Crunchyroll"
-								className={toogleGroupItemClassName}
+								<SlidersHorizontal size={14} />
+								Apply Filters
+							</Button>
+							<Button
+								onClick={handleClear}
+								variant="outline"
+								disabled={!disableClear ? false : true}
+								className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
 							>
-								Crunchyroll
-							</ToggleGroupItem>
-						</ToggleGroup>
-					</FilterSection>
-				)}
+								<RotateCcw size={14} />
+							</Button>
+						</div>
+					</div>
 			</div>
-
-			<div className="flex-shrink-0 p-6 pb-8 bg-[#060d1b]/95 backdrop-blur-md border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-20">
-				<div className="flex gap-3">
-					<Button
-						onClick={handleApply}
-						className="flex-[2.5] h-11 bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs rounded-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
-					>
-						<SlidersHorizontal size={14} />
-						Apply Filters
-					</Button>
-					<Button
-						onClick={handleClear}
-						variant="outline"
-						disabled={!disableClear ? false : true}
-						className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
-					>
-						<RotateCcw size={14} />
-					</Button>
-				</div>
-			</div>
-		</div>
-	);
+			);
 }
