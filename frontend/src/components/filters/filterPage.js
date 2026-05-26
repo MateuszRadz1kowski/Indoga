@@ -269,7 +269,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 						filters.media_types == "MANGA" ? "Chapters Range" : "Episodes Range"
 					}
 				>
-					<div className="flex gap-3">
+					<div className="flex gap-3 flex-col">
 						<div className="relative flex-1">
 							<Input
 								type="number"
@@ -304,7 +304,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 				</FilterSection>
 
 				<FilterSection label="Release year">
-					<div className="flex gap-3">
+					<div className="flex gap-3 flex-col">
 						<Input
 							type="number"
 							placeholder="From"
@@ -329,9 +329,9 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
-							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50"
+							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50" />
 
-				<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
+						<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
 							<div className="pt-2 px-1">
 								<Slider
 									max={100}
@@ -413,6 +413,8 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 							</Button>
 						</div>
 					</div>
+				</FilterSection>
 			</div>
-			);
+		</div>
+	);
 }
