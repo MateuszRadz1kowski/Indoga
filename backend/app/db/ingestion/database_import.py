@@ -1,7 +1,5 @@
 import psycopg2
-
-from backend.config.db_settings import HOST,DATABASE,USER,PASSWORD
-from backend.scripts.tag_count import count_tags
+from backend.config.db_settings import HOST, DATABASE, USER, PASSWORD
 from anilist_export_data import anilist_export_data, anilist_pack_data_to_db
 
 INSERT_SQL = """

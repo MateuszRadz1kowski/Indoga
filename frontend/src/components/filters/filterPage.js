@@ -26,6 +26,7 @@ function FilterSection({ label, children }) {
 export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
+	const [disableClear, setDisableClear] = useState(true)
 
 	const [filters, setFilters] = useState({
 		show_sequels: null,
@@ -72,6 +73,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const updateFilter = (key, value) => {
 		setFilters((prev) => ({ ...prev, [key]: value }));
 		console.log("Updated filters:", { ...filters, [key]: value });
+		setDisableClear(false)
 	};
 
 	const handleCheckbox = (key, checked) => {
@@ -137,6 +139,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
+		setDisableClear(true)
 	};
 
 	useEffect(() => {
@@ -234,7 +237,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								<Switch
 									id={id}
 									checked={filters[key] ?? defaultValues[key]}
-									onCheckedChange={(checked) => handleCheckbox(key, checked)}
+									onCheckedChange={(checked) => (handleCheckbox(key, checked), setDisableClear(false))}
 									className="data-[state=checked]:bg-violet-500 scale-90"
 								/>
 							</div>
@@ -246,7 +249,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					<ToggleGroup
 						type="single"
 						value={filters.popularity_importance ?? "medium"}
-						onValueChange={(v) => v && updateFilter("popularity_importance", v)}
+						onValueChange={(v) => v && (updateFilter("popularity_importance", v), setDisableClear(false))}
 						className="gap-2"
 					>
 						{["low", "medium", "high"].map((influenceLevel) => (
@@ -272,13 +275,14 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								type="number"
 								placeholder="Min"
 								value={filters.min_number_episodes ?? ""}
+								min="0"
 								onChange={(e) =>
 									updateFilter(
 										"min_number_episodes",
 										e.target.value ? Number(e.target.value) : null,
 									)
 								}
-								className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
+								className="h-10 text-xs bg-white/3 border-white/8 focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
 							/>
 						</div>
 						<div className="relative flex-1">
@@ -286,13 +290,14 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								type="number"
 								placeholder="Max"
 								value={filters.max_number_episodes ?? ""}
+								min="0"
 								onChange={(e) =>
 									updateFilter(
 										"max_number_episodes",
 										e.target.value ? Number(e.target.value) : null,
 									)
 								}
-								className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
+								className="h-10 text-xs bg-white/3 border-white/8 focus:ring-1 focus:ring-violet-500/30 focus:border-violet-500/50 transition-all rounded-lg"
 							/>
 						</div>
 					</div>
@@ -304,25 +309,27 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 							type="number"
 							placeholder="From"
 							value={filters.min_release_year ?? ""}
+							min="0" //change in future
 							onChange={(e) =>
 								updateFilter(
 									"min_release_year",
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
-							className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:border-violet-500/50"
+							className="h-10 text-xs bg-white/[3 border-white/8 focus:border-violet-500/50"
 						/>
 						<Input
 							type="number"
 							placeholder="To"
 							value={filters.max_release_year ?? ""}
+							min="0" //change in future
 							onChange={(e) =>
 								updateFilter(
 									"max_release_year",
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
-							className="h-10 text-xs bg-white/[0.03] border-white/[0.08] focus:border-violet-500/50"
+							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50"
 						/>
 					</div>
 				</FilterSection>
@@ -402,7 +409,8 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					<Button
 						onClick={handleClear}
 						variant="outline"
-						className="flex-1 h-11 border-white/[0.1] bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/[0.2] text-slate-400 rounded-xl transition-all duration-300"
+						disabled={!disableClear ? false : true}
+						className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
 					>
 						<RotateCcw size={14} />
 					</Button>

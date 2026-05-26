@@ -18,22 +18,22 @@ const VIEW_OPTIONS = [
   { id: "list", Icon: List, title: "List View" },
 ];
 
-export default function Toolbar({ 
-  isFilterOpen, setIsFilterOpen, 
-  sortBy, setSortBy, 
-  viewMode, setViewMode, 
-  count, isLoading 
+export default function Toolbar({
+  isFilterOpen, setIsFilterOpen,
+  sortBy, setSortBy,
+  viewMode, setViewMode,
+  count, isLoading
 }) {
   return (
-    <div className="flex-shrink-0 flex items-center justify-between px-6 py-3 bg-[#060d1b]/80 backdrop-blur-sm border-b border-white/[0.04]">
+    <div className="shrink-0 flex items-center justify-between px-6 py-3 bg-[#060d1b]/80 backdrop-blur-sm border-b border-white/4">
       <div className="flex items-center gap-4">
         <Button
           variant="outline"
           size="sm"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
           className={`h-8 px-3 text-[11px] gap-2 transition-all duration-300
-            ${isFilterOpen 
-              ? 'bg-violet-500/10 border-violet-500/40 text-violet-300' 
+            ${isFilterOpen
+              ? 'bg-violet-500/10 border-violet-500/40 text-violet-300'
               : 'bg-transparent border-white/10 text-slate-400 '}`}
         >
           <SlidersHorizontal size={14} />

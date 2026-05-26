@@ -123,7 +123,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 						alt={data.title}
 						className="w-full h-auto display-block z-10"
 					/>
-					<div className="absolute inset-0 bg-gradient-to-t from-[#0d1829] via-transparent to-transparent z-20" />
+					<div className="absolute inset-0 bg-linear-to-t from-[#0d1829] via-transparent to-transparent z-20" />
 
 					<div className="absolute bottom-4 left-5 right-5 z-30 flex items-end justify-between gap-3">
 						<div className="space-y-1">

@@ -35,7 +35,6 @@ frontend:
         > reset strony po kliknięciu resetu filtrów
         > reset klikalny po wyborze filtrów
         > ?standard grid przesłona na hover
-        > stopke zabrać absolute
         > show/hide bardziej intuicyjne
 
     Wykresy:

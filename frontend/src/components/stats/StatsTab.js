@@ -173,7 +173,7 @@ export default function StatsTab() {
 	}, [dataUserInterests, comparisonInterests]);
 
 	return (
-		<div className="p-4 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar space-y-6">
+		<div className="p-4 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar">
 			{data && dataUserInterests ? (
 				<>
 					<ComparisonForm
