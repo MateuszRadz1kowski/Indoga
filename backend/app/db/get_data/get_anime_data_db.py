@@ -5,7 +5,7 @@ from backend.config.redis_client import redis_client
 
 SQL = "SELECT * FROM anime_data"
 ANIME_CACHE_KEY = "anime_db:all"
-ANIME_CACHE_TTL = 3600
+ANIME_CACHE_TTL =  86400 
 
 def get_anime_data():
     cached = redis_client.get(ANIME_CACHE_KEY)

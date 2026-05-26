@@ -67,7 +67,7 @@ def prepare_dictionary(filters, user_data):
     return recommendations_dictionary
 
 
-USER_CACHE_TTL = 900
+USER_CACHE_TTL = 86400
 
 
 def fetch_raw_user_data(user_data):

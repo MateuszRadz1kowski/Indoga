@@ -126,7 +126,7 @@ export default function StatsTab() {
 			if (!username) return;
 			try {
 				const res = await fetch(
-					`http://127.0.0.1:8000/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`http://${process.env.NEXT_PUBLIC_API_URL}/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
 				);
 				setData(await res.json());
 			} catch (err) {
@@ -143,7 +143,7 @@ export default function StatsTab() {
 			if (!username) return;
 			try {
 				const res = await fetch(
-					`http://127.0.0.1:8000/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`http://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
 				);
 				setDataUserInterests(await res.json());
 			} catch (err) {
@@ -158,7 +158,7 @@ export default function StatsTab() {
 		setComparisonInterests(null);
 		try {
 			const res = await fetch(
-				`http://127.0.0.1:8000/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				`http://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
 			);
 			const json = await res.json();
 			setComparisonInterests(json);

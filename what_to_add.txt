@@ -95,3 +95,18 @@ frontend:
 
                 > Różnią się w zalżności kto kogo wyszukuje (ja ty =/= ty ja)
 
+
+DOCKER
+    Na ten moment: tworzy kontener redis, tworzy kontener z baza danych (na razie bez konfiguracji i automatyczneog zapelaniania i innych tego typu wanzych funkcji),
+    kontener z fastapi w ktorym jest backend w pythonie ktory zwraca rekomendacje
+
+    QUICK CHEETSHEET
+        na poczatek pobrac z githuba repo git clone https://github.com/MateuszRadz1kowski/anime-recommender
+        tam gdzie sa wazne pliki ktore sa w gitignore, recznie dodac relevant dane (np .env)
+        pozniej w folderze anime-recommender aktywowac Dockerfile i stworzyc kontenery dockera - docker compose up --build -d
+        logi danego konteneru: docker compose logs -f backend
+        baze danych aktualnie trzeba recznie stworzyc:
+            najpierw by rozmawiac z kontenerem anime_db - docker exec -it anime_db psql -U (nazwa usera) -d (nazwa bazy danych)
+            gdy wejdzie sie do konsoli postgre, wpisac komende na stworzenie tabeli CREATE TABLE...........
+            pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) env PYTHONPATH=/app python/backend/app/db/ingestion/database_import.py
+        

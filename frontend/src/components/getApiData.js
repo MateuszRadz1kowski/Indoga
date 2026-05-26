@@ -6,7 +6,7 @@ export function useApiData(params) {
 	useEffect(() => {
 		async function fetchData() {
 			const res = await fetch(
-				`http://127.0.0.1:8000/recommendations_data?${params}`,
+				`http://${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${params}`,
 			);
 			const json = await res.json();
 

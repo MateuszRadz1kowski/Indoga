@@ -1,5 +1,5 @@
 backend/config/db_settings.py
 backend/config/MAL_api_key.py
-backend/.env
+.env
 .idea/
 __pycache__
