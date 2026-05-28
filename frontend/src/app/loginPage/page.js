@@ -109,21 +109,6 @@ export default function LoginPage() {
 							style={{ background: "oklch(0.06 0.01 265)" }}
 						>
 							<TabsTrigger
-								value="mal"
-								className="flex items-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
-                  data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
-                  data-[state=active]:bg-purple-600/20 data-[state=active]:text-purple-400"
-							>
-								<Image
-									src="/mal_logo.png"
-									alt="MAL"
-									width={14}
-									height={14}
-									className="rounded-sm"
-								/>
-								MAL
-							</TabsTrigger>
-							<TabsTrigger
 								value="anilist"
 								className="flex items-center gap-2 rounded-xl text-xs font-bold transition-all uppercase tracking-widest
                   data-[state=inactive]:text-slate-500/80 data-[state=inactive]:hover:text-slate-300
@@ -156,7 +141,7 @@ export default function LoginPage() {
 							</TabsTrigger>
 						</TabsList>
 
-						{["mal", "anilist"].map((platform) => (
+						{["anilist", "mal"].map((platform) => (
 							<TabsContent
 								key={platform}
 								value={platform}
@@ -179,7 +164,7 @@ export default function LoginPage() {
 											onKeyDown={(e) =>
 												handleKeyDown(
 													e,
-													platform == "mal" ? "MyAnimeList" : "AniList",
+													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
 										/>
@@ -189,7 +174,7 @@ export default function LoginPage() {
 											style={{ background: "oklch(0.65 0.25 290)" }}
 											onClick={() =>
 												handleLogin(
-													platform == "mal" ? "MyAnimeList" : "AniList",
+													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
 											disabled={!inputUser.trim()}

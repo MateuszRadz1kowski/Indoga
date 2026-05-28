@@ -1,6 +1,13 @@
 from backend.app.db.get_data.get_user_MAL_data import get_user_MAL_data
 from backend.app.db.get_data.get_user_anilist_data import get_user_anilist_data
 
+MAP_STATUS = {
+    "completed": "COMPLETED",
+    "watching": "CURRENT",
+    "plan_to_watch": "PLANNING",
+    "dropped": "DROPPED",
+    "on_hold": "PAUSED"
+}
 
 def user_anime_status(user_data, raw_data):
     data = raw_data
@@ -30,6 +37,9 @@ def user_anime_status(user_data, raw_data):
             entry_status = entry.get("status")
             if not entry_status:
                 continue
+
+            if entry_status in MAP_STATUS:
+                entry_status = MAP_STATUS[entry_status]
 
             media = entry.get("media", {})
             title_obj = media.get("title", {})

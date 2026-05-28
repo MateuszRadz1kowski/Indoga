@@ -10,7 +10,9 @@ ANILIST_BATCH_QUERY = '''
 query($ids: [Int]) {
   Page(perPage: 50) {
     media(idMal_in: $ids, type: ANIME) {
-      title { english }
+      title { 
+        english 
+      }
       id
       favourites
       format
@@ -143,17 +145,24 @@ def get_user_MAL_data(username):
     lists_dict = {status: {"entries": []} for status in STATUS_MAP}
     for item in mal_entries:
         mal_id = item.get("node", {}).get("id")
+        mal_title = item.get("node", {}).get("title")
         if not mal_id or mal_id not in anilist_cache:
             continue
 
         mal_status = item.get("list_status", {})
         status_str = mal_status.get("status", "completed")
 
+        ani_media = anilist_cache[mal_id]
+        if "title" not in ani_media:
+            ani_media["title"] = {}
+        if not ani_media["title"].get("english") :
+            ani_media["title"] = mal_title
+
         entry = {
             "score": mal_status.get("score", 0),
             "repeat": 0,
             "status": status_str,
-            "media": anilist_cache[mal_id]
+            "media": ani_media
         }
         lists_dict[status_str]["entries"].append(entry)
 
@@ -169,6 +178,3 @@ def get_user_MAL_data(username):
             }
         }
     }
-
-print(get_user_MAL_data("Radz1k_"))
-

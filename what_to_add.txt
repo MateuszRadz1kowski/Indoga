@@ -19,7 +19,6 @@ gdy profil usera jest prywatny pokazuje w frontendzie
 odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning
 gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce i "na podstawie waszych obu zainteresowan powinniscie obejrzec X"
-gdy jest sie zalogowany na MAL zwraca zle rekomendacje - DO NAPRAWY
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
@@ -109,5 +108,5 @@ DOCKER
         baze danych aktualnie trzeba recznie stworzyc:
             najpierw by rozmawiac z kontenerem anime_db - docker exec -it anime_db psql -U (nazwa usera) -d (nazwa bazy danych)
             gdy wejdzie sie do konsoli postgre, wpisac komende na stworzenie tabeli CREATE TABLE...........
-            pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) env PYTHONPATH=/app python/backend/app/db/ingestion/database_import.py
+            pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) -e PYTHONPATH=. python3 /backend/app/db/ingestion/database_import.py
         
