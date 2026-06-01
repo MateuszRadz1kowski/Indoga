@@ -26,7 +26,7 @@ function FilterSection({ label, children }) {
 export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
-	const [disableClear, setDisableClear] = useState(true)
+	const [disableClear, setDisableClear] = useState(true);
 
 	const [filters, setFilters] = useState({
 		show_sequels: null,
@@ -73,7 +73,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	const updateFilter = (key, value) => {
 		setFilters((prev) => ({ ...prev, [key]: value }));
 		console.log("Updated filters:", { ...filters, [key]: value });
-		setDisableClear(false)
+		setDisableClear(false);
 	};
 
 	const handleCheckbox = (key, checked) => {
@@ -102,7 +102,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			console.log("Wysyłam do API:", queryString);
 
 			const res = await fetch(
-				`http://${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${queryString}`,
+				`${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${queryString}`,
 			);
 
 			const data = await res.json();
@@ -139,7 +139,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
-		setDisableClear(true)
+		setDisableClear(true);
 	};
 
 	useEffect(() => {
@@ -237,7 +237,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								<Switch
 									id={id}
 									checked={filters[key] ?? defaultValues[key]}
-									onCheckedChange={(checked) => (handleCheckbox(key, checked), setDisableClear(false))}
+									onCheckedChange={(checked) => (
+										handleCheckbox(key, checked),
+										setDisableClear(false)
+									)}
 									className="data-[state=checked]:bg-violet-500 scale-90"
 								/>
 							</div>
@@ -249,7 +252,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 					<ToggleGroup
 						type="single"
 						value={filters.popularity_importance ?? "medium"}
-						onValueChange={(v) => v && (updateFilter("popularity_importance", v), setDisableClear(false))}
+						onValueChange={(v) =>
+							v &&
+							(updateFilter("popularity_importance", v), setDisableClear(false))
+						}
 						className="gap-2"
 					>
 						{["low", "medium", "high"].map((influenceLevel) => (
@@ -329,7 +335,8 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 									e.target.value ? Number(e.target.value) : null,
 								)
 							}
-							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50" />
+							className="h-10 text-xs bg-white/3 border-white/8 focus:border-violet-500/50"
+						/>
 
 						<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
 							<div className="pt-2 px-1">
@@ -373,7 +380,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 									type="single"
 									value={filters.show_streaming_service ?? ""}
 									onValueChange={(v) =>
-										updateFilter("show_streaming_service", v === "All" ? null : v)
+										updateFilter(
+											"show_streaming_service",
+											v === "All" ? null : v,
+										)
 									}
 									className="gap-2.5"
 								>
