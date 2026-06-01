@@ -1,4 +1,4 @@
-Reccomendations alghorithm
+Recomendations alghorithm
     anime_profile
         filtry:
             user moze manualnie dodac ze bardzo lubi/nie lubi danego anime, np ja bardzo nie lubie jojo i one piece jednak nie widac tego w moim score, takie cos ma miec negatywny wplyw
@@ -6,7 +6,7 @@ Reccomendations alghorithm
 
 strona ze statystykami strony dla mojego wglądu - chyba to jest devops
 
-???dodac lazy loading???
+paginacja,lazy loading
 
 frontend:
     dark mode - zmiana miedzy light a dark mode
@@ -19,6 +19,18 @@ gdy profil usera jest prywatny pokazuje w frontendzie
 odnosnie mang jest troche do fixowania, po 1: liczy po obejrzanych anime a nie przeczytanych mangach, lowkey bym to polaczyl, przez to gdy manga ma taka sama nazwe co adaptacja anime ktora mam w planning to sie manga kasuje w show planning
 gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce i "na podstawie waszych obu zainteresowan powinniscie obejrzec X"
+naprawic callowanie do api z StatsPage, by bylo bardziej zoptymalizowane
+Docelowo CORS zezwala tylko na moją domene
+poprawic scrappowanie avatara z MAL
+?????mozna filtrowac poprzez np rok wydania, cyz ilosc odcnikow bezposrednio w requescie SQL zamiast w pythonie?????
+fizyczne zabranie mozliwosci uzytkownikowi spamienia callami do serwera
+w statsTab loading skeleton
+???zeby po odswiezaniu strony zapisywaly sie filtry???
+PWA manifest
+SEO
+Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
+
+
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker

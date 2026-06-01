@@ -8,7 +8,7 @@ import TimelineDecades from "./TimelineDecades";
 import ComparisonForm from "./ComparisonForm";
 import ComparisonOverview from "./ComparisonOverview";
 import ComparisonShared from "./ComparisonShared";
-import ComparisonDiffrence from "./ComparisonDiffrence";
+import ComparisonDifference from "./ComparisonDifference";
 import ComparisonGenres from "./ComparisonGenres";
 
 function calculateCosineSimilarity(userAScores, userBScores) {
@@ -67,7 +67,7 @@ function buildComparison(interestsUserA, interestsUserB) {
 		.slice(0, 5)
 		.map(([tagName, score]) => ({ name: tagName, score }));
 
-	const diffrence = Object.entries(tagsUserA)
+	const difference = Object.entries(tagsUserA)
 		.map(([name, scoreA]) => ({
 			name: name,
 			scoreA: scoreA,
@@ -106,7 +106,7 @@ function buildComparison(interestsUserA, interestsUserB) {
 		sharedTags: sharedTags,
 		uniqueA: uniqueTagsA,
 		uniqueB: uniqueTagsB,
-		diffrence: diffrence,
+		difference: difference,
 		radarData: radarData,
 	};
 }
@@ -200,8 +200,8 @@ export default function StatsTab() {
 								nameB={comparisonUsername.trim()}
 							/>
 
-							<ComparisonDiffrence
-								diffrence={comparison.diffrence}
+							<ComparisonDifference
+								difference={comparison.difference}
 								nameA="You"
 								nameB={comparisonUsername}
 							/>

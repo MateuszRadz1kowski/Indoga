@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Zap } from "lucide-react";
 
-export default function ComparisonDiffrence({ diffrence, nameA, nameB }) {
+export default function ComparisonDifference({ diffrence, nameA, nameB }) {
 	return (
 		<Card className="bg-[#0a0f1d]/85 border border-white/[0.05] text-slate-100 overflow-hidden shadow-xl backdrop-blur-md h-full">
 			<CardHeader className="px-6 pt-5 pb-4 border-b border-white/[0.02]">

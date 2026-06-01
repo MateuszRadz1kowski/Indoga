@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.anime_profile.final_reccomendations_dict import prepare_dictionary, fetch_raw_user_data
+from backend.app.anime_profile.final_recommendations_dict import prepare_dictionary, fetch_raw_user_data
 from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
 
 app = FastAPI()
@@ -70,7 +70,7 @@ async def get_recommendations(
         "username" : username,
         "platform" : platform
     }
-    data = prepare_dictionary(filters,user_data)
+    data = await prepare_dictionary(filters,user_data)
     return data
 
 @app.get("/raw_data/")
@@ -84,7 +84,7 @@ async def get_raw_data(
         "username" : username,
         "platform" : platform
     }
-    raw_data = fetch_raw_user_data(user_data)
+    raw_data = await fetch_raw_user_data(user_data)
 
     return raw_data
 

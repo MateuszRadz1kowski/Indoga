@@ -18,7 +18,9 @@ def get_anime_data():
             with conn.cursor() as cur:
                 cur.execute(SQL)
                 response = cur.fetchall()
+                redis_client.setex(ANIME_CACHE_KEY, ANIME_CACHE_TTL, json.dumps(response))
             conn.commit()
+            
             return response
     except Exception as e:
         print("DB ERROR:", e)
