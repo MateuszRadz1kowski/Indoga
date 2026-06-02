@@ -125,8 +125,18 @@ export default function StatsTab() {
 			const platform = localStorage.getItem("platform");
 			if (!username) return;
 			try {
+				const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
+				const apiUrl = new URL("/raw_data/", baseEnvUrl);
+
 				const res = await fetch(
-					`http://${process.env.NEXT_PUBLIC_API_URL}/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`${apiUrl.href}?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							"ngrok-skip-browser-warning": "true",
+						},
+					},
 				);
 				setData(await res.json());
 			} catch (err) {
@@ -142,8 +152,18 @@ export default function StatsTab() {
 			const platform = localStorage.getItem("platform");
 			if (!username) return;
 			try {
+				const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
+				const apiUrl = new URL("/user_interests/", baseEnvUrl);
+
 				const res = await fetch(
-					`http://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`${apiUrl.href}?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							"ngrok-skip-browser-warning": "true",
+						},
+					},
 				);
 				setDataUserInterests(await res.json());
 			} catch (err) {
@@ -157,8 +177,18 @@ export default function StatsTab() {
 		if (!comparisonUsername.trim()) return;
 		setComparisonInterests(null);
 		try {
+			const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
+			const apiUrl = new URL("/user_interests/", baseEnvUrl);
+
 			const res = await fetch(
-				`http://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				`${apiUrl.href}?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"ngrok-skip-browser-warning": "true",
+					},
+				},
 			);
 			const json = await res.json();
 			setComparisonInterests(json);
@@ -203,7 +233,7 @@ export default function StatsTab() {
 							<ComparisonDifference
 								difference={comparison.difference}
 								nameA="You"
-								nameB={comparisonUsername}
+								nameB={comparisonUsername.trim()}
 							/>
 
 							<ComparisonGenres
