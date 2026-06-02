@@ -1,6 +1,6 @@
 import math
 
-from backend.app.user_profile.completed_anime_reccomendations_ import create_completed_anime_recommendations
+from backend.app.user_profile.completed_anime_recommendations_ import create_completed_anime_recommendations
 from backend.app.user_profile.create_user_tag_profile import user_tag_profile
 from backend.app.user_profile.user_genre_profile import user_genre_profile
 

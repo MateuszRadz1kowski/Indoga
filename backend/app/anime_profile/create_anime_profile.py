@@ -8,7 +8,7 @@ from backend.app.anime_profile.check_filters import (
     check_show_sequels, check_show_streaming_service, check_high_popularity
 )
 from backend.app.anime_profile.user_anime_status import user_anime_status
-from backend.config.reccomender_values_settings import (
+from backend.config.recommender_values_settings import (
     mean_score_multiplier,
     anime_favourites_multiplier,
     ANIME_USER_PLANNING_MULTIPLIER,

@@ -1,4 +1,4 @@
-from backend.config.reccomender_values_settings import REPEAT_MULTIPLIER, USER_FAVOURITES_MULTIPLIER, score_multiplier
+from backend.config.recommender_values_settings import REPEAT_MULTIPLIER, USER_FAVOURITES_MULTIPLIER, score_multiplier
 
 
 def create_completed_anime_recommendations(entry, user_data, completed_anime_recommendations):

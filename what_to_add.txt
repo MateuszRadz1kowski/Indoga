@@ -30,7 +30,6 @@ PWA manifest
 SEO
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
 
- 
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
