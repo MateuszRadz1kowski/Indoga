@@ -102,7 +102,7 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			console.log("Wysyłam do API:", queryString);
 
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/recommendations_data/?${queryString}`,
+				`https://unloving-stilt-bully.ngrok-free.dev/recommendations_data/?${queryString}`,
 				{
 					method: "GET",
 					headers: {
