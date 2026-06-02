@@ -1,4 +1,4 @@
-from backend.config.reccomender_values_settings import (
+from backend.config.recommender_values_settings import (
     REPEAT_MULTIPLIER,
     USER_FAVOURITES_MULTIPLIER,
     score_multiplier
@@ -28,4 +28,4 @@ def user_genre_profile(entry, user_data, user_genres):
 
     for genre in genres:
         contribution = multiplier * repeat_multiplier * favourites_multiplier
-        user_genres[genre] = user_genres.get(genre, 0) + contribution
+        user_genres[genre] = user_genres.get(genre, 0) + contribution 
