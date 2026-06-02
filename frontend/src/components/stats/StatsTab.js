@@ -127,6 +127,13 @@ export default function StatsTab() {
 			try {
 				const res = await fetch(
 					`${process.env.NEXT_PUBLIC_API_URL}/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							"ngrok-skip-browser-warning": "true",
+						},
+					},
 				);
 				setData(await res.json());
 			} catch (err) {
@@ -144,6 +151,13 @@ export default function StatsTab() {
 			try {
 				const res = await fetch(
 					`${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					{
+						method: "GET",
+						headers: {
+							"Content-Type": "application/json",
+							"ngrok-skip-browser-warning": "true",
+						},
+					},
 				);
 				setDataUserInterests(await res.json());
 			} catch (err) {
@@ -159,6 +173,13 @@ export default function StatsTab() {
 		try {
 			const res = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"ngrok-skip-browser-warning": "true",
+					},
+				},
 			);
 			const json = await res.json();
 			setComparisonInterests(json);

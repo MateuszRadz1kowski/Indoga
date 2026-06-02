@@ -103,6 +103,13 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 
 			const res = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${queryString}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"ngrok-skip-browser-warning": "true",
+					},
+				},
 			);
 
 			const data = await res.json();
