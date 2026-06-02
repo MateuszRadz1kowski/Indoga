@@ -29,8 +29,7 @@ w statsTab loading skeleton
 PWA manifest
 SEO
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
-
-
+Zrobic nowy branch na zmiany serwerowe
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker

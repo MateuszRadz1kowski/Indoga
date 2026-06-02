@@ -1,4 +1,4 @@
-from backend.config.reccomender_values_settings import (
+from backend.config.recommender_values_settings import (
     REPEAT_MULTIPLIER,
     USER_FAVOURITES_MULTIPLIER,
     score_multiplier

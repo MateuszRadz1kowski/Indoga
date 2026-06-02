@@ -2,7 +2,7 @@ import math
 from collections import defaultdict
 import json
 
-from backend.config.reccomender_values_settings import TAG_WEIGHT_BASE_BONUS
+from backend.config.recommender_values_settings import TAG_WEIGHT_BASE_BONUS
 
 tags_counted = defaultdict(int)
 
