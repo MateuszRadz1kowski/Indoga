@@ -98,11 +98,17 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 				}
 			});
 
+			const targetUrl = "https://unloving-stilt-bully.ngrok-free.dev";
+
 			const queryString = searchParams.toString();
-			console.log("Wysyłam do API:", queryString);
+
+			console.log(
+				"Wysyłam zapytanie do:",
+				`${targetUrl}/recommendations_data?${queryString}`,
+			);
 
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/recommendations_data?${queryString}`,
+				`${targetUrl}/recommendations_data?${queryString}`,
 				{
 					method: "GET",
 					headers: {
