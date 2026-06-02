@@ -126,7 +126,7 @@ export default function StatsTab() {
 			if (!username) return;
 			try {
 				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_API_URL}/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`https://${process.env.NEXT_PUBLIC_API_URL}/raw_data/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
 					{
 						method: "GET",
 						headers: {
@@ -150,7 +150,7 @@ export default function StatsTab() {
 			if (!username) return;
 			try {
 				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
+					`https://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
 					{
 						method: "GET",
 						headers: {
@@ -172,7 +172,7 @@ export default function StatsTab() {
 		setComparisonInterests(null);
 		try {
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				`https://${process.env.NEXT_PUBLIC_API_URL}/user_interests/?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
 				{
 					method: "GET",
 					headers: {
