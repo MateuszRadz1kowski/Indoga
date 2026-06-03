@@ -111,16 +111,20 @@ function buildComparison(interestsUserA, interestsUserB) {
 	};
 }
 
-export default function StatsTab() {
-	const [data, setData] = useState(null);
-	const [dataUserInterests, setDataUserInterests] = useState(null);
-
+export default function StatsTab({
+	data,
+	setData,
+	dataUserInterests,
+	setDataUserInterests,
+}) {
 	const [comparisonUsername, setComparisonUsername] = useState("");
 	const [comparisonPlatform, setComparisonPlatform] = useState("AniList");
 	const [comparisonInterests, setComparisonInterests] = useState(null);
 
 	useEffect(() => {
 		async function fetchData() {
+			if (data) return;
+
 			const username = localStorage.getItem("username");
 			const platform = localStorage.getItem("platform");
 			if (!username) return;
@@ -144,10 +148,12 @@ export default function StatsTab() {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [data, setData]);
 
 	useEffect(() => {
 		async function fetchData() {
+			if (dataUserInterests) return;
+
 			const username = localStorage.getItem("username");
 			const platform = localStorage.getItem("platform");
 			if (!username) return;
@@ -171,7 +177,7 @@ export default function StatsTab() {
 			}
 		}
 		fetchData();
-	}, []);
+	}, [dataUserInterests, setDataUserInterests]);
 
 	const fetchComparison = useCallback(async () => {
 		if (!comparisonUsername.trim()) return;

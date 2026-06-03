@@ -30,7 +30,6 @@ PWA manifest
 SEO
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
 
-
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
     Reverse proxy
@@ -79,7 +78,8 @@ Mozliwe polaczenia w nazwe - od najlepszego do najgorszego
     invenga - invenire + genga
     suadoga - suadeo + doga
 
-
+    Anilyze
+    AniRecs
 
 frontend:
     > Wrap na timeline (poprawny)

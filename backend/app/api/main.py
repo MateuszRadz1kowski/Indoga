@@ -104,3 +104,4 @@ async def get_raw_data(
 
 # by uruchomic w folderze anime-recommender: python -m uvicorn backend.app.api.main:app --reload
 #dane sa w: http://127.0.0.1:8000/recommendations_data
+#ngrok http 8000

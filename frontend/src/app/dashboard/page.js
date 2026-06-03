@@ -14,6 +14,31 @@ export default function Dashboard() {
 	const [sortBy, setSortBy] = useState("match");
 	const [viewMode, setViewMode] = useState("grid");
 
+	const [filters, setFilters] = useState({
+		show_sequels: null,
+		experimental_mode: null,
+		show_18_rated: null,
+		tag_importance: null,
+		popularity_importance: null,
+		min_number_episodes: null,
+		max_number_episodes: null,
+		min_release_year: null,
+		max_release_year: null,
+		min_mean_score: null,
+		show_selected_studios: [],
+		show_selected_tags: [],
+		hide_selected_tags: [],
+		show_selected_genres: [],
+		hide_selected_genres: [],
+		media_types: null,
+		show_streaming_service: null,
+		show_planning: null,
+		show_high_popularity: null,
+	});
+
+	const [statsData, setStatsData] = useState(null);
+	const [statsInterests, setStatsInterests] = useState(null);
+
 	const sortedAnimeData = useMemo(() => {
 		if (!apiData || apiData.length == 0) return [];
 
@@ -49,6 +74,8 @@ export default function Dashboard() {
 							setSortBy={setSortBy}
 							viewMode={viewMode}
 							setViewMode={setViewMode}
+							filters={filters}
+							setFilters={setFilters}
 						/>
 					</TabsContent>
 
@@ -56,7 +83,12 @@ export default function Dashboard() {
 						value="stats"
 						className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:block"
 					>
-						<StatsTab apiData={sortedAnimeData} />
+						<StatsTab
+							data={statsData}
+							setData={setStatsData}
+							dataUserInterests={statsInterests}
+							setDataUserInterests={setStatsInterests}
+						/>
 					</TabsContent>
 				</Tabs>
 			</main>

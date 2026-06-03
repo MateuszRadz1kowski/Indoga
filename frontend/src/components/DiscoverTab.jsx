@@ -1,14 +1,15 @@
-import { useState, useEffect, use } from "react";
+"use client";
+
+import { useState } from "react";
 import FilterPage from "@/components/filters/filterPage";
 import Recommendation from "@/components/showRecommendations/recommendation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Toolbar from "./Toolbar";
 import RecommendationSkeleton from "./showRecommendations/recommendationSkeleton";
 
-
 export default function DiscoverTab({
   apiData, setApiData, isLoading, setIsLoading,
-  sortBy, setSortBy, viewMode, setViewMode
+  sortBy, setSortBy, viewMode, setViewMode, filters, setFilters
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
 
@@ -28,7 +29,13 @@ export default function DiscoverTab({
           </div>
           <ScrollArea className="flex-1">
             <div className="p-4">
-              <FilterPage onDataUpdate={setApiData} onLoadingChange={setIsLoading} />
+              <FilterPage 
+                apiData={apiData}
+                onDataUpdate={setApiData} 
+                onLoadingChange={setIsLoading}
+                filters={filters}
+                setFilters={setFilters}
+              />
             </div>
           </ScrollArea>
         </div>

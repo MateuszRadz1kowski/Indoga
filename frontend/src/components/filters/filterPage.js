@@ -23,32 +23,18 @@ function FilterSection({ label, children }) {
 	);
 }
 
-export default function FilterPage({ onDataUpdate, onLoadingChange }) {
+export default function FilterPage({
+	apiData,
+	onDataUpdate,
+	onLoadingChange,
+	filters,
+	setFilters,
+}) {
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
 	const [disableClear, setDisableClear] = useState(true);
 
-	const [filters, setFilters] = useState({
-		show_sequels: null,
-		experimental_mode: null,
-		show_18_rated: null,
-		tag_importance: null,
-		popularity_importance: null,
-		min_number_episodes: null,
-		max_number_episodes: null,
-		min_release_year: null,
-		max_release_year: null,
-		min_mean_score: null,
-		show_selected_studios: [],
-		show_selected_tags: [],
-		hide_selected_tags: [],
-		show_selected_genres: [],
-		hide_selected_genres: [],
-		media_types: null,
-		show_streaming_service: null,
-		show_planning: null,
-		show_high_popularity: null,
-	});
+	const [cooldown, setCooldown] = useState(0);
 
 	const defaultValues = {
 		show_sequels: false,
@@ -70,6 +56,13 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 		show_high_popularity: true,
 	};
 
+	useEffect(() => {
+		if (cooldown > 0) {
+			const timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+			return () => clearTimeout(timer);
+		}
+	}, [cooldown]);
+
 	const updateFilter = (key, value) => {
 		setFilters((prev) => ({ ...prev, [key]: value }));
 		console.log("Updated filters:", { ...filters, [key]: value });
@@ -81,7 +74,11 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	};
 
 	const handleApply = async () => {
+		if (cooldown > 0) return;
+
 		onLoadingChange(true);
+		setCooldown(5);
+
 		try {
 			const searchParams = new URLSearchParams();
 			searchParams.append("username", localStorage.getItem("username"));
@@ -102,7 +99,6 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 			console.log("Wysyłam do API:", queryString);
 
 			const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
-
 			const apiUrl = new URL("/recommendations_data/", baseEnvUrl);
 
 			const res = await fetch(`${apiUrl.href}?${queryString}`, {
@@ -150,7 +146,9 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 	};
 
 	useEffect(() => {
-		handleApply();
+		if (!apiData || apiData.length == 0) {
+			handleApply();
+		}
 	}, []);
 
 	const toogleGroupItemClassName =
@@ -244,10 +242,10 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 								<Switch
 									id={id}
 									checked={filters[key] ?? defaultValues[key]}
-									onCheckedChange={(checked) => (
-										handleCheckbox(key, checked),
-										setDisableClear(false)
-									)}
+									onCheckedChange={(checked) => {
+										handleCheckbox(key, checked);
+										setDisableClear(false);
+									}}
 									className="data-[state=checked]:bg-violet-500 scale-90"
 								/>
 							</div>
@@ -415,15 +413,16 @@ export default function FilterPage({ onDataUpdate, onLoadingChange }) {
 						<div className="flex gap-3">
 							<Button
 								onClick={handleApply}
+								disabled={cooldown > 0}
 								className="flex-[2.5] h-11 bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs rounded-xl transition-all duration-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
 							>
 								<SlidersHorizontal size={14} />
-								Apply Filters
+								{cooldown > 0 ? `Wait ${cooldown}s...` : "Apply Filters"}
 							</Button>
 							<Button
 								onClick={handleClear}
 								variant="outline"
-								disabled={!disableClear ? false : true}
+								disabled={!disableClear}
 								className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
 							>
 								<RotateCcw size={14} />
