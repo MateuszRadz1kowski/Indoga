@@ -4,16 +4,20 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.anime_profile.final_recommendations_dict import prepare_dictionary, fetch_raw_user_data
 from backend.app.user_profile.create_user_interests_profile import create_user_interests_profile
+from backend.app.api.exceptions import register_exception_handlers
 
 app = FastAPI()
 
+register_exception_handlers(app)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.get("/recommendations_data/")
 async def get_recommendations(
     username: str = Query(None),
@@ -45,7 +49,7 @@ async def get_recommendations(
     show_high_popularity: bool = Query(True),
 ):
     filters = {
-        "show_sequels" : show_sequels,
+        "show_sequels": show_sequels,
         "experimental_mode": experimental_mode,
         "show_18_rated": show_18_rated,
         "tag_importance": tag_importance,
@@ -67,41 +71,29 @@ async def get_recommendations(
     }
 
     user_data = {
-        "username" : username,
-        "platform" : platform
+        "username": username,
+        "platform": platform,
     }
-    data = await prepare_dictionary(filters,user_data)
+    data = await prepare_dictionary(filters, user_data)
     return data
 
 @app.get("/raw_data/")
 async def get_raw_data(
     username: str = Query(None),
     platform: str = Query(None),
-
 ):
-
-    user_data = {
-        "username" : username,
-        "platform" : platform
-    }
+    user_data = {"username": username, "platform": platform}
     raw_data = await fetch_raw_user_data(user_data)
-
     return raw_data
 
 @app.get("/user_interests/")
-async def get_raw_data(
+async def get_user_interests(
     username: str = Query(None),
     platform: str = Query(None),
-
 ):
-    user_data = {
-        "username" : username,
-        "platform" : platform
-    }
-    raw_data = fetch_raw_user_data(user_data)
+    user_data = {"username": username, "platform": platform}
+    raw_data = await fetch_raw_user_data(user_data)
     data = create_user_interests_profile(raw_data)
     return data
 
-# by uruchomic w folderze anime-recommender: python -m uvicorn backend.app.api.main:app --reload
-#dane sa w: http://127.0.0.1:8000/recommendations_data
-#ngrok http 8000
+# Uruchomienie: python -m uvicorn backend.app.api.main:app --reload
