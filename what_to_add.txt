@@ -23,10 +23,10 @@ Docelowo CORS zezwala tylko na moją domene
 ?????mozna filtrowac poprzez np rok wydania, cyz ilosc odcnikow bezposrednio w requescie SQL zamiast w pythonie?????
 w statsTab loading skeleton
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
-PWA manifest
-SEO
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
 ?testy obciazeniowe?
+Google Search COnsole
+dodac zdjecia do SEO i PWA
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker

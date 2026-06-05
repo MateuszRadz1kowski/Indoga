@@ -1,0 +1,15 @@
+{
+  "name": "Indoga",
+  "short_name": "Indoga",
+  "description": "Personalized anime and manga recommendations based on your AniList or MyAnimeList profile",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060d1b",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["entertainment", "lifestyle", "utilities", "social", "productivity"],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
