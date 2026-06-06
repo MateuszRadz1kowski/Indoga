@@ -101,9 +101,9 @@ async def fetch_raw_user_data(user_data):
         print(f"[Redis] User cache read failed: {e}")
 
     if platform == "AniList":
-        data = await get_user_anilist_data(username)
+        data = get_user_anilist_data(username)
     elif platform == "MyAnimeList":
-        data = await get_user_MAL_data(username)
+        data = get_user_MAL_data(username)
     else:
         raise AniRecException(
             error_code="server_error",

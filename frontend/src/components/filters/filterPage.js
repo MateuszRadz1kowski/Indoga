@@ -48,7 +48,6 @@ export default function FilterPage({
 	const { toast } = useToast();
 	const [tagsSwitchStatus, setTagsSwitchStatus] = useState(true);
 	const [genreSwitchStatus, setGenreSwitchStatus] = useState(true);
-	const [disableClear, setDisableClear] = useState(true);
 	const [cooldown, setCooldown] = useState(0);
 
 	const defaultValues = {
@@ -63,13 +62,28 @@ export default function FilterPage({
 		max_release_year: new Date().getFullYear(),
 		min_mean_score: 0,
 		show_selected_studios: [],
-		tags: [],
-		genres: [],
+		show_selected_tags: [],
+		hide_selected_tags: [],
+		show_selected_genres: [],
+		hide_selected_genres: [],
 		media_types: "TV",
 		show_streaming_service: "All",
 		show_planning: false,
 		show_high_popularity: true,
 	};
+
+	const isFiltersDefault = Object.keys(defaultValues).every((key) => {
+		const val = filters[key];
+
+		if (val == null || val == undefined) return true;
+
+		if (Array.isArray(val)) return val.length == 0;
+
+		return val == defaultValues[key];
+	});
+
+	const disableClear =
+		isFiltersDefault && tagsSwitchStatus == true && genreSwitchStatus == true;
 
 	useEffect(() => {
 		if (cooldown > 0) {
@@ -81,7 +95,6 @@ export default function FilterPage({
 	const updateFilter = (key, value) => {
 		setFilters((prev) => ({ ...prev, [key]: value }));
 		console.log("Updated filters:", { ...filters, [key]: value });
-		setDisableClear(false);
 	};
 
 	const handleCheckbox = (key, checked) => {
@@ -164,7 +177,7 @@ export default function FilterPage({
 			if (error.name == "TimeoutError" || error.name == "AbortError") {
 				code = "network_error";
 				message = "The request timed out. The server might be busy.";
-			} else if (error.message === "non_json_response") {
+			} else if (error.message == "non_json_response") {
 				code = "server_error";
 				message = "Server returned an unexpected response.";
 			}
@@ -206,7 +219,6 @@ export default function FilterPage({
 		});
 		setTagsSwitchStatus(true);
 		setGenreSwitchStatus(true);
-		setDisableClear(true);
 	};
 
 	useEffect(() => {
@@ -246,7 +258,7 @@ export default function FilterPage({
 							if (value) {
 								setFilters((prev) => ({
 									...prev,
-									show_streaming_service: null,
+									show_streaming_service: "All",
 									media_types: value,
 								}));
 							}
@@ -306,10 +318,7 @@ export default function FilterPage({
 								<Switch
 									id={id}
 									checked={filters[key] ?? defaultValues[key]}
-									onCheckedChange={(checked) => {
-										handleCheckbox(key, checked);
-										setDisableClear(false);
-									}}
+									onCheckedChange={(checked) => handleCheckbox(key, checked)}
 									className="data-[state=checked]:bg-violet-500 scale-90"
 								/>
 							</div>
@@ -322,8 +331,7 @@ export default function FilterPage({
 						type="single"
 						value={filters.popularity_importance ?? "medium"}
 						onValueChange={(v) =>
-							v &&
-							(updateFilter("popularity_importance", v), setDisableClear(false))
+							updateFilter("popularity_importance", v ? v : "medium")
 						}
 						className="gap-2"
 					>
@@ -380,7 +388,7 @@ export default function FilterPage({
 							type="number"
 							placeholder="From"
 							value={filters.min_release_year ?? ""}
-							min="0" //change in future
+							min="0"
 							onChange={(e) =>
 								updateFilter(
 									"min_release_year",
@@ -393,7 +401,7 @@ export default function FilterPage({
 							type="number"
 							placeholder="To"
 							value={filters.max_release_year ?? ""}
-							min="0" //change in future
+							min="0"
 							onChange={(e) =>
 								updateFilter(
 									"max_release_year",
@@ -445,9 +453,9 @@ export default function FilterPage({
 					<FilterSection label="Streaming Services">
 						<ToggleGroup
 							type="single"
-							value={filters.show_streaming_service ?? ""}
+							value={filters.show_streaming_service ?? "All"}
 							onValueChange={(v) =>
-								updateFilter("show_streaming_service", v === "All" ? null : v)
+								updateFilter("show_streaming_service", v ? v : "All")
 							}
 							className="gap-2.5"
 						>
@@ -481,7 +489,7 @@ export default function FilterPage({
 					<Button
 						onClick={handleClear}
 						variant="outline"
-						disabled={!disableClear}
+						disabled={disableClear}
 						className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
 					>
 						<RotateCcw size={14} />

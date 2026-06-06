@@ -6,47 +6,88 @@ from backend.app.api.exceptions import (
     AniRecException,
 )
 
-
 def get_user_anilist_data(username):
     query = '''
         query($userName: String) {
-  MediaListCollection(userName: $userName, type: ANIME) {
-    lists {
-      entries {
-        repeat
-        score
-        status
-        media {
-          title { english }
-          id
-          favourites
-          format
-          genres
-          idMal
-          isAdult
-          meanScore
-          popularity
-          startDate { year }
-          coverImage { large }
-          recommendations {
-            nodes {
-              mediaRecommendation {
-                id
-                title { english }
+          anime: MediaListCollection(userName: $userName, type: ANIME) {
+            lists {
+              name
+              status
+              entries {
+                repeat
+                score
+                status
+                media {
+                  title { english romaji }
+                  id
+                  favourites
+                  format
+                  genres
+                  idMal
+                  isAdult
+                  meanScore
+                  popularity
+                  startDate { year }
+                  coverImage { large }
+                  episodes
+                  chapters
+                  recommendations {
+                    nodes {
+                      mediaRecommendation {
+                        id
+                        title { english romaji }
+                      }
+                    }
+                  }
+                  tags { id name rank }
+                }
               }
             }
           }
-          tags { id name rank }
+          manga: MediaListCollection(userName: $userName, type: MANGA) {
+            lists {
+              name
+              status
+              entries {
+                repeat
+                score
+                status
+                media {
+                  title { english romaji }
+                  id
+                  favourites
+                  format
+                  genres
+                  idMal
+                  isAdult
+                  meanScore
+                  popularity
+                  startDate { year }
+                  coverImage { large }
+                  episodes
+                  chapters
+                  recommendations {
+                    nodes {
+                      mediaRecommendation {
+                        id
+                        title { english romaji }
+                      }
+                    }
+                  }
+                  tags { id name rank }
+                }
+              }
+            }
+          }
+          User(name: $userName) {
+            avatar { medium }
+            mediaListOptions { scoreFormat }
+            favourites { 
+                anime { nodes { id } } 
+                manga { nodes { id } } 
+            }
+          }
         }
-      }
-    }
-  }
-  User(name: $userName) {
-    avatar { medium }
-    mediaListOptions { scoreFormat }
-    favourites { anime { nodes { id } } }
-  }
-}
     '''
     variables = {'userName': username}
     url = 'https://graphql.anilist.co'
@@ -87,7 +128,44 @@ def get_user_anilist_data(username):
     if data.get("User") is None:
         raise UserNotFoundException(username, "AniList")
 
-    if data.get("MediaListCollection") is None:
+    anime_collection = data.get("anime")
+    manga_collection = data.get("manga")
+
+    if not anime_collection and not manga_collection:
         raise PrivateProfileException(username)
+
+    merged_lists_map = {}
+    for collection in [anime_collection, manga_collection]:
+        if not collection or not collection.get("lists"):
+            continue
+        
+        for list in collection["lists"]:
+            status = list.get("status")
+            list_key = status or list.get("name")
+            
+            if list_key not in merged_lists_map:
+                merged_lists_map[list_key] = {
+                    "name": list.get("name"),
+                    "status": status,
+                    "entries": []
+                }
+            
+            for entry in list.get("entries", []):
+                media = entry.get("media", {})
+                if media.get("chapters") is not None:
+                    media["episodes"] = media["chapters"]
+                merged_lists_map[list_key]["entries"].append(entry)
+
+    final_lists = list(merged_lists_map.values())
+    
+    user_info = data.get("User", {})
+    favs = user_info.get("favourites", {})
+    merged_favs = favs.get("anime", {}).get("nodes", []) + favs.get("manga", {}).get("nodes", [])
+    user_info["favourites"] = {"anime": {"nodes": merged_favs}}
+
+    res["data"] = {
+        "MediaListCollection": {"lists": final_lists},
+        "User": user_info
+    }
 
     return res

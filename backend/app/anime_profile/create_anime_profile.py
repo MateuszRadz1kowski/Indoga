@@ -63,7 +63,10 @@ def score_anime(anime_vector, user_tags, user_genres):
             why_recommended[feature_name] = contribution
 
     return score, why_recommended
-
+    
+MANGA_FORMATS = {"MANGA", "NOVEL", "ONE_SHOT"}
+def format_group(format):
+    return "MANGA" if format in MANGA_FORMATS else "ANIME"
 
 def create_anime_profile(db_response, user_interests_profile, filters, user_data, raw_data):
     user_tags = user_interests_profile[0]
@@ -80,7 +83,10 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
         anime_name = anime[2]
         if not anime_name:
             continue
-        if any(anime_name in all_statuses.get(status, {}) for status in statuses_to_check):
+        format = anime[4] or ""
+        group = format_group(format)
+        anime_key = (anime_name, group)
+        if any(anime_key in all_statuses.get(status, {}) for status in statuses_to_check):
             continue
 
         if not (
@@ -109,7 +115,7 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
         if anime_name in user_recs:
             base_score += ANIME_PROFILE_API_RECOMMENDATIONS_MODIFIER * user_recs[anime_name]
 
-        if anime_name in anime_planning:
+        if anime_key in anime_planning:
             base_score *= ANIME_USER_PLANNING_MULTIPLIER
 
         base_score *= mean_score_multiplier(anime[11])

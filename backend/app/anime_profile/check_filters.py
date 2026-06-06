@@ -1,3 +1,5 @@
+MANGA_FORMATS = {"MANGA", "NOVEL", "ONE_SHOT"}
+    
 def check_if_adult(anime,show_18_rated):
     if anime[5] is not None:
         if show_18_rated == True:
@@ -25,13 +27,14 @@ def check_season_year(anime, min_release_year, max_release_year):
             return False
     return False
 
-
 def check_show_planning(anime, show_planning, anime_planning):
-    if show_planning:
-        return True
-
-    if anime[2] in anime_planning:
-        return False
+    print(anime_planning)
+    format = anime[4] or ""
+    group = "MANGA" if format in MANGA_FORMATS else "ANIME"
+    anime_key = (anime[2], group)
+    
+    if anime_key in anime_planning:
+        return True if show_planning else False
 
     return True
 
@@ -135,7 +138,6 @@ def check_show_sequels(anime, show_sequels):
 
 def check_show_media_type(anime, media_types):
     ANIME_FORMATS = {"TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC"}
-    MANGA_FORMATS = {"MANGA", "NOVEL", "ONE_SHOT"}
 
     anime_format = anime[4]
     if anime_format is None:
