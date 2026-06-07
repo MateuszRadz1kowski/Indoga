@@ -18,7 +18,7 @@ def get_user_anilist_data(username):
                 score
                 status
                 media {
-                  title { english romaji }
+                  title { english }
                   id
                   favourites
                   format
@@ -35,7 +35,7 @@ def get_user_anilist_data(username):
                     nodes {
                       mediaRecommendation {
                         id
-                        title { english romaji }
+                        title { english }
                       }
                     }
                   }
@@ -53,7 +53,7 @@ def get_user_anilist_data(username):
                 score
                 status
                 media {
-                  title { english romaji }
+                  title { english }
                   id
                   favourites
                   format
@@ -70,7 +70,7 @@ def get_user_anilist_data(username):
                     nodes {
                       mediaRecommendation {
                         id
-                        title { english romaji }
+                        title { english }
                       }
                     }
                   }
@@ -139,23 +139,22 @@ def get_user_anilist_data(username):
         if not collection or not collection.get("lists"):
             continue
         
-        for list in collection["lists"]:
-            status = list.get("status")
-            list_key = status or list.get("name")
+        for lst in collection["lists"]:
+            status = lst.get("status")
+            list_key = status or lst.get("name")
             
             if list_key not in merged_lists_map:
                 merged_lists_map[list_key] = {
-                    "name": list.get("name"),
+                    "name": lst.get("name"),
                     "status": status,
                     "entries": []
                 }
             
-            for entry in list.get("entries", []):
+            for entry in lst.get("entries", []):
                 media = entry.get("media", {})
                 if media.get("chapters") is not None:
                     media["episodes"] = media["chapters"]
                 merged_lists_map[list_key]["entries"].append(entry)
-
     final_lists = list(merged_lists_map.values())
     
     user_info = data.get("User", {})

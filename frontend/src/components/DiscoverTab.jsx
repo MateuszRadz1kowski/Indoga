@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Toolbar from "./Toolbar";
 import RecommendationSkeleton from "./showRecommendations/recommendationSkeleton";
 import { RecommendationsError } from "@/components/ErrorBanner";
+import { useRouter } from "next/navigation";
 
 export default function DiscoverTab({
   apiData, setApiData, isLoading, setIsLoading,
@@ -14,6 +15,7 @@ export default function DiscoverTab({
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+  const router = useRouter();
 
   const gridClass = {
     grid:"grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4",
@@ -24,6 +26,7 @@ export default function DiscoverTab({
   const handleRetry = () => {
     setFetchError(null);
     setApiData([]);
+    router.push("/dashboard");
   };
 
   return (
@@ -64,28 +67,35 @@ export default function DiscoverTab({
         />
 
         <ScrollArea className="flex-1 h-full">
-          {!isLoading && fetchError ? (
-            <RecommendationsError
-              errorCode={fetchError.code}
-              message={fetchError.message}
-              onRetry={handleRetry}
-            />
-          ) : (
-            <div className={`${gridClass} px-4 py-4 animate-in fade-in duration-500`}>
-              {isLoading
-                ? [...Array(12)].map((_, i) => (
-                    <RecommendationSkeleton viewMode={viewMode} key={i} />
-                  ))
-                : apiData.map((item, index) => (
-                    <Recommendation
-                      key={item.id || index}
-                      recommendationData={item}
-                      viewMode={viewMode}
-                    />
-                  ))}
-            </div>
-          )}
-        </ScrollArea>
+        {isLoading ? (
+          <div className={`${gridClass} px-4 py-4 animate-in fade-in duration-500`}>
+            {[...Array(12)].map((_, i) => (
+              <RecommendationSkeleton viewMode={viewMode} key={i} />
+            ))}
+          </div>
+        ) : fetchError ? (
+          <RecommendationsError
+            errorCode={fetchError.code}
+            message={fetchError.message}
+            onRetry={handleRetry}
+          />
+        ) : apiData.length == 0 ? (
+          <RecommendationsError
+            errorCode={"no_recommendations"}
+            onRetry={handleRetry}
+          />
+        ) : (
+          <div className={`${gridClass} px-4 py-4 animate-in fade-in duration-500`}>
+            {apiData.map((item, index) => (
+              <Recommendation
+                key={item.id || index}
+                recommendationData={item}
+                viewMode={viewMode}
+              />
+            ))}
+          </div>
+        )}
+      </ScrollArea>
       </div>
     </div>
   );

@@ -127,6 +127,8 @@ function buildComparison(interestsUserA, interestsUserB) {
 	};
 }
 
+export const BASE_ENV_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function StatsTab({
 	data,
 	setData,
@@ -157,9 +159,8 @@ export default function StatsTab({
 		}
 
 		try {
-			const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
-			const rawUrl = new URL("/raw_data/", baseEnvUrl);
-			const interestsUrl = new URL("/user_interests/", baseEnvUrl);
+			const rawUrl = new URL("/raw_data/", BASE_ENV_URL);
+			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
 
 			const [rawRes, interestsRes] = await Promise.all([
 				fetch(
@@ -223,13 +224,42 @@ export default function StatsTab({
 		setIsComparing(true);
 
 		try {
-			const baseEnvUrl = process.env.NEXT_PUBLIC_API_URL;
-			const apiUrl = new URL("/user_interests/", baseEnvUrl);
+			const verifyUrl = new URL("/verify_user/", BASE_ENV_URL);
+			verifyUrl.searchParams.append("username", comparisonUsername.trim());
+			verifyUrl.searchParams.append("platform", comparisonPlatform);
 
-			const res = await fetch(
-				`${apiUrl.href}?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
+			const verifyRes = await fetch(verifyUrl.href, {
+				headers: {
+					"Content-Type": "application/json",
+					"ngrok-skip-browser-warning": "true",
+				},
+			});
+			const verifyData = await verifyRes.json();
+
+			if (!verifyData.exists) {
+				toast({
+					type: "error",
+					title: "User Not Found",
+					message: `User '${comparisonUsername}' does not exist.`,
+				});
+				setIsComparing(false);
+				return;
+			}
+
+			if (verifyData.is_private) {
+				toast({
+					type: "warning",
+					title: "Private Profile",
+					message: `Profile '${comparisonUsername}' is private.`,
+				});
+				setIsComparing(false);
+				return;
+			}
+
+			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
+			const interestsRes = await fetch(
+				`${interestsUrl.href}?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
 				{
-					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": "true",
@@ -237,34 +267,21 @@ export default function StatsTab({
 				},
 			);
 
-			if (!res.ok) {
-				const errorJson = await res.json().catch(() => ({}));
-				throw {
-					code: errorJson.error_code || "user_not_found",
-					message: errorJson.detail,
-				};
-			}
+			if (!interestsRes.ok) throw new Error("Failed to fetch user data.");
 
-			const json = await res.json();
+			const interestsData = await interestsRes.json();
+			setComparisonInterests(interestsData);
 
-			if (!json || Object.keys(json).length == 0 || !json[0]) {
-				throw {
-					code: "empty_list",
-					message: "User has an empty anime list.",
-				};
-			}
-
-			setComparisonInterests(json);
 			toast({
 				type: "success",
 				title: "Comparison generated",
-				message: `Successfully matched preferences with user ${comparisonUsername}`,
+				message: `Successfully matched preferences with ${comparisonUsername}`,
 			});
 		} catch (e) {
 			console.error(e);
 			toast({
 				type: "error",
-				title: "Error comparing profiles",
+				title: "Error",
 				message: "Failed to fetch user data for comparison.",
 			});
 		} finally {

@@ -22,9 +22,9 @@ def create_user_interests_profile(raw_data):
     user_genres = {}
     completed_anime_recommendations = {}
 
-    for list in collection['lists']:
-        status = list.get('name', '').lower()
-        entries = list.get('entries', [])
+    for lst in collection['lists']:
+        status = lst.get('name', '').lower()
+        entries = lst.get('entries', [])
 
         for entry in entries:
             if status == 'dropped' and entry.get('score') == 0:

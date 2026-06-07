@@ -70,7 +70,7 @@ export default function LoginPage() {
 			});
 			localStorage.setItem("username", inputUser.trim());
 			localStorage.setItem("platform", platform);
-			await router.push("/dashboard");
+			router.push("/dashboard");
 		} catch (error) {
 			toast({
 				type: "error",

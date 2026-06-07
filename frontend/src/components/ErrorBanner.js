@@ -32,6 +32,11 @@ const ERROR_CONFIGS = {
 		title: "Too Many Requests",
 		suggestion: "AniList is rate limiting us. Wait a moment and try again.",
 	},
+	no_recommendations: {
+		title: "No available recommendations",
+		suggestion:
+			"Based on your filters, we couldn't find any recommendations. Try adjusting your filters for new suggestions.",
+	},
 	unknown: {
 		title: "Unexpected Error",
 		suggestion: "Something went wrong. Try refreshing the page.",

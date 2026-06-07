@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DiscoverTab from "@/components/DiscoverTab";
 import StatsTab from "@/components/stats/StatsTab";
-import { ToastProvider } from "@/components/useToast";
 
 export default function Dashboard() {
 	const [activeTab, setActiveTab] = useState("discover");

@@ -4,8 +4,6 @@ Recomendations alghorithm
             user moze manualnie dodac ze bardzo lubi/nie lubi danego anime, np ja bardzo nie lubie jojo i one piece jednak nie widac tego w moim score, takie cos ma miec negatywny wplyw
             status np finished
 
-strona ze statystykami strony dla mojego wglądu - chyba to jest devops
-
 paginacja,lazy loading
 
 frontend:
@@ -13,12 +11,10 @@ frontend:
     tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
     
 problemy na pozniej:
-???filtr lat zmienic na slider???
 gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce i "na podstawie waszych obu zainteresowan powinniscie obejrzec X"
 naprawic callowanie do api z StatsPage, by bylo bardziej zoptymalizowane
 Docelowo CORS zezwala tylko na moją domene
-?????mozna filtrowac poprzez np rok wydania, cyz ilosc odcnikow bezposrednio w requescie SQL zamiast w pythonie?????
 w statsTab loading skeleton
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
@@ -26,7 +22,6 @@ Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozw
 Google Search COnsole
 dodac zdjecia do SEO i PWA
 user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
-
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
@@ -41,42 +36,6 @@ uzywane paczki
     pip install fastapi
     pip install redis
 
-
-WYMYSLANIE NAZWY
-oryginalny dawny pomysl: recotaku - polaczenie recomendation z otaku
-
-pomysl lepszy - polaczenie zwrotu ze znaczeniem +- zwiazanego z rekomendacja, i zwrotu zwiazanego jakos z anime/manga/ta kultura
-wypisze slowa po japonsku i łaćinsku z dobrym brzmieniem i znaczeniem i można je jakos połączyc
-pozniej sie wezmie te slowa i zrobi jakas mieszanke by fajnie brzmialo
-
-
-rekomendacja 
-    po japonsku
-        osusume
-        shirube
-        kensaku
-    po łacinie
-        Suadeo / Suadere
-        Scrutari
-        Indago
-        Invenire
-
-anime
-    po japonsku
-        otaku
-        doga
-        ?genga?
-    po łacinie
-        pingo
-
-Mozliwe polaczenia w nazwe - od najlepszego do najgorszego
-    indoga - indago + doga
-    kensani - kensaku + anime
-    invenga - invenire + genga
-    suadoga - suadeo + doga
-
-    Anilyze
-    AniRecs
 
 frontend:
     > Wrap na timeline (poprawny)
