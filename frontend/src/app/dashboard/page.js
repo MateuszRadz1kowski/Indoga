@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DiscoverTab from "@/components/DiscoverTab";
 import StatsTab from "@/components/stats/StatsTab";
+import { ToastProvider } from "@/components/useToast";
 
 export default function Dashboard() {
 	const [activeTab, setActiveTab] = useState("discover");
@@ -52,48 +53,50 @@ export default function Dashboard() {
 	}, [apiData, sortBy]);
 
 	return (
-		<div className="flex flex-col h-screen w-full bg-[#060d1b] text-slate-200 overflow-hidden">
-			<Navbar
-				activeTab={activeTab}
-				onTabChange={setActiveTab}
-				apiData={sortedAnimeData}
-			/>
+		<ToastProvider>
+			<div className="flex flex-col h-screen w-full bg-[#060d1b] text-slate-200 overflow-hidden">
+				<Navbar
+					activeTab={activeTab}
+					onTabChange={setActiveTab}
+					apiData={sortedAnimeData}
+				/>
 
-			<main className="flex-1 min-h-0 relative">
-				<Tabs value={activeTab} className="h-full w-full flex flex-col">
-					<TabsContent
-						value="discover"
-						className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:flex"
-					>
-						<DiscoverTab
-							apiData={sortedAnimeData}
-							setApiData={setApiData}
-							isLoading={isLoading}
-							setIsLoading={setIsLoading}
-							sortBy={sortBy}
-							setSortBy={setSortBy}
-							viewMode={viewMode}
-							setViewMode={setViewMode}
-							filters={filters}
-							setFilters={setFilters}
-						/>
-					</TabsContent>
+				<main className="flex-1 min-h-0 relative">
+					<Tabs value={activeTab} className="h-full w-full flex flex-col">
+						<TabsContent
+							value="discover"
+							className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:flex"
+						>
+							<DiscoverTab
+								apiData={sortedAnimeData}
+								setApiData={setApiData}
+								isLoading={isLoading}
+								setIsLoading={setIsLoading}
+								sortBy={sortBy}
+								setSortBy={setSortBy}
+								viewMode={viewMode}
+								setViewMode={setViewMode}
+								filters={filters}
+								setFilters={setFilters}
+							/>
+						</TabsContent>
 
-					<TabsContent
-						value="stats"
-						className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:block"
-					>
-						<StatsTab
-							data={statsData}
-							setData={setStatsData}
-							dataUserInterests={statsInterests}
-							setDataUserInterests={setStatsInterests}
-						/>
-					</TabsContent>
-				</Tabs>
-			</main>
+						<TabsContent
+							value="stats"
+							className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:block"
+						>
+							<StatsTab
+								data={statsData}
+								setData={setStatsData}
+								dataUserInterests={statsInterests}
+								setDataUserInterests={setStatsInterests}
+							/>
+						</TabsContent>
+					</Tabs>
+				</main>
 
-			<Footer />
-		</div>
+				<Footer />
+			</div>
+		</ToastProvider>
 	);
 }
