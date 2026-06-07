@@ -223,6 +223,16 @@ export default function StatsTab({
 		setComparisonInterests(null);
 		setIsComparing(true);
 
+		if (comparisonUsername.trim() == localStorage.getItem("username")) {
+			toast({
+				type: "info",
+				title: "Comparison",
+				message: "You cannot compare your own profile with itself.",
+			});
+			setIsComparing(false);
+			return;
+		}
+
 		try {
 			const verifyUrl = new URL("/verify_user/", BASE_ENV_URL);
 			verifyUrl.searchParams.append("username", comparisonUsername.trim());
