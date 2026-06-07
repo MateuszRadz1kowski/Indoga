@@ -13,7 +13,6 @@ frontend:
     tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
     
 problemy na pozniej:
-gdy profil usera jest prywatny pokazuje w frontendzie, gdy nie ma danego usera tez ma sie pokazywac wrong username
 ???filtr lat zmienic na slider???
 gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce i "na podstawie waszych obu zainteresowan powinniscie obejrzec X"
@@ -26,6 +25,8 @@ Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozw
 ?testy obciazeniowe?
 Google Search COnsole
 dodac zdjecia do SEO i PWA
+user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
+
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker

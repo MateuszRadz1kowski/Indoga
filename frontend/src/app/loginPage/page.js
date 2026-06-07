@@ -1,16 +1,19 @@
 "use client";
 import Image from "next/image";
-import { Search, Sparkles } from "lucide-react";
+import { Search, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useToast } from "@/components/useToast";
 
 export default function LoginPage() {
 	const router = useRouter();
+	const { toast } = useToast();
 	const [inputUser, setInputUser] = useState("");
 	const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const handleMouseMove = (e) => {
@@ -20,15 +23,66 @@ export default function LoginPage() {
 		return () => window.removeEventListener("mousemove", handleMouseMove);
 	}, []);
 
-	const handleLogin = (platform) => {
+	const handleLogin = async (platform) => {
 		if (!inputUser.trim()) return;
-		localStorage.setItem("username", inputUser.trim());
-		localStorage.setItem("platform", platform);
-		router.push("/dashboard");
+
+		setIsLoading(true);
+
+		try {
+			const apiUrl = new URL("/verify_user/", process.env.NEXT_PUBLIC_API_URL);
+			apiUrl.searchParams.append("username", inputUser.trim());
+			apiUrl.searchParams.append("platform", platform);
+
+			const res = await fetch(apiUrl.href, {
+				headers: {
+					"Content-Type": "application/json",
+					"ngrok-skip-browser-warning": "true",
+				},
+			});
+
+			if (!res.ok) throw new Error("Network error");
+			const data = await res.json();
+
+			if (!data.exists) {
+				toast({
+					type: "error",
+					title: "User Not Found",
+					message: `We couldn't find user '${inputUser}' on ${platform}.`,
+				});
+				setIsLoading(false);
+				return;
+			}
+
+			if (data.is_private) {
+				toast({
+					type: "warning",
+					title: "Private Profile",
+					message: `The profile of '${inputUser}' is private. Make it public to continue.`,
+				});
+				setIsLoading(false);
+				return;
+			}
+
+			toast({
+				type: "success",
+				title: "Login Successful",
+				message: `You have successfully logged in as '${inputUser}'.`,
+			});
+			localStorage.setItem("username", inputUser.trim());
+			localStorage.setItem("platform", platform);
+			await router.push("/dashboard");
+		} catch (error) {
+			toast({
+				type: "error",
+				title: "Connection Error",
+				message: "Could not connect to the server to verify user.",
+			});
+			setIsLoading(false);
+		}
 	};
 
 	const handleKeyDown = (e, platform) => {
-		if (e.key == "Enter") handleLogin(platform);
+		if (e.key == "Enter" && !isLoading) handleLogin(platform);
 	};
 
 	return (
@@ -167,19 +221,24 @@ export default function LoginPage() {
 													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
+											disabled={isLoading}
 										/>
 										<Button
 											className="h-14 w-14 rounded-2xl font-semibold text-white transition-all duration-500
-                        hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)]"
+                        hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] disabled:opacity-50 disabled:hover:scale-100"
 											style={{ background: "oklch(0.65 0.25 290)" }}
 											onClick={() =>
 												handleLogin(
 													platform == "anilist" ? "AniList" : "MyAnimeList",
 												)
 											}
-											disabled={!inputUser.trim()}
+											disabled={!inputUser.trim() || isLoading}
 										>
-											<Search className="w-5 h-5" />
+											{isLoading ? (
+												<Loader2 className="w-5 h-5 animate-spin" />
+											) : (
+												<Search className="w-5 h-5" />
+											)}
 										</Button>
 									</div>
 								</div>

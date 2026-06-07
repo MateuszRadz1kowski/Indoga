@@ -21,7 +21,7 @@ export function ToastProvider({ children }) {
 	const idRef = useRef(0);
 
 	const toast = useCallback(
-		({ type = "info", title, message, duration = 5000 }) => {
+		({ type = "info", title, message, duration = 10000 }) => {
 			const id = ++idRef.current;
 			setToasts((prev) => [...prev, { id, type, title, message }]);
 			if (duration > 0) {
