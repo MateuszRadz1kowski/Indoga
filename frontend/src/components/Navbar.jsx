@@ -57,14 +57,14 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
           </div>
 
           <nav className="flex h-[56px]">
-            {['discover', 'stats'].map((tab) => (
+            {['discover', 'stats', 'compare'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => onTabChange(tab)}
                 className={`px-4 h-full text-[13px] font-medium transition-all relative capitalize
                   ${activeTab == tab ? 'text-violet-400' : 'text-slate-400 hover:text-slate-200'}`}
               >
-                {tab == 'discover' ? 'Discover' : 'My Stats'}
+                {tab == 'discover' ? 'Discover' : tab == 'stats' ? 'My Stats' : 'Compare'}
                 {activeTab == tab && (
                   <span className="absolute bottom-0 left-0 w-full h-[2px] bg-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.8)]" />
                 )}

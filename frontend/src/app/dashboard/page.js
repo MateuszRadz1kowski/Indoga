@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DiscoverTab from "@/components/DiscoverTab";
 import StatsTab from "@/components/stats/StatsTab";
+import CompareTab from "@/components/compare/CompareTab";
 
 export default function Dashboard() {
 	const [activeTab, setActiveTab] = useState("discover");
@@ -89,6 +90,13 @@ export default function Dashboard() {
 							dataUserInterests={statsInterests}
 							setDataUserInterests={setStatsInterests}
 						/>
+					</TabsContent>
+
+					<TabsContent
+						value="compare"
+						className="flex-1 m-0 p-0 border-none outline-none overflow-hidden data-[state=active]:block"
+					>
+						<CompareTab dataUserInterests={statsInterests} />
 					</TabsContent>
 				</Tabs>
 			</main>

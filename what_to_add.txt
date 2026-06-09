@@ -20,8 +20,8 @@ w statsTab loading skeleton
 Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
 ?testy obciazeniowe?
 Google Search COnsole
-dodac zdjecia do SEO i PWA
 user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
+gdy jest sie niezalogowany mozna manualnie wpisac w linku /dashboard to trzeba zrobic by nie pozwalalo
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
