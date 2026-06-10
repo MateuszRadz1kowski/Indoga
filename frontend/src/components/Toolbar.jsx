@@ -25,8 +25,9 @@ export default function Toolbar({
   count, isLoading
 }) {
   return (
-    <div className="shrink-0 flex items-center justify-between px-6 py-3 bg-[#060d1b]/80 backdrop-blur-sm border-b border-white/4">
-      <div className="flex items-center gap-4">
+    <div className="shrink-0 flex flex-col lg:flex-row lg:items-center justify-between px-4 lg:px-6 py-3 gap-3 bg-[#060d1b]/80 backdrop-blur-sm border-b border-white/4">
+      
+      <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
         <Button
           variant="outline"
           size="sm"
@@ -37,13 +38,13 @@ export default function Toolbar({
               : 'bg-transparent border-white/10 text-slate-400 '}`}
         >
           <SlidersHorizontal size={14} />
-          {isFilterOpen ? "Hide Filters" : "Show Filters"}
+          {isFilterOpen ? "Hide Filters" : "Filters"}
         </Button>
 
-        <Separator orientation="vertical" className="h-4 bg-white/10" />
+        <Separator orientation="vertical" className="hidden lg:block h-4 bg-white/10" />
 
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-500 font-medium mr-1 uppercase tracking-wider">Sort:</span>
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1 lg:pt-0 w-full lg:w-auto">
+          <span className="text-[11px] text-slate-500 font-medium mr-1 uppercase tracking-wider shrink-0">Sort:</span>
           
           <div className="flex gap-1">
             {SORT_OPTIONS.map((option) => {
@@ -60,7 +61,7 @@ export default function Toolbar({
                       setSortDirection("desc"); 
                     }
                   }}
-                  className={`flex items-center gap-1.5 h-7 px-3 text-[10px] font-medium rounded-full border transition-all ${
+                  className={`flex items-center gap-1.5 h-7 px-3 text-[10px] font-medium rounded-full border transition-all shrink-0 ${
                     isActive 
                       ? "border-violet-500/50 bg-violet-500/10 text-violet-300" 
                       : "border-transparent text-slate-400 hover:text-slate-300 hover:bg-white/5"
@@ -79,14 +80,14 @@ export default function Toolbar({
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <Badge variant="outline" className="h-6 px-3 text-[10px] bg-white/5 border-white/10 text-slate-400 font-mono">
+      <div className="flex items-center justify-between lg:justify-end gap-4 w-full lg:w-auto border-t border-white/5 lg:border-none pt-2 lg:pt-0 mt-1 lg:mt-0">
+        <Badge variant="outline" className="h-6 px-3 text-[10px] bg-white/5 border-white/10 text-slate-400 font-mono shrink-0">
           {isLoading ? "Loading..." : `${count} results`}
         </Badge>
 
-        <Separator orientation="vertical" className="h-4 bg-white/10" />
+        <Separator orientation="vertical" className="hidden lg:block h-4 bg-white/10" />
 
-        <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value)} className="gap-1">
+        <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value)} className="gap-1 shrink-0">
           {VIEW_OPTIONS.map(({ id, Icon, title }) => (
             <ToggleGroupItem
               key={id}

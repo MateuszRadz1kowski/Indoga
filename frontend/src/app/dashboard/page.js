@@ -40,6 +40,12 @@ export default function Dashboard() {
 	const [statsData, setStatsData] = useState(null);
 	const [statsInterests, setStatsInterests] = useState(null);
 
+	useEffect(() => {
+		if (typeof window !== "undefined" && window.innerWidth < 1024) {
+			setViewMode("wideGrid");
+		}
+	}, []);
+
 	const sortedAnimeData = useMemo(() => {
 		if (!apiData || apiData.length == 0) return [];
 

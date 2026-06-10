@@ -35,67 +35,67 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
 
   return (
     <header className="flex-shrink-0 bg-[#04090f]/80 backdrop-blur-md border-b border-violet-950/40 z-50">
-      <div className="flex items-center px-6 h-[56px] justify-between">
-        <div className="flex items-center gap-8">
-
-          <div
-            className="flex items-center gap-2.5 group cursor-pointer"
-            onClick={() => onTabChange("discover")}
-          >
-            <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-violet-500/30 group-hover:border-violet-400/60 transition-all duration-300 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.4)] flex-shrink-0">
-              <Image
-                src="/indoga_image_logo.jpg"
-                alt="Indoga logo"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            <span className="text-[16px] font-black text-white tracking-tight uppercase italic group-hover:text-violet-200 transition-colors">
-              Indoga
-            </span>
+      <div className="flex items-center px-3 md:px-6 h-[56px] justify-between gap-1 sm:gap-4">
+        
+        <div
+          className="flex items-center gap-1.5 sm:gap-2.5 group cursor-pointer shrink-0"
+          onClick={() => onTabChange("discover")}
+        >
+          <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-lg overflow-hidden border border-violet-500/30 group-hover:border-violet-400/60 transition-all duration-300 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.4)] flex-shrink-0">
+            <Image
+              src="/indoga_image_logo.jpg"
+              alt="Indoga logo"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
-
-          <nav className="flex h-[56px]">
-            {['discover', 'stats', 'compare'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => onTabChange(tab)}
-                className={`px-4 h-full text-[13px] font-medium transition-all relative capitalize
-                  ${activeTab == tab ? 'text-violet-400' : 'text-slate-400 hover:text-slate-200'}`}
-              >
-                {tab == 'discover' ? 'Discover' : tab == 'stats' ? 'My Stats' : 'Compare'}
-                {activeTab == tab && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.8)]" />
-                )}
-              </button>
-            ))}
-          </nav>
+          <span className="hidden min-[400px]:block text-[14px] sm:text-[16px] font-black text-white tracking-tight uppercase italic group-hover:text-violet-200 transition-colors">
+            Indoga
+          </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" className="text-amber-400 gap-2">
+        <nav className="flex h-[56px] flex-1 justify-center overflow-x-auto no-scrollbar">
+          {['discover', 'stats', 'compare'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => onTabChange(tab)}
+              className={`px-2.5 sm:px-4 h-full text-[11px] sm:text-[13px] font-medium transition-all relative capitalize whitespace-nowrap shrink-0
+                ${activeTab == tab ? 'text-violet-400' : 'text-slate-400 hover:text-slate-200'}`}
+            >
+              {tab == 'discover' ? 'Discover' : tab == 'stats' ? 'My Stats' : 'Compare'}
+              {activeTab == tab && (
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.8)]" />
+              )}
+            </button>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          <Button variant="ghost" size="sm" className="hidden sm:flex text-amber-400 gap-2">
             <HelpCircle size={14} />
-            <span className="hidden sm:inline">Tooltips</span>
+            <span>Tooltips</span>
           </Button>
-          <Separator orientation="vertical" className="h-4 bg-white/10" />
-          <div className="flex items-center gap-2 pl-2">
+          
+          <Separator orientation="vertical" className="hidden sm:block h-4 bg-white/10" />
+          
+          <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 px-2 gap-2 text-slate-400 hover:text-slate-200 hover:bg-white/5 focus-visible:ring-0"
+                  className="h-8 px-1.5 sm:px-2 gap-1.5 sm:gap-2 text-slate-400 hover:text-slate-200 hover:bg-white/5 focus-visible:ring-0"
                 >
                   <div className="size-6 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-violet-900/20">
                     <img
-                      src={apiData[0]?.avatar_url}
+                      src={apiData[0]?.avatar_url || "/indoga_image_logo.jpg"}
                       alt="Profile"
                       className="w-full h-full object-cover shadow-inner"
                     />
                   </div>
                   <span className="text-[11px] font-medium hidden md:block">Profile</span>
-                  <ChevronDown size={10} className="text-slate-600" />
+                  <ChevronDown size={10} className="text-slate-600 hidden min-[350px]:block" />
                 </Button>
               </DropdownMenuTrigger>
 

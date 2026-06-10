@@ -2,13 +2,14 @@ import { Github, Coffee, Mail, Star } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
 export default function Footer() {
   return (
-    <footer className="shrink-0 bg-[#04090f] border-t border-white/6 z-30 ">
-      <div className="flex items-center px-4 h-9 gap-1 flex-wrap">
+    <footer className="shrink-0 bg-[#04090f] border-t border-white/6 z-30">
+      <div className="flex items-center justify-center lg:justify-start px-4 py-2 min-h-[36px] h-auto gap-x-2 gap-y-1 flex-wrap">
         <span className="text-[10px] text-slate-600 mr-1">Indoga — open source</span>
 
-        <Separator orientation="vertical" className="h-3 bg-white/10" />
+        <Separator orientation="vertical" className="hidden sm:block h-3 bg-white/10" />
 
         <Button variant="link" size="sm" asChild
           className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
@@ -24,7 +25,7 @@ export default function Footer() {
           </a>
         </Button>
 
-        <Separator orientation="vertical" className="h-3 bg-white/10" />
+        <Separator orientation="vertical" className="hidden sm:block h-3 bg-white/10" />
 
         <Button variant="link" size="sm" asChild
           className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-amber-400 gap-1">
@@ -33,7 +34,7 @@ export default function Footer() {
           </a>
         </Button>
 
-        <Separator orientation="vertical" className="h-3 bg-white/10" />
+        <Separator orientation="vertical" className="hidden sm:block h-3 bg-white/10" />
 
         <Button variant="link" size="sm" asChild className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
         <a href="mailto:radzikowski.mateusz@gmail.com" target="_blank" rel="noopener noreferrer">
