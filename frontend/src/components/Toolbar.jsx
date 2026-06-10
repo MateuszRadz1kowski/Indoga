@@ -1,9 +1,8 @@
-import { SlidersHorizontal, LayoutGrid, Columns2, List } from "lucide-react";
+import { SlidersHorizontal, LayoutGrid, Columns2, List, ArrowDown, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { useEffect } from "react";
 
 const SORT_OPTIONS = [
   { id: "match", label: "Match %" },
@@ -21,6 +20,7 @@ const VIEW_OPTIONS = [
 export default function Toolbar({
   isFilterOpen, setIsFilterOpen,
   sortBy, setSortBy,
+  sortDirection, setSortDirection,
   viewMode, setViewMode,
   count, isLoading
 }) {
@@ -44,17 +44,38 @@ export default function Toolbar({
 
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] text-slate-500 font-medium mr-1 uppercase tracking-wider">Sort:</span>
-          <ToggleGroup type="single" value={sortBy} onValueChange={(value) => value && setSortBy(value)} className="gap-1">
-            {SORT_OPTIONS.map((option) => (
-              <ToggleGroupItem
-                key={option.id}
-                value={option.id}
-                className="h-7 px-3 text-[10px] rounded-full border border-transparent data-[state=on]:border-violet-500/50 data-[state=on]:bg-violet-500/10 data-[state=on]:text-violet-300"
-              >
-                {option.label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+          
+          <div className="flex gap-1">
+            {SORT_OPTIONS.map((option) => {
+              const isActive = sortBy == option.id;
+              
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => {
+                    if (isActive) {
+                      setSortDirection(prev => prev == "desc" ? "asc" : "desc");
+                    } else {
+                      setSortBy(option.id);
+                      setSortDirection("desc"); 
+                    }
+                  }}
+                  className={`flex items-center gap-1.5 h-7 px-3 text-[10px] font-medium rounded-full border transition-all ${
+                    isActive 
+                      ? "border-violet-500/50 bg-violet-500/10 text-violet-300" 
+                      : "border-transparent text-slate-400 hover:text-slate-300 hover:bg-white/5"
+                  }`}
+                >
+                  {option.label}
+                  {isActive && (
+                    sortDirection == "desc" 
+                      ? <ArrowDown size={12} className="opacity-70" /> 
+                      : <ArrowUp size={12} className="opacity-70" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

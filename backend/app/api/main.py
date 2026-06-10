@@ -26,7 +26,6 @@ async def get_recommendations(
     platform: str = Query(None),
 
     show_sequels: bool = Query(False),
-    experimental_mode: bool = Query(False),
     show_18_rated: bool = Query(True),
 
     tag_importance: str = Query("medium"),
@@ -52,7 +51,6 @@ async def get_recommendations(
 ):
     filters = {
         "show_sequels": show_sequels,
-        "experimental_mode": experimental_mode,
         "show_18_rated": show_18_rated,
         "tag_importance": tag_importance,
         "popularity_importance": popularity_importance,

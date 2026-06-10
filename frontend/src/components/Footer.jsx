@@ -28,19 +28,18 @@ export default function Footer() {
 
         <Button variant="link" size="sm" asChild
           className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-amber-400 gap-1">
-          <a href="" target="_blank" rel="noopener noreferrer">
+          <a href="https://ko-fi.com/indoga" target="_blank" rel="noopener noreferrer">
             <Coffee size={11} />Buy me a coffee
           </a>
         </Button>
 
         <Separator orientation="vertical" className="h-3 bg-white/10" />
 
-        <Button variant="link" size="sm" asChild
-          className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
-          <a href="">
-            <Mail size={11} />Contact
-          </a>
-        </Button>
+        <Button variant="link" size="sm" asChild className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
+        <a href="mailto:radzikowski.mateusz@gmail.com" target="_blank" rel="noopener noreferrer">
+          <Mail size={11} /> Contact
+        </a>
+      </Button>
       </div>
     </footer>
   );

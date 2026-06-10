@@ -52,7 +52,6 @@ export default function FilterPage({
 
 	const defaultValues = {
 		show_sequels: false,
-		experimental_mode: false,
 		show_18_rated: true,
 		tag_importance: "medium",
 		popularity_importance: "medium",
@@ -198,7 +197,6 @@ export default function FilterPage({
 	const handleClear = () => {
 		setFilters({
 			show_sequels: null,
-			experimental_mode: null,
 			show_18_rated: null,
 			tag_importance: null,
 			popularity_importance: null,
@@ -288,11 +286,6 @@ export default function FilterPage({
 								key: "show_sequels",
 								label: "Show sequels",
 								id: "filter-sequels",
-							},
-							{
-								key: "experimental_mode",
-								label: "Experimental mode",
-								id: "filter-experimental-mode",
 							},
 							{
 								key: "show_18_rated",

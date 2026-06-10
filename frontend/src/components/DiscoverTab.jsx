@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 export default function DiscoverTab({
   apiData, setApiData, isLoading, setIsLoading,
-  sortBy, setSortBy, viewMode, setViewMode, filters, setFilters
+  sortBy, setSortBy, viewMode, setViewMode, filters, setFilters, sortDirection, setSortDirection
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [fetchError, setFetchError] = useState(null);
@@ -60,6 +60,8 @@ export default function DiscoverTab({
           setIsFilterOpen={setIsFilterOpen}
           sortBy={sortBy}
           setSortBy={setSortBy}
+          sortDirection={sortDirection}
+          setSortDirection={setSortDirection}
           viewMode={viewMode}
           setViewMode={setViewMode}
           count={apiData.length}

@@ -157,7 +157,7 @@ export default function LoginPage() {
 				>
 					<div className="absolute top-0 left-0 w-full h-px bg-gradient-to-right from-transparent via-purple-500/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
 
-					<Tabs defaultValue="mal" className="w-full">
+					<Tabs defaultValue="anilist" className="w-full">
 						<TabsList
 							className="grid grid-cols-2 mb-8 rounded-2xl p-1 border border-white/5"
 							style={{ background: "oklch(0.06 0.01 265)" }}

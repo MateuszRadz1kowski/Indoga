@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -13,11 +13,11 @@ export default function Dashboard() {
 	const [apiData, setApiData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [sortBy, setSortBy] = useState("match");
+	const [sortDirection, setSortDirection] = useState("desc");
 	const [viewMode, setViewMode] = useState("grid");
 
 	const [filters, setFilters] = useState({
 		show_sequels: null,
-		experimental_mode: null,
 		show_18_rated: null,
 		tag_importance: null,
 		popularity_importance: null,
@@ -44,13 +44,39 @@ export default function Dashboard() {
 		if (!apiData || apiData.length == 0) return [];
 
 		return [...apiData].sort((a, b) => {
-			if (sortBy == "match") return b.score - a.score;
-			if (sortBy == "score") return b.mean_score - a.mean_score;
-			if (sortBy == "popularity") return b.popularity - a.popularity;
-			if (sortBy == "year") return b.season_year - a.season_year;
-			return 0;
+			let valA = 0;
+			let valB = 0;
+
+			if (sortBy == "match") {
+				valA = a.score || 0;
+				valB = b.score || 0;
+			} else if (sortBy == "score") {
+				valA = a.mean_score || 0;
+				valB = b.mean_score || 0;
+			} else if (sortBy == "popularity") {
+				valA = a.popularity || 0;
+				valB = b.popularity || 0;
+			} else if (sortBy == "year") {
+				valA = a.season_year || 0;
+				valB = b.season_year || 0;
+			}
+
+			if (sortDirection == "asc") {
+				return valA - valB;
+			} else {
+				return valB - valA;
+			}
 		});
-	}, [apiData, sortBy]);
+	}, [apiData, sortBy, sortDirection]);
+
+	useEffect(() => {
+		if (
+			localStorage.getItem("username") == null &&
+			localStorage.getItem("platform") == null
+		) {
+			window.location.href = "/";
+		}
+	}, []);
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-[#060d1b] text-slate-200 overflow-hidden">
@@ -73,6 +99,8 @@ export default function Dashboard() {
 							setIsLoading={setIsLoading}
 							sortBy={sortBy}
 							setSortBy={setSortBy}
+							sortDirection={sortDirection}
+							setSortDirection={setSortDirection}
 							viewMode={viewMode}
 							setViewMode={setViewMode}
 							filters={filters}
