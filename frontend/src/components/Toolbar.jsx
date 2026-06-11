@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { InfoTooltip } from "@/components/tooltip/TooltipSystem";
+import { TOOLTIPS } from "@/components/tooltip/TooltipData";
 
 const SORT_OPTIONS = [
-  { id: "match", label: "Match %" },
-  { id: "score", label: "Score" },
-  { id: "popularity", label: "Popularity" },
-  { id: "year", label: "Year" },
+  { id: "match", label: "Match %", tooltipKey: "match_percent" },
+  { id: "score", label: "Score", tooltipKey: "score" },
+  { id: "popularity", label: "Popularity", tooltipKey: "popularity" },
+  { id: "year", label: "Year", tooltipKey: "year" },
 ];
 
 const VIEW_OPTIONS = [
@@ -51,29 +53,34 @@ export default function Toolbar({
               const isActive = sortBy == option.id;
               
               return (
-                <button
-                  key={option.id}
-                  onClick={() => {
-                    if (isActive) {
-                      setSortDirection(prev => prev == "desc" ? "asc" : "desc");
-                    } else {
-                      setSortBy(option.id);
-                      setSortDirection("desc"); 
-                    }
-                  }}
-                  className={`flex items-center gap-1.5 h-7 px-3 text-[10px] font-medium rounded-full border transition-all shrink-0 ${
-                    isActive 
-                      ? "border-violet-500/50 bg-violet-500/10 text-violet-300" 
-                      : "border-transparent text-slate-400 hover:text-slate-300 hover:bg-white/5"
-                  }`}
-                >
-                  {option.label}
-                  {isActive && (
-                    sortDirection == "desc" 
-                      ? <ArrowDown size={12} className="opacity-70" /> 
-                      : <ArrowUp size={12} className="opacity-70" />
-                  )}
-                </button>
+                <div key={option.id} className="flex items-center gap-0.5">
+                  <button
+                    onClick={() => {
+                      if (isActive) {
+                        setSortDirection(prev => prev == "desc" ? "asc" : "desc");
+                      } else {
+                        setSortBy(option.id);
+                        setSortDirection("desc"); 
+                      }
+                    }}
+                    className={`flex items-center gap-1.5 h-7 px-3 text-[10px] font-medium rounded-full border transition-all shrink-0 ${
+                      isActive 
+                        ? "border-violet-500/50 bg-violet-500/10 text-violet-300" 
+                        : "border-transparent text-slate-400 hover:text-slate-300 hover:bg-white/5"
+                    }`}
+                  >
+                    {option.label}
+                    {isActive && (
+                      sortDirection == "desc" 
+                        ? <ArrowDown size={12} className="opacity-70" /> 
+                        : <ArrowUp size={12} className="opacity-70" />
+                    )}
+                  </button>
+                  <InfoTooltip
+                    tooltip={TOOLTIPS.toolbar[option.tooltipKey]}
+                    position="bottom"
+                  />
+                </div>
               );
             })}
           </div>

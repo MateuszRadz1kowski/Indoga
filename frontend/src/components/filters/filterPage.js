@@ -13,14 +13,24 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Sparkles, SlidersHorizontal, RotateCcw } from "lucide-react";
 import { useToast } from "@/components/useToast";
 import { parseApiError } from "@/components/ErrorBanner";
+import { InfoTooltip } from "@/components/tooltip/TooltipSystem";
+import { TOOLTIPS } from "@/components/tooltip/TooltipData";
 
-function FilterSection({ label, children }) {
+function FilterSection({ label, tooltipKey, children }) {
 	return (
 		<div className="space-y-3 group/section">
 			{label && (
-				<p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] group-hover/section:text-violet-400/80 transition-colors duration-300">
-					{label}
-				</p>
+				<div className="flex items-center gap-1.5">
+					<p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.15em] group-hover/section:text-violet-400/80 transition-colors duration-300">
+						{label}
+					</p>
+					{tooltipKey && (
+						<InfoTooltip
+							tooltip={TOOLTIPS.filters[tooltipKey]}
+							position="right"
+						/>
+					)}
+				</div>
 			)}
 			<div className="relative">{children}</div>
 		</div>
@@ -75,7 +85,6 @@ export default function FilterPage({
 		const val = filters[key];
 
 		if (val == null || val == undefined) return true;
-
 		if (Array.isArray(val)) return val.length == 0;
 
 		return val == defaultValues[key];
@@ -93,7 +102,6 @@ export default function FilterPage({
 
 	const updateFilter = (key, value) => {
 		setFilters((prev) => ({ ...prev, [key]: value }));
-		console.log("Updated filters:", { ...filters, [key]: value });
 	};
 
 	const handleCheckbox = (key, checked) => {
@@ -144,14 +152,12 @@ export default function FilterPage({
 					title: "Error",
 					type: "error",
 				};
-
 				toast({
 					type: config.type,
 					title: config.title,
 					message: message || `Something went wrong (${code})`,
 					duration: code == "rate_limit" ? 8000 : 6000,
 				});
-
 				onError({ code, message });
 				onDataUpdate([]);
 				return;
@@ -232,6 +238,33 @@ export default function FilterPage({
 		"data-[state=on]:border-violet-400 data-[state=on]:shadow-[0_0_15px_rgba(139,92,246,0.3)] " +
 		"hover:bg-white/[0.05] hover:text-slate-200 transition-all duration-300";
 
+	const toggleRows = [
+		{
+			key: "show_planning",
+			label: "Show planning",
+			id: "filter-planning",
+			tooltipKey: "show_planning",
+		},
+		{
+			key: "show_sequels",
+			label: "Show sequels",
+			id: "filter-sequels",
+			tooltipKey: "show_sequels",
+		},
+		{
+			key: "show_18_rated",
+			label: "Show 18+ content",
+			id: "filter-adult",
+			tooltipKey: "show_18_rated",
+		},
+		{
+			key: "show_high_popularity",
+			label: `Show ${filters.media_types == "MANGA" ? "manga" : "anime"} with high popularity`,
+			id: "filter-high-popularity",
+			tooltipKey: "show_high_popularity",
+		},
+	];
+
 	return (
 		<div className="flex flex-col h-[calc(100vh-140px)] bg-gradient-to-b from-[#0a0f1d] to-[#060d1b] border-r border-white/[0.05] overflow-hidden relative">
 			<div className="px-6 pt-6 pb-4 bg-gradient-to-b from-[#0a0f1d] to-transparent z-10">
@@ -247,7 +280,7 @@ export default function FilterPage({
 			</div>
 
 			<div className="flex-1 overflow-y-auto px-6 py-2 space-y-8 custom-filters-scrollbar pb-12">
-				<FilterSection label="Media type">
+				<FilterSection label="Media type" tooltipKey="media_types">
 					<ToggleGroup
 						type="single"
 						variant="outline"
@@ -276,38 +309,23 @@ export default function FilterPage({
 
 				<FilterSection>
 					<div className="space-y-1.5">
-						{[
-							{
-								key: "show_planning",
-								label: "Show planning",
-								id: "filter-planning",
-							},
-							{
-								key: "show_sequels",
-								label: "Show sequels",
-								id: "filter-sequels",
-							},
-							{
-								key: "show_18_rated",
-								label: "Show 18+ content",
-								id: "filter-adult",
-							},
-							{
-								key: "show_high_popularity",
-								label: `Show ${filters.media_types == "MANGA" ? "manga" : "anime"} with high popularity`,
-								id: "filter-high-popularity",
-							},
-						].map(({ key, label, id }) => (
+						{toggleRows.map(({ key, label, id, tooltipKey }) => (
 							<div
 								key={key}
 								className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/[0.03] transition-all duration-300 group"
 							>
-								<Label
-									htmlFor={id}
-									className="text-[12px] text-slate-400 group-hover:text-slate-200 cursor-pointer transition-colors"
-								>
-									{label}
-								</Label>
+								<div className="flex items-center gap-1.5">
+									<Label
+										htmlFor={id}
+										className="text-[12px] text-slate-400 group-hover:text-slate-200 cursor-pointer transition-colors"
+									>
+										{label}
+									</Label>
+									<InfoTooltip
+										tooltip={TOOLTIPS.filters[tooltipKey]}
+										position="right"
+									/>
+								</div>
 								<Switch
 									id={id}
 									checked={filters[key] ?? defaultValues[key]}
@@ -319,7 +337,10 @@ export default function FilterPage({
 					</div>
 				</FilterSection>
 
-				<FilterSection label="Popularity influence">
+				<FilterSection
+					label="Popularity influence"
+					tooltipKey="popularity_importance"
+				>
 					<ToggleGroup
 						type="single"
 						value={filters.popularity_importance ?? "medium"}
@@ -344,6 +365,7 @@ export default function FilterPage({
 					label={
 						filters.media_types == "MANGA" ? "Chapters Range" : "Episodes Range"
 					}
+					tooltipKey="episodes_range"
 				>
 					<div className="flex gap-3 flex-col">
 						<Input
@@ -375,7 +397,7 @@ export default function FilterPage({
 					</div>
 				</FilterSection>
 
-				<FilterSection label="Release year">
+				<FilterSection label="Release year" tooltipKey="release_year">
 					<div className="flex gap-3 flex-col">
 						<Input
 							type="number"
@@ -406,7 +428,10 @@ export default function FilterPage({
 					</div>
 				</FilterSection>
 
-				<FilterSection label={`Min score: ${filters.min_mean_score ?? 0}%`}>
+				<FilterSection
+					label={`Min score: ${filters.min_mean_score ?? 0}%`}
+					tooltipKey="min_score"
+				>
 					<div className="pt-2 px-1">
 						<Slider
 							max={100}
@@ -420,7 +445,7 @@ export default function FilterPage({
 					</div>
 				</FilterSection>
 
-				<FilterSection label="Tags Selection">
+				<FilterSection label="Tags Selection" tooltipKey="tags_selection">
 					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
 						<TagsChoser
 							setTagsSwitchStatus={setTagsSwitchStatus}
@@ -431,7 +456,7 @@ export default function FilterPage({
 					</div>
 				</FilterSection>
 
-				<FilterSection label="Genres Selection">
+				<FilterSection label="Genres Selection" tooltipKey="genres_selection">
 					<div className="bg-white/[0.01] rounded-xl border border-white/[0.03] p-1 shadow-inner">
 						<GenreChoser
 							setGenreSwitchStatus={setGenreSwitchStatus}
@@ -443,7 +468,10 @@ export default function FilterPage({
 				</FilterSection>
 
 				{(filters.media_types == "TV" || filters.media_types == null) && (
-					<FilterSection label="Streaming Services">
+					<FilterSection
+						label="Streaming Services"
+						tooltipKey="streaming_services"
+					>
 						<ToggleGroup
 							type="single"
 							value={filters.show_streaming_service ?? "All"}

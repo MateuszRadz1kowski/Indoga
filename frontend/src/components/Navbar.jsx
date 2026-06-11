@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
+import { useTooltipMode } from "@/components/tooltip/TooltipSystem";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +19,7 @@ import {
 export default function Navbar({ activeTab, onTabChange, apiData }) {
   const router = useRouter();
   const [rendered, setRendered] = useState(false);
+  const { tooltipsEnabled, setTooltipsEnabled } = useTooltipMode();
 
   useEffect(() => {
     setRendered(true);
@@ -72,10 +74,17 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-          <Button variant="ghost" size="sm" className="hidden sm:flex text-amber-400 gap-2">
-            <HelpCircle size={14} />
-            <span>Tooltips</span>
-          </Button>
+          <button
+            onClick={() => setTooltipsEnabled((value) => !value)}
+            className={`hidden sm:flex items-center gap-2 h-8 px-3 rounded-md text-[11px] font-bold border transition-all duration-300
+              ${tooltipsEnabled
+                ? "bg-violet-500/10 border-violet-500/40 text-violet-300 shadow-[0_0_12px_rgba(139,92,246,0.2)]"
+                : "bg-transparent border-white/10 text-slate-500 hover:text-slate-300 hover:bg-white/5"
+              }`}
+          >
+            <HelpCircle size={14} className={tooltipsEnabled ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" : "opacity-70"} />
+            {tooltipsEnabled ? "Tooltips: ON" : "Tooltips: OFF"}
+          </button>
           
           <Separator orientation="vertical" className="hidden sm:block h-4 bg-white/10" />
           
@@ -117,6 +126,16 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                   <User className="mr-2 size-3.5" /> Profile Stats
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/5" />
+                
+                <DropdownMenuItem
+                  className="text-xs cursor-pointer focus:bg-violet-500/10 focus:text-violet-400 sm:hidden"
+                  onClick={() => setTooltipsEnabled((value) => !value)}
+                >
+                  <HelpCircle className="mr-2 size-3.5" />
+                  {tooltipsEnabled ? "Disable Tooltips" : "Enable Tooltips"}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-white/5 sm:hidden" />
+                
                 <DropdownMenuItem
                   onClick={handleLogout}
                   className="text-xs focus:bg-red-500/10 focus:text-red-400 text-red-400/80 cursor-pointer"

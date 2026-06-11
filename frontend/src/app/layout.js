@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/useToast";
+import { TooltipModeProvider } from "@/components/tooltip/TooltipSystem";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -128,10 +129,6 @@ export const metadata = {
 	manifest: "/manifest.json",
 };
 
-// verification: {
-//   google: "twoj-token-z-search-console",
-// },
-
 export const viewport = {
 	themeColor: [
 		{ media: "(prefers-color-scheme: dark)", color: "#060d1b" },
@@ -188,7 +185,9 @@ export default function RootLayout({ children }) {
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ToastProvider>{children}</ToastProvider>
+				<TooltipModeProvider>
+					<ToastProvider>{children}</ToastProvider>
+				</TooltipModeProvider>
 			</body>
 		</html>
 	);
