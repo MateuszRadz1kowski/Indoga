@@ -28,7 +28,6 @@ def check_season_year(anime, min_release_year, max_release_year):
     return False
 
 def check_show_planning(anime, show_planning, anime_planning):
-    print(anime_planning)
     format = anime[4] or ""
     group = "MANGA" if format in MANGA_FORMATS else "ANIME"
     anime_key = (anime[2], group)

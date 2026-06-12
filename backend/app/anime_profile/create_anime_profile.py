@@ -19,6 +19,15 @@ from backend.config.recommender_values_settings import (
 
 FINAL_RESULTS_SIZE = 100
 
+PRECOMPUTED_VECTORS_CACHE = {}
+
+def get_cached_anime_vector(anime):
+    anime_name = anime[2]
+    
+    if anime_name not in PRECOMPUTED_VECTORS_CACHE:
+        PRECOMPUTED_VECTORS_CACHE[anime_name] = build_anime_vector(anime)
+        
+    return PRECOMPUTED_VECTORS_CACHE[anime_name]
 
 def build_anime_vector(anime):
     vector = {}
@@ -31,7 +40,7 @@ def build_anime_vector(anime):
 
     for genre in (anime[6] or []):
         if genre:
-            vector[("genre", genre)] = 0.5 * ANIME_PROFILE_GENRE_MODIFIER
+            vector[("genre", genre)] = 0.3 * ANIME_PROFILE_GENRE_MODIFIER
 
     if not vector:
         return {}
@@ -106,7 +115,8 @@ def create_anime_profile(db_response, user_interests_profile, filters, user_data
         ):
             continue
 
-        anime_vector = build_anime_vector(anime)
+        anime_vector = get_cached_anime_vector(anime)
+        
         if not anime_vector:
             continue
 

@@ -8,12 +8,10 @@ paginacja,lazy loading
 
 frontend:
     dark mode - zmiana miedzy light a dark mode
-    tooltip - guzik po ktorego kliknieicu wlacza sie tryb tooltip, po najechaniu na wiekszosc features pojawia sie dokladny opis
     ze statystyk to jescze tworzenie rekomendacji na podstawie dwoch profilow w porownywarce i "na podstawie waszych obu zainteresowan powinniscie obejrzec X"
     user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
 
 problemy na pozniej:
-gdy jes tsie na telefonie to defaultowo powinien byc wide widok
 naprawic callowanie do api z StatsPage, by bylo bardziej zoptymalizowane
 Docelowo CORS zezwala tylko na moją domene
 w statsTab loading skeleton
@@ -79,34 +77,3 @@ DOCKER
             gdy wejdzie sie do konsoli postgre, wpisac komende na stworzenie tabeli CREATE TABLE...........
             pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) -e PYTHONPATH=. python3 /backend/app/db/ingestion/database_import.py
         
-
-TOOLTIPS
-    Filters:
-        Media type - 
-        Show planning -
-        Show 18+ -
-        Show anime/manga with high popularity -
-        Popularity Influence -
-        Episodes/chapters range -
-        Release year -
-        Min score -
-        Tags selection -
-        Genre Selection -
-        Streaming Services -
-    Toolbar:
-        Match% -
-        Score -
-        Popularity -
-        Year -
-    My Stats:
-        Favourite Genres -
-        Favourite Tags -
-        Watched Timeline -
-        Hot takes -
-    Compare
-        Form -
-        Overview -
-        Shared and unique tags -
-        Taste diffrence -
-        Genre comparison
-

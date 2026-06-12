@@ -54,7 +54,6 @@ def create_user_interests_profile(raw_data):
         user_genres = normalise_score_with_negatives(user_genres)
     if completed_anime_recommendations:
         completed_anime_recommendations = normalise_score_positive_only(completed_anime_recommendations)
-
     return (
         sort_interests(user_tags),
         sort_interests(user_genres),

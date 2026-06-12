@@ -3,7 +3,7 @@ export const TOOLTIPS = {
 		media_types: {
 			title: "Media Type",
 			description:
-				"Switch between Anime (TV, TV_short, movies, OVA, ONA, special, music ) and Manga (manga, light novels, one-shots).",
+				"Switch between Anime (TV, TV_short, movies, OVA, ONA, special, music) and Manga (manga, light novels, one-shots).",
 		},
 		show_planning: {
 			title: "Show Planning",
@@ -33,7 +33,7 @@ export const TOOLTIPS = {
 		episodes_range: {
 			title: "Episodes / Chapters Range",
 			description:
-				"Filter by episode/chapter count. Set a minimum and maximum rangeto find short series, long-runners, or anything in between.",
+				"Filter by episode/chapter count. Set a minimum and maximum range to find short series, long-runners, or anything in between.",
 		},
 		release_year: {
 			title: "Release Year",
@@ -58,7 +58,7 @@ export const TOOLTIPS = {
 		streaming_services: {
 			title: "Streaming Services",
 			description:
-				"Filter recommendations to titles available on your preferred streaming platforms. When disabled, it shows everything regardless of availability. Note: Many Netflix titles are region-locked and may not be available in your country.",
+				"Filter recommendations to titles available on your preferred streaming platforms. When disabled, it shows everything regardless of availability. Note: Many Netflix titles are often region-locked and may not be available in your country.",
 		},
 	},
 
@@ -66,17 +66,17 @@ export const TOOLTIPS = {
 		match_percent: {
 			title: "Match %",
 			description:
-				"Sorts by how closely a title aligns with your personal taste profile — calculated using cosine similarity between your tag/genre preferences and the anime's profile. Higher = better match.",
+				"Sorts by how closely a title aligns with your personal taste profile.",
 		},
 		score: {
 			title: "Community Score",
 			description:
-				"Sorts by the average community rating on AniList (0–100). Use this to surface the most critically acclaimed titles in your recommendations.",
+				"Sorts by the average community rating (mean score) on AniList. Use this to surface the most critically acclaimed titles in your recommendations.",
 		},
 		popularity: {
 			title: "Popularity",
 			description:
-				"Sorts by how many users have this title in their list. Higher popularity means more people have watched/read it.",
+				"Sorts by popularity. Use this to surface the most widely engaged-with titles in your recommendations.",
 		},
 		year: {
 			title: "Release Year",
@@ -89,12 +89,12 @@ export const TOOLTIPS = {
 		favourite_genres: {
 			title: "Favourite Genres",
 			description:
-				"Shows the genres you engage with most based on your scores, repeat watches, and favourites. The bars represent your weighted affinity — higher means you consistently enjoy this genre.",
+				"Shows the genres you engage with most based on your scores, repeat watches, and favourites. The bars represent your weighted affinity — higher means you enjoy this genre.",
 		},
 		favourite_tags: {
 			title: "Favourite Tags",
 			description:
-				"Your top content tags derived from everything you've rated. Tags are weighted by how often they appear in titles you love, adjusted for tag rarity — so a niche tag you love scores higher than a common one.",
+				"Shows the tags you engage with most based on your scores, repeat watches, and favourites. The bars represent your weighted affinity — higher means you enjoy this tag.",
 		},
 		watched_timeline: {
 			title: "Watched Timeline",
@@ -104,7 +104,7 @@ export const TOOLTIPS = {
 		hot_takes: {
 			title: "Hot Takes",
 			description:
-				"Titles where your personal score differs most from the community average. A positive difference means you rated it higher than most; negative means you're a harsh critic for that title.",
+				"Titles where your personal score differs most from the community mean score. A positive difference means you rated it higher than most; negative means lower.",
 		},
 	},
 
@@ -112,17 +112,17 @@ export const TOOLTIPS = {
 		form: {
 			title: "Compare Profiles",
 			description:
-				"Enter any AniList or MyAnimeList username to compare taste profiles. The comparison is based on tag and genre vectors — no data is shared with the other user.",
+				"Enter any AniList or MyAnimeList username to compare taste profiles. The comparison is beetween the currently logged in user and the entered username.",
 		},
 		overview: {
 			title: "Match Overview",
 			description:
-				"The overall compatibility score (0–100%) is a weighted average of tag similarity (70%) and genre similarity (30%). Soulmates share deep tag-level preferences, not just broad genre tastes.",
+				"The overall compatibility score (0–100%) is a weighted average of tag similarity and genre similarity. A higher score means your tastes are more closely aligned. The breakdown below shows how much each aspect contributes to the final match percentage.",
 		},
 		shared_unique_tags: {
 			title: "Shared & Unique Tags",
 			description:
-				"Shared tags appear in both profiles — the bars show each person's affinity strength. Unique tags exist in only one profile, revealing what makes each taste distinct.",
+				"Tags you both enjoy (shared) and tags that are only in one profile (unique). The size of each tag represents how strongly it defines your taste profile.",
 		},
 		taste_difference: {
 			title: "Taste Difference",
