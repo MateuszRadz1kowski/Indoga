@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Sparkles } from "lucide-react";
 
 const TAG_COLOURS = [
@@ -24,7 +23,7 @@ export default function TagAffinityMap({ interests }) {
 
 		return Object.entries(tagsObj)
 			.sort((a, b) => b[1] - a[1])
-			.slice(0, 20)
+			.slice(0, 40)
 			.map(([name, value]) => ({
 				name,
 				value,
@@ -37,7 +36,7 @@ export default function TagAffinityMap({ interests }) {
 		return (
 			<Card className="bg-[#0a0f1d]/85 border border-white/[0.05] mb-4">
 				<CardHeader className="text-sm font-bold uppercase text-white tracking-wider">
-					Tag Affinity Map
+					Favorite Tags
 				</CardHeader>
 				<CardContent>
 					<SectionError
@@ -50,29 +49,29 @@ export default function TagAffinityMap({ interests }) {
 	}
 
 	return (
-		<Card className="bg-[#0a0f1d]/85 border border-white/[0.05] text-slate-100 overflow-hidden shadow-xl backdrop-blur-md h-full">
-			<CardHeader className="px-6 pt-5 pb-4 border-b border-white/[0.02]">
-				<div className="flex items-center gap-2">
-					<Sparkles size={14} className="text-violet-400" />
-					<h3 className="text-sm font-bold text-white uppercase tracking-wider">
-						Favourite Tags
+		<Card className="border border-white/[0.05] bg-[#0a0f1d]/85 backdrop-blur-md shadow-xl flex flex-col h-full overflow-hidden">
+			<CardHeader className="pb-4 pt-5 px-6 border-b border-white/[0.02] shrink-0">
+				<div className="flex items-center justify-between">
+					<h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+						<Sparkles size={16} className="text-cyan-400" />
+						Favorite Tags
 					</h3>
 				</div>
 			</CardHeader>
 
-			<CardContent className="px-6 py-6 space-y-5">
-				<div className="grid grid-cols-3 gap-2">
+			<CardContent className="p-6 flex-1 flex flex-col min-h-0">
+				<div className="shrink-0 grid grid-cols-3 gap-2 sm:gap-3 mb-6">
 					{topTags.slice(0, 3).map((tag, index) => (
 						<div
 							key={tag.name}
-							className="flex flex-col p-2.5 rounded-xl border text-center bg-white/[0.01]"
+							className="flex flex-col items-center justify-center p-2 sm:p-3 rounded-xl border border-white/[0.03] text-center bg-white/[0.01]"
 							style={{ borderColor: `${tag.fill}25` }}
 						>
 							<span className="text-[9px] font-mono uppercase tracking-widest text-slate-500 mb-1">
-								Tag #{index + 1}
+								Top #{index + 1}
 							</span>
 							<span
-								className="text-xs font-bold truncate px-1"
+								className="text-[11px] sm:text-xs font-bold truncate px-1 max-w-full"
 								style={{ color: tag.fill }}
 							>
 								{tag.name}
@@ -84,29 +83,32 @@ export default function TagAffinityMap({ interests }) {
 					))}
 				</div>
 
-				<div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
-					{topTags.map((tag) => (
-						<div key={tag.name} className="group flex items-center gap-3">
-							<span className="text-[11px] text-slate-400 group-hover:text-slate-200 transition-colors w-[130px] truncate shrink-0">
-								{tag.name}
-							</span>
-							<div className="flex-1 h-1.5 bg-white/[0.03] rounded-full overflow-hidden">
-								<div
-									className="h-full rounded-full transition-all duration-1000 ease-out"
-									style={{
-										width: `${(tag.value / topTags[0].value) * 100}%`,
-										background: `linear-gradient(90deg, ${tag.fill}88, ${tag.fill})`,
-									}}
-								/>
+				<div className="flex-1 overflow-y-auto custom-scrollbar pr-4 min-h-0 w-full -mr-4">
+					<div className="space-y-3 pb-2 pr-4">
+						{topTags.slice(3).map((tag) => (
+							<div key={tag.name} className="group flex items-center gap-3">
+								<span className="text-[11px] font-medium text-slate-400 group-hover:text-slate-200 transition-colors w-[100px] sm:w-[120px] truncate shrink-0">
+									{tag.name}
+								</span>
+								<div className="flex-1 min-w-0 h-1.5 bg-white/[0.03] rounded-full overflow-hidden">
+									<div
+										className="h-full rounded-full transition-all duration-1000 ease-out"
+										style={{
+											width: `${(tag.value / topTags[0].value) * 100}%`,
+											background: `linear-gradient(90deg, ${tag.fill}66, ${tag.fill})`,
+											boxShadow: `0 0 10px ${tag.fill}40`,
+										}}
+									/>
+								</div>
+								<span
+									className="text-[10px] font-mono shrink-0 w-10 text-right font-bold"
+									style={{ color: tag.fill }}
+								>
+									{tag.percentage}%
+								</span>
 							</div>
-							<span
-								className="text-[10px] font-mono shrink-0 w-10 text-right"
-								style={{ color: tag.fill }}
-							>
-								{tag.percentage}%
-							</span>
-						</div>
-					))}
+						))}
+					</div>
 				</div>
 			</CardContent>
 		</Card>

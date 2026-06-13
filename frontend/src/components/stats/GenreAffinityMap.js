@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { BarChart3 } from "lucide-react";
-import { SectionError } from "@/components/ErrorBanner";
 
 const GENRE_COLOURS = [
 	"#a855f7",
@@ -49,61 +48,41 @@ export default function GenreAffinityMap({ interests }) {
 	}
 
 	return (
-		<Card className="bg-[#0a0f1d]/85 border border-white/[0.05] text-slate-100 overflow-hidden shadow-xl backdrop-blur-md h-full">
-			<CardHeader className="px-6 pt-5 pb-4 border-b border-white/[0.02]">
-				<div className="flex items-center gap-2">
-					<BarChart3 size={14} className="text-violet-400" />
-					<h3 className="text-sm font-bold text-white uppercase tracking-wider">
-						Favourite Genres
-					</h3>
-				</div>
+		<Card className="border border-white/[0.05] bg-[#0a0f1d]/85 backdrop-blur-md shadow-xl flex flex-col h-full overflow-hidden">
+			<CardHeader className="pb-4 pt-5 px-6 border-b border-white/[0.02] shrink-0">
+				<h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+					<BarChart3 size={16} className="text-violet-400" />
+					Favorite Genres
+				</h3>
 			</CardHeader>
-			<CardContent className="px-6 py-6 space-y-5">
-				<div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
-					{topGenres.map((genre) => (
-						<div key={genre.genre} className="group flex items-center gap-3">
-							<span className="text-[11px] text-slate-400 group-hover:text-slate-200 transition-colors w-[130px] truncate shrink-0">
-								{genre.genre}
-							</span>
-							<div className="flex-1 h-1.5 bg-white/[0.03] rounded-full overflow-hidden">
-								<div
-									className="h-full rounded-full transition-all duration-1000 ease-out"
-									style={{
-										width: `${(genre.value / (topGenres[0]?.value || 1)) * 100}%`,
-										background: `linear-gradient(90deg, ${genre.fill}88, ${genre.fill})`,
-									}}
-								/>
-							</div>
-							<span
-								className="text-[10px] font-mono shrink-0 w-10 text-right"
-								style={{ color: genre.fill }}
-							>
-								{genre.percentage}%
-							</span>
-						</div>
-					))}
-				</div>
 
-				<div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/[0.04]">
-					{topGenres.slice(0, 8).map((genre) => (
-						<div
-							key={genre.genre}
-							className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] font-medium bg-white/[0.01]"
-							style={{
-								borderColor: `${genre.fill}20`,
-								color: genre.fill,
-							}}
-						>
-							<span
-								className="w-1.5 h-1.5 rounded-full"
-								style={{ background: genre.fill }}
-							/>
-							{genre.genre}
-							<span className="font-mono text-[10px] text-slate-500 font-bold ml-0.5">
-								{genre.percentage}%
-							</span>
-						</div>
-					))}
+			<CardContent className="p-6 flex-1 flex flex-col min-h-0">
+				<div className="flex-1 overflow-y-auto custom-scrollbar pr-4 min-h-0 w-full">
+					<div className="space-y-4 pb-2">
+						{topGenres.map((genre) => (
+							<div key={genre.genre} className="group flex items-center gap-3">
+								<span className="text-[12px] font-semibold text-slate-300 group-hover:text-white transition-colors w-[120px] truncate shrink-0">
+									{genre.genre}
+								</span>
+								<div className="flex-1 h-2 bg-white/[0.03] rounded-full overflow-hidden border border-white/[0.02] min-w-0">
+									<div
+										className="h-full rounded-full transition-all duration-1000 ease-out"
+										style={{
+											width: `${(genre.value / (topGenres[0]?.value || 1)) * 100}%`,
+											background: `linear-gradient(90deg, ${genre.fill}44, ${genre.fill})`,
+											boxShadow: `0 0 12px ${genre.fill}55`,
+										}}
+									/>
+								</div>
+								<span
+									className="text-[11px] font-mono shrink-0 w-12 text-right font-bold"
+									style={{ color: genre.fill }}
+								>
+									{genre.percentage}%
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
 			</CardContent>
 		</Card>

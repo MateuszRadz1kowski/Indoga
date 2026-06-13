@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Flame } from "lucide-react";
 
-const getHotTakes = (data, limit = 10) => {
+const getHotTakes = (data, limit = 15) => {
 	const lists = data?.data?.MediaListCollection?.lists;
+	if (!lists) return [];
 	const entries = lists.map((list) => list.entries).flat();
 
 	return entries
@@ -31,21 +32,28 @@ export default function HotTakes({ data }) {
 	if (!takes.length) return null;
 
 	return (
-		<Card className="border-violet-900/20 bg-[#0d111e]/80 backdrop-blur-md">
-			<CardHeader className="pb-3">
-				<CardTitle className="text-sm font-bold tracking-widest text-[#7c6fa0] uppercase">
-					Hot Takes - Score Difference
-				</CardTitle>
+		<Card className="border border-white/[0.05] bg-[#0a0f1d]/85 backdrop-blur-md shadow-xl flex flex-col h-full overflow-hidden">
+			<CardHeader className="pb-4 pt-5 px-6 border-b border-white/[0.02] shrink-0">
+				<div className="flex items-center justify-between">
+					<CardTitle className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+						<Flame size={16} className="text-orange-500" />
+						Hot Takes - Biggest rating Differences
+					</CardTitle>
+					<span className="text-[10px] text-slate-500 font-mono tracking-widest uppercase hidden sm:inline-block">
+						You Vs Community
+					</span>
+				</div>
 			</CardHeader>
-			<CardContent>
-				<ScrollArea className="h-[400px] pr-4">
-					<div className="space-y-4">
+
+			<CardContent className="flex-1 p-0 flex flex-col min-h-0">
+				<div className="flex-1 overflow-y-auto custom-scrollbar px-4 sm:px-6">
+					<div className="py-4 space-y-4">
 						{takes.map((t, i) => (
 							<div
 								key={i}
-								className="flex items-center gap-4 pb-3 border-b border-violet-900/10 last:border-0"
+								className="flex items-center gap-3 sm:gap-4 pb-4 border-b border-white/[0.03] last:border-0 last:pb-0"
 							>
-								<div className="relative h-14 w-10 flex-shrink-0 overflow-hidden rounded-md border border-white/5">
+								<div className="relative h-14 w-10 flex-shrink-0 overflow-hidden rounded-md border border-white/10 shadow-sm">
 									<img
 										src={t.cover}
 										alt={t.title}
@@ -54,23 +62,23 @@ export default function HotTakes({ data }) {
 								</div>
 
 								<div className="flex-1 min-w-0">
-									<h4 className="text-sm font-semibold text-slate-200 truncate">
+									<h4 className="text-xs font-semibold text-slate-200 truncate mb-1">
 										{t.title}
 									</h4>
-									<div className="text-[11px] text-slate-500 flex items-center gap-2">
+									<div className="text-[10px] text-slate-500 flex items-center gap-2">
 										<span>
 											You:{" "}
 											<b
 												className={
-													t.diff > 0 ? "text-green-400" : "text-red-400"
+													t.diff > 0 ? "text-emerald-400" : "text-rose-400"
 												}
 											>
 												{t.userScore}
 											</b>
 										</span>
-										<span>•</span>
+										<span className="text-slate-700">•</span>
 										<span>
-											Community:{" "}
+											Community average:{" "}
 											<b className="text-violet-400">{t.communityScore}</b>
 										</span>
 									</div>
@@ -78,10 +86,10 @@ export default function HotTakes({ data }) {
 
 								<Badge
 									variant="outline"
-									className={`font-black tracking-tighter ${
+									className={`font-black tracking-tighter shrink-0 border-0 ${
 										t.diff > 0
-											? "bg-green-500/10 text-green-400 border-green-500/20"
-											: "bg-red-500/10 text-red-400 border-red-500/20"
+											? "bg-emerald-500/10 text-emerald-400"
+											: "bg-rose-500/10 text-rose-400"
 									}`}
 								>
 									{t.diff > 0 ? "+" : ""}
@@ -90,7 +98,7 @@ export default function HotTakes({ data }) {
 							</div>
 						))}
 					</div>
-				</ScrollArea>
+				</div>
 			</CardContent>
 		</Card>
 	);
