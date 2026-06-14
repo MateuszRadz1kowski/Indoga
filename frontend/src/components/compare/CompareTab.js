@@ -33,9 +33,7 @@ function calculateCosineSimilarity(userAScores, userBScores) {
 }
 
 function buildComparison(interestsUserA, interestsUserB) {
-	if (!interestsUserA || !interestsUserB) {
-		return null;
-	}
+	if (!interestsUserA || !interestsUserB) return null;
 
 	const [tagsUserA, genresUserA] = interestsUserA;
 	const [tagsUserB, genresUserB] = interestsUserB;
@@ -104,11 +102,23 @@ function buildComparison(interestsUserA, interestsUserB) {
 	];
 
 	const radarData = allGenres
-		.map((genre) => ({
-			genre: genre,
-			userA: Math.round((genresUserA?.[genre] ?? 0) * 100),
-			userB: Math.round((genresUserB?.[genre] ?? 0) * 100),
-		}))
+		.map((genre) => {
+			const scoreA = (genresUserA?.[genre] ?? 0) * 100;
+			const scoreB = (genresUserB?.[genre] ?? 0) * 100;
+			const mutualScore = Math.min(scoreA, scoreB);
+			const totalScore = scoreA + scoreB;
+
+			return {
+				genre: genre,
+				userA: Math.round(scoreA),
+				userB: Math.round(scoreB),
+				mutualScore,
+				totalScore,
+			};
+		})
+		.sort(
+			(a, b) => b.mutualScore - a.mutualScore || b.totalScore - a.totalScore,
+		)
 		.slice(0, 10);
 
 	return {
@@ -220,52 +230,67 @@ export default function CompareTab({ dataUserInterests }) {
 
 	if (!dataUserInterests) {
 		return (
-			<div className="flex items-center justify-center h-64 text-slate-500 text-xs animate-pulse uppercase tracking-widest bg-[#060d1b]">
+			<div className="flex items-center justify-center h-full text-slate-500 text-xs animate-pulse uppercase tracking-widest bg-[#060d1b]">
 				Loading your profile data...
 			</div>
 		);
 	}
 
 	return (
-		<div className="p-4 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar">
-			<ComparisonForm
-				comparisonUsername={comparisonUsername}
-				setComparisonUsername={setComparisonUsername}
-				comparisonPlatform={comparisonPlatform}
-				setComparisonPlatform={setComparisonPlatform}
-				onFetch={fetchComparison}
-				isLoading={isComparing}
-			/>
-
-			{comparison && (
-				<div className="space-y-4 mb-6 mt-4">
-					<ComparisonOverview
-						match={comparison.match}
-						tagSimilarity={comparison.tagSim}
-						genreSimilarity={comparison.genreSim}
-					/>
-
-					<ComparisonShared
-						sharedTags={comparison.sharedTags}
-						uniqueA={comparison.uniqueA}
-						uniqueB={comparison.uniqueB}
-						nameA="You"
-						nameB={comparisonUsername.trim()}
-					/>
-
-					<ComparisonDifference
-						difference={comparison.difference}
-						nameA="You"
-						nameB={comparisonUsername.trim()}
-					/>
-
-					<ComparisonGenres
-						radarData={comparison.radarData}
-						nameA="You"
-						nameB={comparisonUsername.trim()}
+		<div className="p-4 md:p-6 lg:p-8 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar relative">
+			<div className="max-w-[1200px] w-full mx-auto space-y-6 pb-12">
+				<div className="max-w-2xl mx-auto transition-all duration-700">
+					<ComparisonForm
+						comparisonUsername={comparisonUsername}
+						setComparisonUsername={setComparisonUsername}
+						comparisonPlatform={comparisonPlatform}
+						setComparisonPlatform={setComparisonPlatform}
+						onFetch={fetchComparison}
+						isLoading={isComparing}
 					/>
 				</div>
-			)}
+
+				{comparison && (
+					<div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+						<div className="w-full">
+							<ComparisonOverview
+								match={comparison.match}
+								tagSimilarity={comparison.tagSim}
+								genreSimilarity={comparison.genreSim}
+							/>
+						</div>
+
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start lg:h-[750px]">
+							<div className="w-full">
+								<ComparisonGenres
+									radarData={comparison.radarData}
+									nameA="You"
+									nameB={comparisonUsername.trim()}
+								/>
+							</div>
+
+							<div className="flex flex-col gap-6 h-[800px] lg:h-full">
+								<div className="flex-1 min-h-0">
+									<ComparisonShared
+										sharedTags={comparison.sharedTags}
+										uniqueA={comparison.uniqueA}
+										uniqueB={comparison.uniqueB}
+										nameA="You"
+										nameB={comparisonUsername.trim()}
+									/>
+								</div>
+								<div className="flex-1 min-h-0">
+									<ComparisonDifference
+										difference={comparison.difference}
+										nameA="You"
+										nameB={comparisonUsername.trim()}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
