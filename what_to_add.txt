@@ -23,7 +23,7 @@ setup ko-fi
 Po najechaniu na github, support, contact zawsze pojawia sie krotki opis
 w profilu (prawy gorny rog, tez zeby sie pokazywaly ikonki jak z footera)
 czasem w unique tags są czasem minusowe procenty
-
+dokonczyc tooltip w stats i compare tabs
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
