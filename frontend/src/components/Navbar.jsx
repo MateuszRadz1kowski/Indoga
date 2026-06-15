@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HelpCircle, ChevronDown, LogOut, User, Settings } from "lucide-react";
+import { HelpCircle, ChevronDown, LogOut, User, Settings, Github, Coffee, Mail } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -45,7 +45,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
         >
           <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-lg overflow-hidden border border-violet-500/30 group-hover:border-violet-400/60 transition-all duration-300 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.4)] flex-shrink-0">
             <Image
-              src="/indoga_image_logo.jpg"
+              src="/Indoga_image_logo.jpg"
               alt="Indoga logo"
               fill
               className="object-cover"
@@ -98,7 +98,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                 >
                   <div className="size-6 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-violet-900/20">
                     <img
-                      src={apiData[0]?.avatar_url || "/indoga_image_logo.jpg"}
+                      src={apiData[0]?.avatar_url || "/Indoga_image_logo.jpg"}
                       alt="Profile"
                       className="w-full h-full object-cover shadow-inner"
                     />
@@ -110,14 +110,14 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
 
               <DropdownMenuContent align="end" className="w-48 bg-[#0d1829] border-white/10 text-slate-300">
                 <DropdownMenuLabel className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
-                  My Account
+                  Tabs
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-white/5" />
                 <DropdownMenuItem
                   className="text-xs cursor-pointer focus:bg-white/5 focus:text-white"
                   onClick={() => onTabChange("discover")}
                 >
-                  <Settings className="mr-2 size-3.5" /> Discovery Mode
+                  <Settings className="mr-2 size-3.5" /> Discovery Tab
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-xs cursor-pointer focus:bg-white/5 focus:text-white"
@@ -125,7 +125,14 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                 >
                   <User className="mr-2 size-3.5" /> Profile Stats
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-white/5" />
+                 <DropdownMenuItem
+                  className="text-xs cursor-pointer focus:bg-white/5 focus:text-white"
+                  onClick={() => onTabChange("compare")}
+                >
+                  <User className="mr-2 size-3.5" /> Compare tab
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="bg-white/5 sm:hidden" />
                 
                 <DropdownMenuItem
                   className="text-xs cursor-pointer focus:bg-violet-500/10 focus:text-violet-400 sm:hidden"
@@ -134,7 +141,32 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                   <HelpCircle className="mr-2 size-3.5" />
                   {tooltipsEnabled ? "Disable Tooltips" : "Enable Tooltips"}
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-white/5 sm:hidden" />
+                
+                <DropdownMenuSeparator className="bg-white/5" />
+
+                <DropdownMenuLabel className="text-[10px] uppercase font-bold tracking-wider text-slate-500">
+                  Support
+                </DropdownMenuLabel>
+                
+                <DropdownMenuItem asChild className="text-xs cursor-pointer focus:bg-white/5 focus:text-white">
+                  <a href="https://github.com/MateuszRadz1kowski/Indoga" target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Github className="mr-2 size-3.5" /> GitHub
+                  </a>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem asChild className="text-xs cursor-pointer focus:bg-white/5 focus:text-white">
+                  <a href="https://ko-fi.com/indoga" target="_blank" rel="noopener noreferrer" className="w-full">
+                    <Coffee className="mr-2 size-3.5" /> Buy me a coffee
+                  </a>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem asChild className="text-xs cursor-pointer focus:bg-white/5 focus:text-white">
+                  <a href="mailto:radzikowski.mateusz@gmail.com" target="_blank" className="w-full">
+                    <Mail className="mr-2 size-3.5" /> Contact
+                  </a>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator className="bg-white/5" />
                 
                 <DropdownMenuItem
                   onClick={handleLogout}

@@ -1,100 +1,22 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import GenreAffinityMap from "./GenreAffinityMap";
 import HotTakes from "./HotTakes";
 import TagAffinityMap from "./TagAffinityMap";
 import TimelineDecades from "./TimelineDecades";
 import { RecommendationsError } from "@/components/ErrorBanner";
 import { Activity } from "lucide-react";
-
-export const BASE_ENV_URL = process.env.NEXT_PUBLIC_API_URL;
+import { InfoTooltip } from "@/components/tooltip/TooltipSystem";
+import { TOOLTIPS } from "@/components/tooltip/TooltipData";
 
 export default function StatsTab({
 	data,
-	setData,
 	dataUserInterests,
-	setDataUserInterests,
+	isLoading,
+	error,
+	onRetry,
 }) {
-	const [isLoadingStats, setIsLoadingStats] = useState(true);
-	const [statsError, setStatsError] = useState(null);
-
-	const loadMainStats = useCallback(async () => {
-		setIsLoadingStats(true);
-		setStatsError(null);
-		const username = localStorage.getItem("username");
-		const platform = localStorage.getItem("platform");
-
-		if (!username) {
-			setStatsError({
-				code: "unknown",
-				message: "User not logged in",
-			});
-			setIsLoadingStats(false);
-			return;
-		}
-
-		try {
-			const rawUrl = new URL("/raw_data/", BASE_ENV_URL);
-			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
-
-			const [rawRes, interestsRes] = await Promise.all([
-				fetch(
-					`${rawUrl.href}?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
-					{
-						headers: {
-							"Content-Type": "application/json",
-							"ngrok-skip-browser-warning": "true",
-						},
-					},
-				),
-				fetch(
-					`${interestsUrl.href}?username=${encodeURIComponent(username)}&platform=${encodeURIComponent(platform)}`,
-					{
-						headers: {
-							"Content-Type": "application/json",
-							"ngrok-skip-browser-warning": "true",
-						},
-					},
-				),
-			]);
-
-			if (!rawRes.ok) {
-				const errorJson = await rawRes.json().catch(() => ({}));
-				throw {
-					code: errorJson.error_code || "server_error",
-					message: errorJson.detail,
-				};
-			}
-			if (!interestsRes.ok) {
-				const errorJson = await interestsRes.json().catch(() => ({}));
-				throw {
-					code: errorJson.error_code || "server_error",
-					message: errorJson.detail,
-				};
-			}
-
-			const rawJson = await rawRes.json();
-			const interestsJson = await interestsRes.json();
-
-			setData(rawJson);
-			setDataUserInterests(interestsJson);
-		} catch (err) {
-			console.error(err);
-			setStatsError({
-				code: err.code || "network_error",
-				message: err.message || "Connection to server failed.",
-			});
-		} finally {
-			setIsLoadingStats(false);
-		}
-	}, [setData, setDataUserInterests]);
-
-	useEffect(() => {
-		loadMainStats();
-	}, [loadMainStats]);
-
-	if (isLoadingStats) {
+	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center h-full text-slate-500 text-xs animate-pulse uppercase tracking-widest bg-[#060d1b]">
 				Loading stats
@@ -102,13 +24,13 @@ export default function StatsTab({
 		);
 	}
 
-	if (statsError) {
+	if (error) {
 		return (
 			<div className="p-6 bg-[#060d1b] h-full flex items-center justify-center">
 				<RecommendationsError
-					errorCode={statsError.code}
-					message={statsError.message}
-					onRetry={loadMainStats}
+					errorCode={error.code}
+					message={error.message}
+					onRetry={onRetry}
 				/>
 			</div>
 		);
@@ -133,21 +55,46 @@ export default function StatsTab({
 
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 					<div className="order-1 lg:order-none lg:col-span-2 lg:row-start-1 lg:col-start-1 h-[450px]">
-						<GenreAffinityMap interests={dataUserInterests} />
+						<SectionWrapper
+							tooltipKey="favourite_genres"
+							label="Favourite Genres"
+						>
+							<GenreAffinityMap interests={dataUserInterests} />
+						</SectionWrapper>
 					</div>
 
 					<div className="order-2 lg:order-none lg:col-span-1 lg:row-start-2 lg:col-start-1 h-[450px] lg:h-[550px]">
-						<TagAffinityMap interests={dataUserInterests} />
+						<SectionWrapper tooltipKey="favourite_tags" label="Favourite Tags">
+							<TagAffinityMap interests={dataUserInterests} />
+						</SectionWrapper>
 					</div>
 
 					<div className="order-3 lg:order-none lg:col-span-1 lg:row-start-1 lg:col-start-3 h-[450px]">
-						<HotTakes data={data} />
+						<SectionWrapper tooltipKey="hot_takes" label="Hot Takes">
+							<HotTakes data={data} />
+						</SectionWrapper>
 					</div>
 
 					<div className="order-4 lg:order-none lg:col-span-2 lg:row-start-2 lg:col-start-2 h-auto lg:h-[550px]">
-						<TimelineDecades apiData={data} />
+						<SectionWrapper
+							tooltipKey="watched_timeline"
+							label="Watched Timeline"
+						>
+							<TimelineDecades apiData={data} />
+						</SectionWrapper>
 					</div>
 				</div>
+			</div>
+		</div>
+	);
+}
+
+function SectionWrapper({ tooltipKey, label, children }) {
+	return (
+		<div className="relative h-full">
+			{children}
+			<div className="absolute top-4 right-12 z-10">
+				<InfoTooltip tooltip={TOOLTIPS.stats[tooltipKey]} position="left" />
 			</div>
 		</div>
 	);

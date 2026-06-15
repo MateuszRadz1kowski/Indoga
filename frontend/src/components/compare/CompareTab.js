@@ -7,6 +7,8 @@ import ComparisonShared from "./ComparisonShared";
 import ComparisonDifference from "./ComparisonDifference";
 import ComparisonGenres from "./ComparisonGenres";
 import { useToast } from "@/components/useToast";
+import { InfoTooltip } from "../tooltip/TooltipSystem";
+import { TOOLTIPS } from "../tooltip/TooltipData";
 
 const BASE_ENV_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -190,9 +192,7 @@ export default function CompareTab({ dataUserInterests }) {
 
 			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
 			const interestsRes = await fetch(
-				`${interestsUrl.href}?username=${encodeURIComponent(
-					comparisonUsername.trim(),
-				)}&platform=${encodeURIComponent(comparisonPlatform)}`,
+				`${interestsUrl.href}?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -240,6 +240,12 @@ export default function CompareTab({ dataUserInterests }) {
 		<div className="p-4 md:p-6 lg:p-8 h-full overflow-y-auto bg-[#060d1b] custom-scrollbar relative">
 			<div className="max-w-[1200px] w-full mx-auto space-y-6 pb-12">
 				<div className="max-w-2xl mx-auto transition-all duration-700">
+					<div className="flex items-center gap-2 mb-2">
+						<span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
+							Compare profiles
+						</span>
+						<InfoTooltip tooltip={TOOLTIPS.compare.form} position="right" />
+					</div>
 					<ComparisonForm
 						comparisonUsername={comparisonUsername}
 						setComparisonUsername={setComparisonUsername}
@@ -252,7 +258,13 @@ export default function CompareTab({ dataUserInterests }) {
 
 				{comparison && (
 					<div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-						<div className="w-full">
+						<div className="w-full relative">
+							<div className="absolute top-3 right-3 z-10">
+								<InfoTooltip
+									tooltip={TOOLTIPS.compare.overview}
+									position="left"
+								/>
+							</div>
 							<ComparisonOverview
 								match={comparison.match}
 								tagSimilarity={comparison.tagSim}
@@ -261,7 +273,13 @@ export default function CompareTab({ dataUserInterests }) {
 						</div>
 
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start lg:h-[750px]">
-							<div className="w-full">
+							<div className="w-full relative">
+								<div className="absolute top-4 right-12 z-10">
+									<InfoTooltip
+										tooltip={TOOLTIPS.compare.genre_comparison}
+										position="left"
+									/>
+								</div>
 								<ComparisonGenres
 									radarData={comparison.radarData}
 									nameA="You"
@@ -270,7 +288,13 @@ export default function CompareTab({ dataUserInterests }) {
 							</div>
 
 							<div className="flex flex-col gap-6 h-[800px] lg:h-full">
-								<div className="flex-1 min-h-0">
+								<div className="flex-1 min-h-0 relative">
+									<div className="absolute top-4 right-12 z-10">
+										<InfoTooltip
+											tooltip={TOOLTIPS.compare.shared_unique_tags}
+											position="left"
+										/>
+									</div>
 									<ComparisonShared
 										sharedTags={comparison.sharedTags}
 										uniqueA={comparison.uniqueA}
@@ -279,7 +303,14 @@ export default function CompareTab({ dataUserInterests }) {
 										nameB={comparisonUsername.trim()}
 									/>
 								</div>
-								<div className="flex-1 min-h-0">
+
+								<div className="flex-1 min-h-0 relative">
+									<div className="absolute top-4 right-12 z-10">
+										<InfoTooltip
+											tooltip={TOOLTIPS.compare.taste_difference}
+											position="left"
+										/>
+									</div>
 									<ComparisonDifference
 										difference={comparison.difference}
 										nameA="You"

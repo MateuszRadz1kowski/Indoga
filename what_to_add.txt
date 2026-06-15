@@ -14,16 +14,11 @@ frontend:
 problemy na pozniej:
 naprawic callowanie do api z StatsPage, by bylo bardziej zoptymalizowane
 Docelowo CORS zezwala tylko na moją domene
-w statsTab loading skeleton
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
-Na githubie dodanie jakiejs legalnej notki, ze nie mozna krasc i uzywac bez pozwolenia kodu, ze to wartosc intelektualna
 ?testy obciazeniowe?
 Google Search COnsole
 setup ko-fi
-Po najechaniu na github, support, contact zawsze pojawia sie krotki opis
-w profilu (prawy gorny rog, tez zeby sie pokazywaly ikonki jak z footera)
 czasem w unique tags są czasem minusowe procenty
-dokonczyc tooltip w stats i compare tabs
 
 ROADMAPA STAWIANIA NA SERWERZE
     Docker
@@ -61,8 +56,6 @@ frontend:
         > kolory losowe (TagAffinityMap.js GenreAffilityMap.js)
         > wyszukiwanie tego samego siebie
         > nazwa porównywanego onClick
-
-                > Różnią się w zalżności kto kogo wyszukuje (ja ty =/= ty ja)
 
 
 DOCKER
