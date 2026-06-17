@@ -14,7 +14,7 @@ import { TrendingUp } from "lucide-react";
 
 export default function ComparisonGenres({ radarData, nameA, nameB }) {
 	const maxVal = useMemo(() => {
-		if (!radarData || radarData.length === 0) return 100;
+		if (!radarData || radarData.length == 0) return 100;
 		return Math.max(
 			...radarData.flatMap((genre) => [genre.userA ?? 0, genre.userB ?? 0]),
 			1,

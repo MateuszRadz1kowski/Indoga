@@ -8,8 +8,6 @@ import DiscoverTab from "@/components/DiscoverTab";
 import StatsTab from "@/components/stats/StatsTab";
 import CompareTab from "@/components/compare/CompareTab";
 
-const BASE_ENV_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export default function Dashboard() {
 	const [activeTab, setActiveTab] = useState("discover");
 	const [apiData, setApiData] = useState([]);
@@ -95,8 +93,11 @@ export default function Dashboard() {
 		}
 
 		try {
-			const rawUrl = new URL("/raw_data/", BASE_ENV_URL);
-			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
+			const rawUrl = new URL("/raw_data/", process.env.NEXT_PUBLIC_API_URL);
+			const interestsUrl = new URL(
+				"/user_interests/",
+				process.env.NEXT_PUBLIC_API_URL,
+			);
 
 			const [rawRes, interestsRes] = await Promise.all([
 				fetch(

@@ -167,13 +167,12 @@ def check_high_popularity(anime, show_high_popularity):
     if show_high_popularity:
         return True
 
-
     if anime[4] not in {"MANGA", "NOVEL", "ONE_SHOT"} and anime[10] >= 7000 and anime[9] >= 150000:
         return False
     elif anime[4] in {"MANGA", "NOVEL", "ONE_SHOT"} and anime[10] >= 2500 and anime[9] >= 30000:
         return False
 
-    for relation in  anime[18]:
+    for relation in anime[18]:
         rel_type = relation.get("type").upper()
         if rel_type in ["PARENT", "SIDE_STORY", "ALTERNATIVE", "SUMMARY"]:
             return False

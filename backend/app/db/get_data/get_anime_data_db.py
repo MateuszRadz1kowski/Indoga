@@ -4,7 +4,7 @@ from backend.config.db_settings import HOST, DATABASE, USER, PASSWORD
 from backend.config.redis_client import redis_client
 from backend.app.api.exceptions import DatabaseException
 
-SQL = "SELECT * FROM anime_data"
+SQL = "SELECT id, title_english, format, tags, genres, relations, popularity, favourites, mean_score, status, external_links, season_year, episode_number FROM anime_data"
 ANIME_CACHE_KEY = "anime_db:all"
 ANIME_CACHE_TTL = 86400
 

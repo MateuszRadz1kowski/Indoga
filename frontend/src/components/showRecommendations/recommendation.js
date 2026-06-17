@@ -63,9 +63,9 @@ function StreamingLinks({ external_links }) {
 	if (!links.length) return null;
 	return (
 		<>
-			{links.map((link, i) => (
+			{links.map((link) => (
 				<ExternalLinkButton
-					key={i}
+					key={link.icon}
 					href={link.url}
 					className={
 						link.site == "Crunchyroll"
@@ -77,6 +77,7 @@ function StreamingLinks({ external_links }) {
 						src={link.icon}
 						alt={link.site}
 						className="w-3 h-3 object-contain"
+						loading="lazy"
 					/>
 					{link.site}
 				</ExternalLinkButton>
@@ -122,6 +123,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 						src={data.bannerImage}
 						alt={data.title}
 						className="w-full h-auto display-block z-10"
+						loading="lazy"
 					/>
 					<div className="absolute inset-0 bg-linear-to-t from-[#0d1829] via-transparent to-transparent z-20" />
 
@@ -176,15 +178,16 @@ function DetailDialog({ data, open, onOpenChange }) {
 												?.filter((creator) =>
 													creator.role?.toLowerCase().includes("story"),
 												)
-												.map((creator, index) => (
+												.map((creator) => (
 													<div
-														key={index}
+														key={creator.node.name.full}
 														className="flex items-center gap-2 bg-white/5 pr-3 rounded-full border border-white/10"
 													>
 														<img
 															src={creator.node.image?.large}
 															alt={creator.node.name.full}
 															className="w-7 h-7 rounded-full object-cover border border-violet-500/30"
+															loading="lazy"
 														/>
 														<p className="text-xs text-slate-200 font-medium whitespace-nowrap">
 															{creator.node.name.full}
@@ -222,7 +225,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 								<div className="flex flex-wrap gap-1.5">
 									{data.genres?.map((genre, index) => (
 										<span
-											key={index}
+											key={genre}
 											className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 text-slate-400 rounded-sm font-medium"
 										>
 											{genre}
@@ -268,11 +271,17 @@ function DetailDialog({ data, open, onOpenChange }) {
 									src="/anilist_logo.png"
 									alt="AniList"
 									className="w-3 h-3"
+									loading="lazy"
 								/>
 								AniList
 							</ExternalLinkButton>
 							<ExternalLinkButton href={malUrl} className="hover:text-blue-500">
-								<img src="/mal_logo.png" alt="MAL" className="w-3 h-3" />
+								<img
+									src="/mal_logo.png"
+									alt="MAL"
+									className="w-3 h-3"
+									loading="lazy"
+								/>
 								MAL
 							</ExternalLinkButton>
 							<StreamingLinks external_links={data.external_links} />
@@ -297,6 +306,7 @@ function GridCard({ data, onOpen }) {
 					src={data.cover_image}
 					alt={data.title}
 					className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+					loading="lazy"
 				/>
 				<div className="absolute inset-0 bg-gradient-to-t from-[#0d1829] via-transparent to-transparent opacity-80" />
 
@@ -338,6 +348,7 @@ function WideCard({ data, onOpen }) {
 					src={data.cover_image}
 					alt={data.title}
 					className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+					loading="lazy"
 				/>
 				<div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0d1829]/30" />
 			</div>
@@ -397,6 +408,7 @@ function ListCard({ data, onOpen }) {
 					src={data.cover_image}
 					alt={data.title}
 					className="w-full h-full object-cover"
+					loading="lazy"
 				/>
 			</div>
 
@@ -430,11 +442,21 @@ function ListCard({ data, onOpen }) {
 
 			<div className="shrink-0 pr-4 flex items-center gap-3">
 				<ExternalLinkButton href={anilistUrl} className="hover:text-blue-400">
-					<img src="/anilist_logo.png" alt="AniList" className="w-3 h-3" />
+					<Image
+						src="/anilist_logo.png"
+						alt="AniList"
+						className="w-3 h-3"
+						loading="lazy"
+					/>
 					AniList
 				</ExternalLinkButton>
 				<ExternalLinkButton href={malUrl} className="hover:text-blue-500">
-					<img src="/mal_logo.png" alt="MAL" className="w-3 h-3" />
+					<Image
+						src="/mal_logo.png"
+						alt="MAL"
+						className="w-3 h-3"
+						loading="lazy"
+					/>
 					MAL
 				</ExternalLinkButton>
 				<StreamingLinks external_links={data.external_links} />

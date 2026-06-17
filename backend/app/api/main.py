@@ -162,4 +162,16 @@ async def verify_user(
             
     return {"exists": False, "is_private": False}
 
+
+@app.get("/ping")
+async def ping():
+    return {"ping": "pong"}
+
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "ok",
+        "timestamp": datetime.now().isoformat()
+    }
+
 # Uruchomienie: python -m uvicorn backend.app.api.main:app --reload

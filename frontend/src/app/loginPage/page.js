@@ -207,7 +207,7 @@ export default function LoginPage() {
 									</label>
 									<div className="flex gap-2">
 										<Input
-											placeholder={`Enter your ${platform === "mal" ? "MAL" : "AniList"} username`}
+											placeholder={`Enter your ${platform == "mal" ? "MAL" : "AniList"} username`}
 											className="flex-1 rounded-2xl border-2 text-sm h-14 bg-black/40 px-5 focus:ring-0 focus:border-purple-500/50 transition-all placeholder:text-slate-700"
 											style={{
 												borderColor: "oklch(0.22 0.02 265)",

@@ -4,7 +4,6 @@ Recomendations alghorithm
             user moze manualnie dodac ze bardzo lubi/nie lubi danego anime, np ja bardzo nie lubie jojo i one piece jednak nie widac tego w moim score, takie cos ma miec negatywny wplyw
             status np finished
 
-paginacja,lazy loading
 
 frontend:
     dark mode - zmiana miedzy light a dark mode
@@ -12,27 +11,15 @@ frontend:
     user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
 
 problemy na pozniej:
-naprawic callowanie do api z StatsPage, by bylo bardziej zoptymalizowane
 Docelowo CORS zezwala tylko na moją domene
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
-?testy obciazeniowe?
 Google Search COnsole
 setup ko-fi
 czasem w unique tags są czasem minusowe procenty
-
-ROADMAPA STAWIANIA NA SERWERZE
-    Docker
-    Reverse proxy
-    Domena
-    ...
-
-
-uzywane paczki
-    pip install psycopg2
-    pip install requests
-    pip install fastapi
-    pip install redis
-
+automatyczne schedulowanie aktualizacji bazy danych np co tydzien - poprzez cron
+ogarnac https na strone
+Reverse proxy
+???paginacja???
 
 frontend:
     > Wrap na timeline (poprawny)

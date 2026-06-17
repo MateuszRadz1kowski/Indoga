@@ -8,7 +8,7 @@ const groupByDecade = (rawData) => {
 	if (!rawData?.data?.MediaListCollection?.lists) return {};
 
 	const completedListObj = rawData.data.MediaListCollection.lists.find(
-		(list) => list.entries?.[0]?.status == "COMPLETED",
+		(list) => list.entries?.[0]?.status.toUpperCase() == "COMPLETED",
 	);
 
 	if (!completedListObj) return {};
@@ -40,7 +40,6 @@ const groupByDecade = (rawData) => {
 
 export default function TimelineDecades({ apiData }) {
 	const decadesData = useMemo(() => groupByDecade(apiData), [apiData]);
-
 	if (!apiData || Object.keys(decadesData).length == 0) {
 		return (
 			<Card className="p-6 bg-[#0a0f1d]/85 border border-white/5 mb-4 h-full">
@@ -142,6 +141,7 @@ function AnimeHistoryCard({ entry }) {
 			<img
 				src={imgUrl}
 				alt={title}
+				loading="lazy"
 				className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
 			/>
 			<div className="absolute inset-0 bg-gradient-to-t from-[#060d1b] via-transparent to-transparent opacity-90 transition-opacity group-hover/card:opacity-100" />

@@ -7,7 +7,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Toolbar from "./Toolbar";
 import RecommendationSkeleton from "./showRecommendations/recommendationSkeleton";
 import { RecommendationsError } from "@/components/ErrorBanner";
-import { useRouter } from "next/navigation";
 
 export default function DiscoverTab({
   apiData, setApiData, isLoading, setIsLoading,
@@ -15,7 +14,6 @@ export default function DiscoverTab({
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [fetchError, setFetchError] = useState(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.innerWidth >= 1024) {
@@ -32,7 +30,7 @@ export default function DiscoverTab({
   const handleRetry = () => {
     setFetchError(null);
     setApiData([]);
-    router.push("/dashboard");
+    window.location.href = "/"
   };
 
   return (

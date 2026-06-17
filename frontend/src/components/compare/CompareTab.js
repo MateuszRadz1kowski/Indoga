@@ -10,8 +10,6 @@ import { useToast } from "@/components/useToast";
 import { InfoTooltip } from "../tooltip/TooltipSystem";
 import { TOOLTIPS } from "../tooltip/TooltipData";
 
-const BASE_ENV_URL = process.env.NEXT_PUBLIC_API_URL;
-
 function calculateCosineSimilarity(userAScores, userBScores) {
 	const allKeys = new Set([
 		...Object.keys(userAScores),
@@ -158,7 +156,10 @@ export default function CompareTab({ dataUserInterests }) {
 		}
 
 		try {
-			const verifyUrl = new URL("/verify_user/", BASE_ENV_URL);
+			const verifyUrl = new URL(
+				"/verify_user/",
+				process.env.NEXT_PUBLIC_API_URL,
+			);
 			verifyUrl.searchParams.append("username", comparisonUsername.trim());
 			verifyUrl.searchParams.append("platform", comparisonPlatform);
 
@@ -190,7 +191,10 @@ export default function CompareTab({ dataUserInterests }) {
 				return;
 			}
 
-			const interestsUrl = new URL("/user_interests/", BASE_ENV_URL);
+			const interestsUrl = new URL(
+				"/user_interests/",
+				process.env.NEXT_PUBLIC_API_URL,
+			);
 			const interestsRes = await fetch(
 				`${interestsUrl.href}?username=${encodeURIComponent(comparisonUsername.trim())}&platform=${encodeURIComponent(comparisonPlatform)}`,
 				{

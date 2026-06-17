@@ -15,8 +15,14 @@ services:
         condition: service_healthy 
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
-      - anime_network
+      - indoga_network
 
   db:
     image: postgres:15
@@ -34,7 +40,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - anime_network
+      - indoga_network
 
   redis:
     image: redis:7
@@ -49,12 +55,12 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - anime_network
+      - indoga_network
 
 volumes:
   postgres_data:
   redis_data:
 
 networks:
-  anime_network:
+  indoga_network:
     driver: bridge
