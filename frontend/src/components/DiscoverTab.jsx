@@ -80,9 +80,9 @@ export default function DiscoverTab({
           isLoading={isLoading}
         />
 
-        <ScrollArea className="flex-1 h-full pb-6">
+        <ScrollArea className="flex-1 h-full">
         {isLoading ? (
-              <div className={`${gridClass} p-2 sm:p-4 animate-in fade-in duration-500`}>
+              <div className={`${gridClass} p-2 sm:p-4 pb-20 sm:pb-20 animate-in fade-in duration-500`}>
               {[...Array(12)].map((_, i) => (
               <RecommendationSkeleton viewMode={viewMode} key={i} />
             ))}
@@ -99,7 +99,7 @@ export default function DiscoverTab({
             onRetry={handleRetry}
           />
         ) : (
-          <div className={`${gridClass} px-4 py-4 animate-in fade-in duration-500`}>
+          <div className={`${gridClass} px-4 pt-4 pb-20 animate-in fade-in duration-500`}>
             {apiData.map((item, index) => (
               <Recommendation
                 key={item.id || index}

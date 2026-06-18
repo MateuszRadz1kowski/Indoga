@@ -1,10 +1,11 @@
 import psycopg2
 import json
-from backend.config.db_settings import HOST, DATABASE, USER, PASSWORD
+
 from backend.config.redis_client import redis_client
 from backend.app.api.exceptions import DatabaseException
+from backend.app.db.threaded_connection_pool import get_db_connection
 
-SQL = "SELECT id, title_english, format, tags, genres, relations, popularity, favourites, mean_score, status, external_links, season_year, episode_number FROM anime_data"
+SQL = "SELECT id, id_mal, title_english, season_year, format, is_adult, genres, tags, recommendations, popularity, favourites, mean_score, description, episode_number, cover_image, trailer_id, trailer_site, season, relations, external_links, status, banner_image, creators FROM anime_data"
 ANIME_CACHE_KEY = "anime_db:all"
 ANIME_CACHE_TTL = 86400
 
@@ -16,13 +17,11 @@ def get_anime_data():
     except Exception as e:
         print(f"[Redis] Cache read failed, falling back to DB: {e}")
 
-    config = {'host': HOST, 'database': DATABASE, 'user': USER, 'password': PASSWORD}
     try:
-        with psycopg2.connect(**config) as conn:
+        with get_db_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(SQL)
                 response = cur.fetchall()
-            conn.commit()
 
         try:
             redis_client.setex(ANIME_CACHE_KEY, ANIME_CACHE_TTL, json.dumps(response))

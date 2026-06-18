@@ -20,8 +20,8 @@ const TAG_COLOURS = [
 export default function TagAffinityMap({ interests }) {
 	const topTags = useMemo(() => {
 		const tagsObj = interests?.[0] ?? {};
-
 		return Object.entries(tagsObj)
+			.filter(([_, value]) => value >= 0)
 			.sort((a, b) => b[1] - a[1])
 			.slice(0, 40)
 			.map(([name, value]) => ({

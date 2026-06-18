@@ -20,8 +20,8 @@ const GENRE_COLOURS = [
 export default function GenreAffinityMap({ interests }) {
 	const topGenres = useMemo(() => {
 		const genresObj = interests?.[1] ?? {};
-
 		return Object.entries(genresObj)
+			.filter(([_, value]) => value >= 0)
 			.sort((a, b) => b[1] - a[1])
 			.map(([genre, value]) => ({
 				genre,

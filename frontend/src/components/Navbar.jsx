@@ -156,7 +156,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                 
                 <DropdownMenuItem asChild className="text-xs cursor-pointer focus:bg-white/5 focus:text-white">
                   <a href="https://ko-fi.com/indoga" target="_blank" rel="noopener noreferrer" className="w-full">
-                    <Coffee className="mr-2 size-3.5" /> Buy me a coffee
+                    <Coffee className="mr-2 size-3.5" /> Support
                   </a>
                 </DropdownMenuItem>
                 

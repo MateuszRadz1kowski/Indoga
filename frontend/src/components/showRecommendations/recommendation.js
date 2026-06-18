@@ -269,7 +269,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 							>
 								<img
 									src="/anilist_logo.png"
-									alt="AniList"
+									alt="AniList logo"
 									className="w-3 h-3"
 									loading="lazy"
 								/>
@@ -278,11 +278,11 @@ function DetailDialog({ data, open, onOpenChange }) {
 							<ExternalLinkButton href={malUrl} className="hover:text-blue-500">
 								<img
 									src="/mal_logo.png"
-									alt="MAL"
+									alt="MyAnimeList logo"
 									className="w-3 h-3"
 									loading="lazy"
 								/>
-								MAL
+								MyAnimeList
 							</ExternalLinkButton>
 							<StreamingLinks external_links={data.external_links} />
 						</div>
@@ -444,7 +444,7 @@ function ListCard({ data, onOpen }) {
 				<ExternalLinkButton href={anilistUrl} className="hover:text-blue-400">
 					<Image
 						src="/anilist_logo.png"
-						alt="AniList"
+						alt="AniList logo"
 						className="w-3 h-3"
 						loading="lazy"
 					/>
@@ -453,11 +453,11 @@ function ListCard({ data, onOpen }) {
 				<ExternalLinkButton href={malUrl} className="hover:text-blue-500">
 					<Image
 						src="/mal_logo.png"
-						alt="MAL"
+						alt="MyAnimeList logo"
 						className="w-3 h-3"
 						loading="lazy"
 					/>
-					MAL
+					MyAnimeList
 				</ExternalLinkButton>
 				<StreamingLinks external_links={data.external_links} />
 			</div>

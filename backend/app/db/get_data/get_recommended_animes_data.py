@@ -1,7 +1,4 @@
-import psycopg2
-
-from backend.config.db_settings import HOST,DATABASE,USER,PASSWORD
-
+from backend.app.db.threaded_connection_pool import get_db_connection
 
 def get_recommended_animes_data(anime_list, media_types="TV"):
     ANIME_FORMATS = ("TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC")
@@ -19,9 +16,9 @@ def get_recommended_animes_data(anime_list, media_types="TV"):
     WHERE title_english IN ({placeholders_titles})
     AND format IN ({placeholders_formats})
     """
-    config = {'host': HOST, 'database': DATABASE, 'user': USER, 'password': PASSWORD}
+    
     try:
-        with psycopg2.connect(**config) as conn:
+        with get_db_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(SQL, list(anime_list) + list(formats))
                 return cur.fetchall()

@@ -47,7 +47,7 @@ export default function ComparisonForm({
 						</SelectTrigger>
 						<SelectContent className="bg-[#0d1829] border-white/10 text-slate-300 text-xs">
 							<SelectItem value="AniList">AniList</SelectItem>
-							<SelectItem value="MyAnimeList">MAL</SelectItem>
+							<SelectItem value="MyAnimeList">MyAnimeList</SelectItem>
 						</SelectContent>
 					</Select>
 

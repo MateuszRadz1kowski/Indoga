@@ -1,6 +1,6 @@
 import requests
 import time
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 from backend.config.MAL_api_key import MAL_KEY
 from backend.app.api.exceptions import (
@@ -125,23 +125,23 @@ def fetch_anilist_batch(mal_ids, media_type):
         print(f"AniList batch error: {e}")
         return {}
 
-
-def get_mal_user_avatar(username):
-    url = f"https://myanimelist.net/profile/{username}"
-    try:
-        response = requests.get(url, timeout=10)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            img_tag = soup.find('div', class_='user-image').find('img')
-            if img_tag:
-                return img_tag.get('data-src') or img_tag.get('src')
-    except Exception as e:
-        print(f"Avatar scraping failed for {username}: {e}")
-    return None
+# def get_mal_user_avatar(username):
+#     url = f"https://myanimelist.net/profile/{username}"
+#     try:
+#         response = requests.get(url, timeout=10)
+#         if response.status_code == 200:
+#             soup = BeautifulSoup(response.text, 'html.parser')
+#             img_tag = soup.find('div', class_='user-image').find('img')
+#             if img_tag:
+#                 return img_tag.get('data-src') or img_tag.get('src')
+#     except Exception as e:
+#         print(f"Avatar scraping failed for {username}: {e}")
+#     return None
 
 
 def get_user_MAL_data(username):
-    user_avatar_url = get_mal_user_avatar(username)
+    # user_avatar_url = get_mal_user_avatar(username)
+    user_avatar_url = None
 
     mal_anime_entries = get_mal_list(username, "anime")
     mal_manga_entries = get_mal_list(username, "manga")

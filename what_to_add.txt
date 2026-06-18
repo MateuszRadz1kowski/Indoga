@@ -15,7 +15,6 @@ Docelowo CORS zezwala tylko na moją domene
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
 Google Search COnsole
 setup ko-fi
-czasem w unique tags są czasem minusowe procenty
 automatyczne schedulowanie aktualizacji bazy danych np co tydzien - poprzez cron
 ogarnac https na strone
 Reverse proxy
@@ -59,3 +58,22 @@ DOCKER
             gdy wejdzie sie do konsoli postgre, wpisac komende na stworzenie tabeli CREATE TABLE...........
             pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) -e PYTHONPATH=. python3 /backend/app/db/ingestion/database_import.py
         
+
+
+
+Rate Limit Increase https://docs.anilist.co/guide/rate-limiting
+zainicjowac nową aplikacje w anilist
+https://myanimelist.net/static/apiagreement.html <- każą by ich powiadomic o releasowaniu aplikacji w 4b, dodatkowo w 4i poprosic czy moge scrapowac avatar
+
+
+PROMOCJA
+    anilist forum
+    mal forum
+    mal clubs
+    reddit
+    discord
+    ?twitter
+    ?tiktok/youtube shorts
+    product hunt
+    
+    
