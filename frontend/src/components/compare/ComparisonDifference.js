@@ -20,7 +20,7 @@ export default function ComparisonDifference({
 			</CardHeader>
 
 			<CardContent className="flex-1 p-0 flex flex-col min-h-0">
-				<div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-5 min-h-0">
+				<div className="flex-1 overflow-y-auto lg:overflow-y-visible custom-scrollbar px-6 py-5 min-h-0">
 					<div className="space-y-5">
 						{(difference || []).map((tag) => {
 							const scoreA = Math.abs(tag.scoreA ?? 0);

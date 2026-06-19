@@ -55,7 +55,7 @@ export default function GenreChoser({
 					htmlFor="showHideGenre"
 					className="text-[12px] text-slate-400 cursor-pointer"
 				>
-					{genreSwitchStatus ? "Show" : "Hide"} selected genres
+					{genreSwitchStatus ? "Show only" : "Hide all"} selected genres
 				</Label>
 				<Switch
 					checked={genreSwitchStatus}

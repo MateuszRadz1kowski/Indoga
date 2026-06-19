@@ -18,7 +18,7 @@ const MatchCircle = ({ percentage }) => {
 		statusLabel = "Similiar tastes";
 	} else if (percentage >= 55) {
 		statusColor = "#f59e0b";
-		statusLabel = "Diffrent tastes";
+		statusLabel = "Different tastes";
 	}
 
 	return (

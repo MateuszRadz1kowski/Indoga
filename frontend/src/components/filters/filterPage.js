@@ -47,6 +47,15 @@ const ERROR_MESSAGES = {
 	rate_limit: { title: "Too Many Requests", type: "warning" },
 };
 
+const STREAMING_OPTIONS = [
+	{ value: "Netflix", label: "Netflix" },
+	{ value: "Crunchyroll", label: "Crunchyroll" },
+	{ value: "Amazon Prime Video", label: "Prime Video" },
+	{ value: "Max", label: "HBO Max" },
+	{ value: "Hulu", label: "Hulu" },
+	{ value: "Disney Plus", label: "Disney+" },
+];
+
 export default function FilterPage({
 	apiData,
 	onDataUpdate,
@@ -237,6 +246,13 @@ export default function FilterPage({
 		"data-[state=on]:bg-violet-600 data-[state=on]:text-white " +
 		"data-[state=on]:border-violet-400 data-[state=on]:shadow-[0_0_15px_rgba(139,92,246,0.3)] " +
 		"hover:bg-white/[0.05] hover:text-slate-200 transition-all duration-300";
+
+	const toggleStreamingItemClassName =
+		"h-8 text-[11px] font-medium rounded-lg border border-white/[0.05] " +
+		"bg-white/[0.02] text-slate-400 " +
+		"data-[state=on]:bg-violet-600 data-[state=on]:text-white " +
+		"data-[state=on]:border-violet-400 data-[state=on]:shadow-[0_0_15px_rgba(139,92,246,0.3)] " +
+		"hover:bg-white/[0.05] hover:text-slate-200 transition-all duration-300 w-full";
 
 	const toggleRows = [
 		{
@@ -474,24 +490,25 @@ export default function FilterPage({
 					>
 						<ToggleGroup
 							type="single"
-							value={filters.show_streaming_service ?? "All"}
+							value={
+								filters.show_streaming_service == "All"
+									? ""
+									: filters.show_streaming_service
+							}
 							onValueChange={(v) =>
 								updateFilter("show_streaming_service", v ? v : "All")
 							}
-							className="gap-2.5"
+							className="grid grid-cols-3 gap-2"
 						>
-							<ToggleGroupItem
-								value="Netflix"
-								className={toogleGroupItemClassName}
-							>
-								Netflix
-							</ToggleGroupItem>
-							<ToggleGroupItem
-								value="Crunchyroll"
-								className={toogleGroupItemClassName}
-							>
-								Crunchyroll
-							</ToggleGroupItem>
+							{STREAMING_OPTIONS.map((option) => (
+								<ToggleGroupItem
+									key={option.value}
+									value={option.value}
+									className={toggleStreamingItemClassName}
+								>
+									{option.label}
+								</ToggleGroupItem>
+							))}
 						</ToggleGroup>
 					</FilterSection>
 				)}
@@ -511,7 +528,7 @@ export default function FilterPage({
 						onClick={handleClear}
 						variant="outline"
 						disabled={disableClear}
-						className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20 hover:bg-white/[8 hover:border-white/[20 text-slate-400 rounded-xl transition-all duration-300"
+						className="disabled:bg-slate-800 flex-1 h-11 border-white/10 bg-white/[20] hover:bg-white/[8] hover:border-white/[20] text-slate-400 rounded-xl transition-all duration-300"
 					>
 						<RotateCcw size={14} />
 					</Button>

@@ -20,6 +20,11 @@ ogarnac https na strone
 Reverse proxy
 ???paginacja???
 
+jakos zeby wiecej mowily te proceny
+w compare tab zeby w w shared i unique bylo lepiej zapisane, bardziej oczywiscie
+?zeby ui bylo wieksze?
+zeby ten switch w show/hide tags/genres byl bardziej oczywisty w dzialaniu
+
 frontend:
     > Wrap na timeline (poprawny)
     > timeline bounuje (oś y)

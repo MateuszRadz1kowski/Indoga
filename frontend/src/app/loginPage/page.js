@@ -260,7 +260,12 @@ export default function LoginPage() {
 						Github
 					</a>
 					<div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
-					<a href="#" className="hover:text-purple-400">
+					<a
+						href="https://ko-fi.com/indoga"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="w-full"
+					>
 						Support
 					</a>
 				</div>

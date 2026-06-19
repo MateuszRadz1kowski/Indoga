@@ -21,14 +21,27 @@ import {
 	Building2,
 	Activity,
 } from "lucide-react";
+
+function getHoverColorClass(siteName) {
+	if (!siteName) return "hover:text-violet-400";
+
+	if (siteName.includes("Crunchyroll")) return "hover:text-orange-400";
+	if (siteName.includes("Netflix")) return "hover:text-red-500";
+	if (siteName.includes("Max")) return "hover:text-purple-500";
+	if (siteName.includes("Amazon")) return "hover:text-cyan-400";
+	if (siteName.includes("Hulu")) return "hover:text-green-400";
+	if (siteName.includes("Disney")) return "hover:text-blue-400";
+
+	return "hover:text-violet-400";
+}
+
 function ExternalLinkButton({ href, children, className = "" }) {
 	return (
 		<a
 			href={href}
 			target="_blank"
 			rel="noopener noreferrer"
-			className={`inline-flex items-center gap-1.5 text-[10px] font-semibold text-slate-500
-				hover:text-slate-200 transition-colors uppercase tracking-widest ${className}`}
+			className={`inline-flex items-center gap-1.5 text-[10px] font-semibold text-slate-500 transition-colors uppercase tracking-widest ${className}`}
 		>
 			{children}
 		</a>
@@ -46,7 +59,7 @@ function Why_recommend_Tags({ why_recommended }) {
 					key={tag}
 					variant="outline"
 					className="text-[9px] px-1.5 py-0 h-4 rounded-full font-semibold
-							border-violet-500/30 text-violet-300 bg-violet-500/10 uppercase"
+              border-violet-500/30 text-violet-300 bg-violet-500/10 uppercase"
 				>
 					{tag}
 				</Badge>
@@ -56,29 +69,46 @@ function Why_recommend_Tags({ why_recommended }) {
 }
 
 function StreamingLinks({ external_links }) {
-	const links = external_links.filter(
-		(link) =>
-			link.site.includes("Crunchyroll") || link.site.includes("Netflix"),
-	);
+	if (!external_links || !Array.isArray(external_links)) return null;
+
+	const ALLOWED_STREAMING = [
+		"netflix",
+		"crunchyroll",
+		"amazon",
+		"max",
+		"hulu",
+		"disney",
+	];
+
+	const links = external_links.filter((link) => {
+		if (!link || link.type !== "STREAMING") return false;
+		const siteLower = link.site.toLowerCase();
+		return ALLOWED_STREAMING.some((allowed) => siteLower.includes(allowed));
+	});
+
 	if (!links.length) return null;
+
 	return (
 		<>
-			{links.map((link) => (
+			{links.map((link, index) => (
 				<ExternalLinkButton
-					key={link.icon}
+					key={`${link.site}-${index}`}
 					href={link.url}
-					className={
-						link.site == "Crunchyroll"
-							? "hover:text-orange-400"
-							: "hover:text-red-400"
-					}
+					className={getHoverColorClass(link.site)}
 				>
-					<img
-						src={link.icon}
-						alt={link.site}
-						className="w-3 h-3 object-contain"
-						loading="lazy"
-					/>
+					{link.icon ? (
+						<img
+							src={link.icon}
+							alt={link.site}
+							className="w-3 h-3 object-contain"
+							loading="lazy"
+							onError={(e) => {
+								e.target.style.display = "none";
+							}}
+						/>
+					) : (
+						<Play size={10} className="text-current shrink-0" />
+					)}
 					{link.site}
 				</ExternalLinkButton>
 			))}
@@ -90,7 +120,7 @@ function ScoreIcon({ score }) {
 	return (
 		<span
 			className="inline-flex items-center gap-1 text-[11px] font-bold
-			text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded px-1.5 py-0.5"
+      text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded px-1.5 py-0.5"
 		>
 			<Star size={10} className="fill-amber-400" />
 			{score}
@@ -102,7 +132,7 @@ function MatchIcon({ score }) {
 	return (
 		<Badge
 			className="text-[11px] font-bold bg-violet-600 hover:bg-violet-600
-			border-none text-white shadow-sm shadow-violet-900/50 shrink-0"
+      border-none text-white shadow-sm shadow-violet-900/50 shrink-0"
 		>
 			{(score * 100).toFixed(0)}%
 		</Badge>
@@ -117,7 +147,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-2xl p-0 overflow-hidden bg-[#0d1829] border border-violet-900/40 gap-0">
+			<DialogContent className="max-w-3xl p-0 overflow-hidden bg-[#0d1829] border border-violet-900/40 gap-0">
 				<div className="relative w-full h-auto min-h-[150px] bg-black/20">
 					<img
 						src={data.bannerImage}
@@ -238,7 +268,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 						{data.description && (
 							<div className="space-y-2">
 								<p className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
-									Synopsis
+									Summary
 								</p>
 								<p
 									className="text-[12px] text-slate-400 leading-relaxed"
@@ -246,7 +276,7 @@ function DetailDialog({ data, open, onOpenChange }) {
 								/>
 							</div>
 						)}
-						<div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2">
+						<div className="flex flex-wrap items-center gap-x-5 gap-y-3 pt-2">
 							{data.trailer_id && (
 								<Button
 									size="sm"
@@ -292,14 +322,14 @@ function DetailDialog({ data, open, onOpenChange }) {
 		</Dialog>
 	);
 }
+
 function GridCard({ data, onOpen }) {
-	console.log(data);
 	return (
 		<Card
 			onClick={onOpen}
 			className="group relative flex flex-col overflow-hidden cursor-pointer
-				bg-[#0d1829] border border-white/[0.06] hover:border-violet-500/40
-				transition-all duration-200 hover:shadow-lg hover:shadow-violet-900/20 p-0 gap-0"
+        bg-[#0d1829] border border-white/[0.06] hover:border-violet-500/40
+        transition-all duration-200 hover:shadow-lg hover:shadow-violet-900/20 p-0 gap-0"
 		>
 			<div className="relative overflow-hidden aspect-[2/3] w-full">
 				<img
@@ -322,7 +352,7 @@ function GridCard({ data, onOpen }) {
 			<CardContent className="p-2.5 flex flex-col gap-1.5">
 				<h3
 					className="text-[11px] font-bold text-slate-100 leading-tight
-					line-clamp-2 uppercase tracking-wide"
+          line-clamp-2 uppercase tracking-wide"
 				>
 					{data.title}
 				</h3>
@@ -340,8 +370,8 @@ function WideCard({ data, onOpen }) {
 		<Card
 			onClick={onOpen}
 			className="group flex flex-row overflow-hidden cursor-pointer
-				bg-[#0d1829] border border-white/[0.06] hover:border-violet-500/40
-				transition-all duration-200 hover:shadow-lg hover:shadow-violet-900/20 p-0 gap-0"
+        bg-[#0d1829] border border-white/[0.06] hover:border-violet-500/40
+        transition-all duration-200 hover:shadow-lg hover:shadow-violet-900/20 p-0 gap-0"
 		>
 			<div className="relative w-28 shrink-0 overflow-hidden">
 				<img
@@ -357,7 +387,7 @@ function WideCard({ data, onOpen }) {
 				<div className="flex items-start justify-between gap-2">
 					<h3
 						className="text-[13px] font-bold text-slate-100 leading-tight
-						line-clamp-2 uppercase tracking-wide flex-1"
+            line-clamp-2 uppercase tracking-wide flex-1"
 					>
 						{data.title}
 					</h3>
@@ -374,7 +404,7 @@ function WideCard({ data, onOpen }) {
 				<div>
 					<p
 						className="text-[9px] font-semibold text-violet-400 uppercase
-						tracking-widest flex items-center gap-1 mb-1.5"
+            tracking-widest flex items-center gap-1 mb-1.5"
 					>
 						<Info size={9} /> Because you like
 					</p>
@@ -442,7 +472,7 @@ function ListCard({ data, onOpen }) {
 
 			<div className="shrink-0 pr-4 flex items-center gap-3">
 				<ExternalLinkButton href={anilistUrl} className="hover:text-blue-400">
-					<Image
+					<img
 						src="/anilist_logo.png"
 						alt="AniList logo"
 						className="w-3 h-3"
@@ -451,7 +481,7 @@ function ListCard({ data, onOpen }) {
 					AniList
 				</ExternalLinkButton>
 				<ExternalLinkButton href={malUrl} className="hover:text-blue-500">
-					<Image
+					<img
 						src="/mal_logo.png"
 						alt="MyAnimeList logo"
 						className="w-3 h-3"
