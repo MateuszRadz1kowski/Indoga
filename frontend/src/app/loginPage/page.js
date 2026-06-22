@@ -208,9 +208,9 @@ export default function LoginPage() {
 									<div className="flex gap-2">
 										<Input
 											placeholder={`Enter your ${platform == "mal" ? "MyAnimeList" : "AniList"} username`}
-											className="flex-1 rounded-2xl border-2 text-sm h-14 bg-black/40 px-5 focus:ring-0 focus:border-purple-500/50 transition-all placeholder:text-slate-700"
+											className="flex-1 rounded-2xl border-2 text-sm h-14 bg-black/50 px-5 focus:ring-0 focus:border-purple-500/50 transition-all placeholder:text-slate-500"
 											style={{
-												borderColor: "oklch(0.22 0.02 265)",
+												borderColor: "oklch(0.45 0.02 265)",
 												color: "white",
 											}}
 											value={inputUser}
@@ -248,23 +248,23 @@ export default function LoginPage() {
 				</div>
 
 				<div
-					className="mt-10 flex justify-center items-center gap-5 text-[10px] font-mono tracking-[0.25em] uppercase opacity-40 hover:opacity-100 transition-opacity duration-500"
-					style={{ color: "oklch(0.55 0.02 265)" }}
+					className="mt-10 flex justify-center items-center gap-5 text-[10px] font-mono tracking-[0.25em] uppercase opacity-70 hover:opacity-100 transition-opacity duration-500"
+					style={{ color: "oklch(0.75 0.02 265)" }}
 				>
 					<a
 						href="https://github.com/MateuszRadz1kowski/Indoga"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="hover:text-purple-400"
+						className="hover:text-purple-400 transition-colors"
 					>
 						Github
 					</a>
-					<div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+					<div className="w-1.5 h-1.5 rounded-full bg-slate-600" />
 					<a
 						href="https://ko-fi.com/indoga"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="hover:text-purple-400"
+						className="hover:text-purple-400 transition-colors"
 					>
 						Support
 					</a>

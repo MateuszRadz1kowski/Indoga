@@ -67,7 +67,6 @@ DOCKER
 
 
 Rate Limit Increase https://docs.anilist.co/guide/rate-limiting
-zainicjowac nową aplikacje w anilist
 https://myanimelist.net/static/apiagreement.html <- każą by ich powiadomic o releasowaniu aplikacji w 4b, dodatkowo w 4i poprosic czy moge scrapowac avatar
 
 

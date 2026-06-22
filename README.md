@@ -130,7 +130,7 @@ docker compose up --build -d
 Connect to the PostgreSQL container and create the table:
 
 ```bash
-docker exec -it anime_db psql -U postgres -d anime_db
+docker exec -it indoga_db psql -U postgres -d indoga_db
 ```
 
 ```sql
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS public.anime_data
 Then populate it (takes 10–20 minutes, imports ~10k titles from AniList):
 
 ```bash
-docker exec -it anime_backend python3 backend/app/db/ingestion/database_import.py
+docker exec -it indoga_backend python3 backend/app/db/ingestion/database_import.py
 ```
 
 ### 4. Start the frontend

@@ -508,7 +508,7 @@ export default function TagsChoser({
 					</ComboboxValue>
 					<ComboboxChipsInput
 						placeholder="Search tags..."
-						className="text-[11px] text-slate-200 placeholder:text-slate-600 bg-transparent border-none focus:ring-0"
+						className="text-[11px] text-white placeholder:text-slate-400 bg-transparent border-none focus:ring-0"
 					/>
 				</ComboboxChips>
 				<ComboboxContent

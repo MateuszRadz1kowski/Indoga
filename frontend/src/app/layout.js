@@ -75,9 +75,9 @@ export const metadata = {
 			"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
 		images: [
 			{
-				url: "/Indoga_image_logo.png",
-				width: 620,
-				height: 800,
+				url: "/icon.png",
+				width: 512,
+				height: 512,
 				alt: "Indoga — Personalized Anime Discovery",
 				type: "image/png",
 			},
@@ -86,11 +86,11 @@ export const metadata = {
 	},
 
 	twitter: {
-		card: "summary_large_image",
+		card: "summary",
 		title: "Indoga — Discover Anime & Manga Matched to Your Taste",
 		description:
 			"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
-		images: ["/Indoga_image_logo.png"],
+		images: ["/icon.png"],
 		creator: "@Radz1k69",
 	},
 
@@ -116,17 +116,6 @@ export const metadata = {
 			"max-image-preview": "large",
 			"max-snippet": -1,
 		},
-	},
-
-	icons: {
-		icon: [{ url: "/Indoga_image_logo.png", sizes: "any", type: "image/png" }],
-		apple: [
-			{
-				url: "/Indoga_image_logo.png",
-				sizes: "180x180",
-				type: "image/png",
-			},
-		],
 	},
 
 	manifest: "/manifest.json",
@@ -179,7 +168,7 @@ export default function RootLayout({ children }) {
 								url: "https://github.com/MateuszRadz1kowski",
 							},
 							softwareVersion: "1.0.0",
-							image: `${BASE_URL}Indoga_image_logo.png`,
+							image: `${BASE_URL}icon.png`,
 						}),
 					}}
 				/>
