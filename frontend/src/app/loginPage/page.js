@@ -130,7 +130,7 @@ export default function LoginPage() {
 					<div className="relative w-32 h-32 mb-1 transition-transform duration-700 group-hover:scale-105">
 						<div className="absolute inset-0 bg-purple-500/30 rounded-full blur-[35px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 						<Image
-							src="/Indoga_image_logo.jpg"
+							src="/Indoga_image_logo.png"
 							alt="Indoga Logo"
 							fill
 							sizes="(max-width: 128px) 100vw, 128px"
@@ -264,7 +264,7 @@ export default function LoginPage() {
 						href="https://ko-fi.com/indoga"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="w-full"
+						className="hover:text-purple-400"
 					>
 						Support
 					</a>

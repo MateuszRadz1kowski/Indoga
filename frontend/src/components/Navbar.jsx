@@ -45,7 +45,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
         >
           <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-lg overflow-hidden border border-violet-500/30 group-hover:border-violet-400/60 transition-all duration-300 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.4)] flex-shrink-0">
             <Image
-              src="/Indoga_image_logo.jpg"
+              src="/Indoga_image_logo.png"
               alt="Indoga logo"
               fill
               className="object-cover"
@@ -98,7 +98,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                 >
                   <div className="size-6 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-violet-900/20">
                     <img
-                      src={apiData[0]?.avatar_url || "/Indoga_image_logo.jpg"}
+                      src={apiData[0]?.avatar_url || "/Indoga_image_logo.png"}
                       alt="Profile"
                       className="w-full h-full object-cover shadow-inner"
                     />
@@ -161,7 +161,7 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                 </DropdownMenuItem>
                 
                 <DropdownMenuItem asChild className="text-xs cursor-pointer focus:bg-white/5 focus:text-white">
-                  <a href="mailto:radzikowski.mateusz@gmail.com" target="_blank" className="w-full">
+                  <a href="mailto:mateuszradzikowski@indoga.app" target="_blank" className="w-full">
                     <Mail className="mr-2 size-3.5" /> Contact
                   </a>
                 </DropdownMenuItem>

@@ -10,9 +10,31 @@ import {
 	ComboboxItem,
 	ComboboxList,
 	ComboboxValue,
+	useComboboxAnchor,
 } from "../ui/combobox";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
+
+const GENRES = [
+	"Action",
+	"Adventure",
+	"Comedy",
+	"Drama",
+	"Ecchi",
+	"Fantasy",
+	"Horror",
+	"Mahou Shoujo",
+	"Mecha",
+	"Music",
+	"Mystery",
+	"Psychological",
+	"Romance",
+	"Sci-Fi",
+	"Slice of Life",
+	"Sports",
+	"Supernatural",
+	"Thriller",
+];
 
 export default function GenreChoser({
 	setGenreSwitchStatus,
@@ -20,36 +42,17 @@ export default function GenreChoser({
 	updateFilter,
 	filters,
 }) {
-	const genres = [
-		"Action",
-		"Adventure",
-		"Comedy",
-		"Drama",
-		"Ecchi",
-		"Fantasy",
-		"Horror",
-		"Mahou Shoujo",
-		"Mecha",
-		"Music",
-		"Mystery",
-		"Psychological",
-		"Romance",
-		"Sci-Fi",
-		"Slice of Life",
-		"Sports",
-		"Supernatural",
-		"Thriller",
-	];
+	const anchorRef = useComboboxAnchor();
 
-	const availableGenresToShow = genres.filter(
+	const availableGenresToShow = GENRES.filter(
 		(g) => !filters.hide_selected_genres?.includes(g),
 	);
-	const availableGenresToHide = genres.filter(
+	const availableGenresToHide = GENRES.filter(
 		(g) => !filters.show_selected_genres?.includes(g),
 	);
 
 	return (
-		<div className="space-y-4 p-1">
+		<div className="space-y-4 p-1" ref={anchorRef}>
 			<div className="flex items-center justify-between px-1">
 				<Label
 					htmlFor="showHideGenre"
@@ -106,7 +109,10 @@ export default function GenreChoser({
 						className="text-[11px] text-slate-200 placeholder:text-slate-600 bg-transparent border-none focus:ring-0"
 					/>
 				</ComboboxChips>
-				<ComboboxContent className="bg-[#0f172a] border-white/[0.1] shadow-2xl">
+				<ComboboxContent
+					anchor={anchorRef}
+					className="bg-[#0f172a] border-white/[0.1] shadow-2xl"
+				>
 					<ComboboxEmpty className="text-xs text-slate-500 p-4">
 						No genres found.
 					</ComboboxEmpty>

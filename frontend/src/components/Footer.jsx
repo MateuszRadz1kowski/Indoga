@@ -61,7 +61,7 @@ export default function Footer() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="link" size="sm" asChild className="h-auto p-0 px-2 text-[10px] text-slate-500 hover:text-violet-400 gap-1">
-                <a href="mailto:radzikowski.mateusz@gmail.com" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:mateuszradzikowski@indoga.app" target="_blank" rel="noopener noreferrer">
                   <Mail size={11} /> Contact
                 </a>
               </Button>

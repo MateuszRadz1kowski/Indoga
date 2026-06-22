@@ -14,9 +14,7 @@ problemy na pozniej:
 Docelowo CORS zezwala tylko na moją domene
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
 Google Search COnsole
-setup ko-fi
 automatyczne schedulowanie aktualizacji bazy danych np co tydzien - poprzez cron
-ogarnac https na strone
 Reverse proxy
 ???paginacja???
 
@@ -24,6 +22,8 @@ jakos zeby wiecej mowily te proceny
 w compare tab zeby w w shared i unique bylo lepiej zapisane, bardziej oczywiscie
 ?zeby ui bylo wieksze?
 zeby ten switch w show/hide tags/genres byl bardziej oczywisty w dzialaniu
+w detailDialog by scrollbar byl tylko w summary, a nie na calym dialogu
+
 
 frontend:
     > Wrap na timeline (poprawny)

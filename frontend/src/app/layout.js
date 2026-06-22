@@ -2,6 +2,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/useToast";
 import { TooltipModeProvider } from "@/components/tooltip/TooltipSystem";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -24,7 +27,7 @@ export const metadata = {
 	},
 
 	description:
-		"Personalized anime and manga recommendations based on your AniList or MyAnimeList profile",
+		"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
 
 	keywords: [
 		"anime recommendations",
@@ -69,14 +72,14 @@ export const metadata = {
 		siteName: "Indoga",
 		title: "Indoga — Discover Anime & Manga Matched to Your Taste",
 		description:
-			"Personalized anime and manga recommendations based on your AniList or MyAnimeList profile",
+			"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
 		images: [
 			{
-				url: "/indoga_logo.jpg",
+				url: "/Indoga_image_logo.png",
 				width: 620,
 				height: 800,
 				alt: "Indoga — Personalized Anime Discovery",
-				type: "image/jpg",
+				type: "image/png",
 			},
 		],
 		locale: "en_US",
@@ -84,10 +87,10 @@ export const metadata = {
 
 	twitter: {
 		card: "summary_large_image",
-		title: "Indoga — Personalized Anime Discovery",
+		title: "Indoga — Discover Anime & Manga Matched to Your Taste",
 		description:
-			"Personalized anime and manga recommendations based on your AniList or MyAnimeList profile",
-		images: ["/indoga_image_logo.jpg"],
+			"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
+		images: ["/Indoga_image_logo.png"],
 		creator: "@Radz1k69",
 	},
 
@@ -116,12 +119,12 @@ export const metadata = {
 	},
 
 	icons: {
-		icon: [{ url: "/indoga_logo.jpg", sizes: "any", type: "image/jpeg" }],
+		icon: [{ url: "/Indoga_image_logo.png", sizes: "any", type: "image/png" }],
 		apple: [
 			{
-				url: "/indoga_logo.jpg",
+				url: "/Indoga_image_logo.png",
 				sizes: "180x180",
-				type: "image/jpeg",
+				type: "image/png",
 			},
 		],
 	},
@@ -162,7 +165,7 @@ export default function RootLayout({ children }) {
 							name: "Indoga",
 							url: BASE_URL,
 							description:
-								"Personalized anime and manga recommendations based on your AniList or MyAnimeList profile",
+								"Personalized Anime & Manga recommendation engine based on your AniList and MyAnimeList profile",
 							applicationCategory: "EntertainmentApplication",
 							operatingSystem: "Any",
 							offers: {
@@ -176,18 +179,21 @@ export default function RootLayout({ children }) {
 								url: "https://github.com/MateuszRadz1kowski",
 							},
 							softwareVersion: "1.0.0",
-							image: `${BASE_URL}indoga_logo.jpg`,
+							image: `${BASE_URL}Indoga_image_logo.png`,
 						}),
 					}}
 				/>
 			</head>
 
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-purple-500/40 selection:text-white`}
 			>
 				<TooltipModeProvider>
 					<ToastProvider>{children}</ToastProvider>
 				</TooltipModeProvider>
+				<Analytics />
+				<SpeedInsights />
+				<GoogleAnalytics gaId="G-M1665G2XSP" />
 			</body>
 		</html>
 	);
