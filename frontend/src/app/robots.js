@@ -1,6 +1,5 @@
 export default function robots() {
-	const BASE_URL =
-		process.env.NEXT_PUBLIC_API_URL || "https://indoga.vercel.app/";
+	const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://indoga.app/";
 
 	return {
 		rules: {

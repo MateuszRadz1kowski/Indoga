@@ -166,7 +166,6 @@ export default function CompareTab({ dataUserInterests }) {
 			const verifyRes = await fetch(verifyUrl.href, {
 				headers: {
 					"Content-Type": "application/json",
-					"ngrok-skip-browser-warning": "true",
 				},
 			});
 			const verifyData = await verifyRes.json();
@@ -200,7 +199,6 @@ export default function CompareTab({ dataUserInterests }) {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						"ngrok-skip-browser-warning": "true",
 					},
 				},
 			);

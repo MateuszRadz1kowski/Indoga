@@ -16,8 +16,7 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-const BASE_URL =
-	process.env.NEXT_PUBLIC_API_URL || "https://indoga.vercel.app/";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://indoga.app/";
 export const metadata = {
 	metadataBase: new URL(BASE_URL),
 

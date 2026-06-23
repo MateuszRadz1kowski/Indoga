@@ -36,7 +36,6 @@ export default function LoginPage() {
 			const res = await fetch(apiUrl.href, {
 				headers: {
 					"Content-Type": "application/json",
-					"ngrok-skip-browser-warning": "true",
 				},
 			});
 

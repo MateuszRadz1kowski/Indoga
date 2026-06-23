@@ -11,11 +11,7 @@ frontend:
     user moze bezposrednio na aplikacji zapisac co ogladal i jakie dal temu oceny
 
 problemy na pozniej:
-Docelowo CORS zezwala tylko na moją domene
 ???zeby po odswiezaniu strony zapisywaly sie filtry???
-Google Search COnsole
-automatyczne schedulowanie aktualizacji bazy danych np co tydzien - poprzez cron
-Reverse proxy
 ???paginacja???
 
 jakos zeby wiecej mowily te proceny
@@ -23,7 +19,7 @@ w compare tab zeby w w shared i unique bylo lepiej zapisane, bardziej oczywiscie
 ?zeby ui bylo wieksze?
 zeby ten switch w show/hide tags/genres byl bardziej oczywisty w dzialaniu
 w detailDialog by scrollbar byl tylko w summary, a nie na calym dialogu
-
+skasowac konto w hetzner
 
 frontend:
     > Wrap na timeline (poprawny)
@@ -59,9 +55,9 @@ DOCKER
         pozniej w folderze indoga aktywowac Dockerfile i stworzyc kontenery dockera - docker compose up --build -d
         logi danego konteneru: docker compose logs -f backend
         baze danych aktualnie trzeba recznie stworzyc:
-            najpierw by rozmawiac z kontenerem anime_db - docker exec -it anime_db psql -U (nazwa usera) -d (nazwa bazy danych)
+            najpierw by rozmawiac z kontenerem anime_db - docker exec -it indoga_db psql -U (nazwa usera) -d (nazwa bazy danych)
             gdy wejdzie sie do konsoli postgre, wpisac komende na stworzenie tabeli CREATE TABLE...........
-            pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (ip kontenera) -e PYTHONPATH=. python3 /backend/app/db/ingestion/database_import.py
+            pozniej by uruchomic plik do zapelnienia bazy danych danymi: docker exec -it (id kontenera) -e PYTHONPATH=. python3 /backend/app/db/ingestion/database_import.py
         
 
 

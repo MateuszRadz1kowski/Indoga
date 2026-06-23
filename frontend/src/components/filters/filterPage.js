@@ -148,7 +148,6 @@ export default function FilterPage({
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
-					"ngrok-skip-browser-warning": "true",
 				},
 				signal: AbortSignal.timeout(60000),
 			});
