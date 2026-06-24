@@ -7,20 +7,35 @@ import { Flame } from "lucide-react";
 
 const getHotTakes = (data, limit = 15) => {
 	const lists = data?.data?.MediaListCollection?.lists;
+	const scoreFormat = data?.data?.User?.mediaListOptions?.scoreFormat;
 	if (!lists) return [];
 	const entries = lists.map((list) => list.entries).flat();
 
 	return entries
 		.filter((e) => e.score > 0)
 		.map((e) => {
-			const userScore = e.score;
-			const communityScore = e.media.meanScore / 10;
+			let userScore = e.score;
+			let communityScore = e.media.meanScore;
+
+			if (scoreFormat === "POINT_10" || scoreFormat === "POINT_10_DECIMAL") {
+				communityScore = communityScore / 10;
+			} else if (scoreFormat === "POINT_100") {
+				communityScore = Math.round(communityScore);
+			} else if (scoreFormat === "POINT_5") {
+				communityScore = communityScore / 20;
+			} else if (scoreFormat === "POINT_3") {
+				communityScore = (communityScore / 100) * 3;
+			} else {
+				communityScore = communityScore / 10;
+			}
+
 			return {
-				title: e.media.title?.english,
+				title: e.media.title?.english || e.media.title?.romaji,
 				cover: e.media.coverImage?.large,
 				userScore,
 				communityScore,
 				diff: userScore - communityScore,
+				isPoint100: scoreFormat === "POINT_100",
 			};
 		})
 		.sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))
@@ -79,7 +94,11 @@ export default function HotTakes({ data }) {
 										<span className="text-slate-700">•</span>
 										<span>
 											Community average:{" "}
-											<b className="text-violet-400">{t.communityScore}</b>
+											<b className="text-violet-400">
+												{t.isPoint100
+													? t.communityScore.toFixed(0)
+													: t.communityScore.toFixed(1)}
+											</b>
 										</span>
 									</div>
 								</div>
@@ -93,7 +112,7 @@ export default function HotTakes({ data }) {
 									}`}
 								>
 									{t.diff > 0 ? "+" : ""}
-									{t.diff.toFixed(1)}
+									{t.isPoint100 ? t.diff.toFixed(0) : t.diff.toFixed(1)}
 								</Badge>
 							</div>
 						))}
