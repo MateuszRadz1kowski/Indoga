@@ -5,7 +5,6 @@ import { HelpCircle, ChevronDown, LogOut, User, Settings, Github, Coffee, Mail }
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
 import { useTooltipMode } from "@/components/tooltip/TooltipSystem";
 import {
   DropdownMenu,
@@ -17,7 +16,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function Navbar({ activeTab, onTabChange, apiData }) {
-  const router = useRouter();
   const [rendered, setRendered] = useState(false);
   const { tooltipsEnabled, setTooltipsEnabled } = useTooltipMode();
 
@@ -99,11 +97,11 @@ export default function Navbar({ activeTab, onTabChange, apiData }) {
                   <div className="size-6 rounded-full overflow-hidden border border-white/10 flex-shrink-0 bg-violet-900/20">
                     <img
                       src={apiData[0]?.avatar_url || "/Indoga_image_logo.png"}
-                      alt="Profile"
+                      alt={localStorage.getItem("username")}
                       className="w-full h-full object-cover shadow-inner"
                     />
                   </div>
-                  <span className="text-[11px] font-medium hidden md:block">Profile</span>
+                  <span className="text-[11px] font-medium hidden md:block">{localStorage.getItem("username")}</span>
                   <ChevronDown size={10} className="text-slate-600 hidden min-[350px]:block" />
                 </Button>
               </DropdownMenuTrigger>
