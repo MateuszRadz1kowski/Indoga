@@ -3,14 +3,14 @@ version: '3.8'
 services:
 
   backend:
-    build: . 
+    build: .
     container_name: indoga_backend
-    restart: unless-stopped 
+    restart: unless-stopped
     env_file:
-      - .env 
+      - .env
     depends_on:
       db:
-        condition: service_healthy 
+        condition: service_healthy
       redis:
         condition: service_healthy
     healthcheck:
@@ -50,7 +50,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_DATABASE}"]
-      interval: 10s 
+      interval: 10s
       timeout: 5s
       retries: 5
     networks:
@@ -65,7 +65,7 @@ services:
       - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 10s 
+      interval: 10s
       timeout: 5s
       retries: 5
     networks:
@@ -75,8 +75,4 @@ volumes:
   postgres_data:
   redis_data:
   caddy_data:
-  caddy_config:
-
-networks:
-  indoga_network:
-    driver: bridge
+  caddy_config: 

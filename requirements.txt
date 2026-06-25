@@ -5,3 +5,4 @@ requests
 redis
 python-dotenv
 beautifulsoup4
+kaggle
